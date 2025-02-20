@@ -5,4 +5,5 @@ public interface Food {
     public String getName();
     public int getFat();
     public int getProtein();
+    public int getFiber();
 }
