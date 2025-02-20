@@ -1,5 +1,10 @@
 package design.Model;
 
-public class Ingredient {
-    
+public class Ingredient implements Food {
+    private int protein;
+    private int carbs;
+    private int fiber;
+    private int calories;
+    private int fat;
+    private String name;
 }
