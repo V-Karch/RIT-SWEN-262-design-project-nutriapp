@@ -6,4 +6,5 @@ public interface Food {
     public int getFat();
     public int getProtein();
     public int getFiber();
+    public int getCarbs();
 }
