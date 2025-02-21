@@ -11,7 +11,7 @@ public class WorkoutBuilder {
     private int minutes;
 
     public WorkoutBuilder() {
-        this.date = "Unset";
+        this.setDateTime();
         this.intensity = Intensity.MEDIUM;
         this.minutes = 0;
     }
