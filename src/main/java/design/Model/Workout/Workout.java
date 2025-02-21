@@ -1,4 +1,4 @@
-package design.Model;
+package design.Model.Workout;
 
 public class Workout {
     private int minutes;

@@ -1,6 +1,6 @@
 package design.View.Workout;
 
-import design.Controller.WorkoutBuilder;
+import design.Controller.Workout.WorkoutBuilder;
 import design.Model.Workout.Intensity;
 import design.View.Action;
 
