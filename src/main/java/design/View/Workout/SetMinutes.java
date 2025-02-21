@@ -1,6 +1,7 @@
-package design.View;
+package design.View.Workout;
 
-import design.Controller.WorkoutBuilder;
+import design.View.Action;
+import design.Controller.Workout.WorkoutBuilder;
 
 public class SetMinutes implements Action {
 

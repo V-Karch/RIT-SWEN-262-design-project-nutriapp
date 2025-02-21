@@ -1,8 +1,8 @@
-package design.Controller;
+package design.Controller.Workout;
 
 import java.util.Map;
 import java.util.HashMap;
-import design.Model.Workout;
+import design.Model.Workout.Workout;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 

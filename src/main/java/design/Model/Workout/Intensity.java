@@ -1,4 +1,4 @@
-package design.Model;
+package design.Model.Workout;
 
 public enum Intensity {
     LOW(5.0),
