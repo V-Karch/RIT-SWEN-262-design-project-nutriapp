@@ -1,7 +1,8 @@
-package design.View;
+package design.View.Workout;
 
-import design.Model.Intensity;
 import design.Controller.WorkoutBuilder;
+import design.Model.Workout.Intensity;
+import design.View.Action;
 
 public class SetIntensity implements Action {
     

@@ -1,4 +1,4 @@
-package design.Model;
+package design.Model.Food;
 
 public class Ingredient implements Food {
     private int protein;
