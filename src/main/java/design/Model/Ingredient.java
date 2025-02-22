@@ -9,6 +9,14 @@ public class Ingredient implements Food {
     private int stock;
     private String name;
     
+    public Ingredient(String name, int protein, int carbs, int fiber, int calories, int fat) {
+        this.protein = protein;
+        this.carbs = carbs;
+        this.fiber = fiber;
+        this.calories = calories;
+        this.fat = fat;
+        this.name = name;
+    }
     public int getProtein() {
         return protein;
     }
