@@ -1,7 +1,7 @@
-package design.Controller;
+package design.Controller.History;
 
-import design.Model.DailyActivity;
-import design.Model.HistoryManager;
+import design.Model.History.DailyActivity;
+import design.Model.History.HistoryManager;
 
 public class HistoryController {
     private HistoryManager historyManager;
