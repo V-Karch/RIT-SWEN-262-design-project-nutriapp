@@ -63,9 +63,11 @@ public class User {
 
     public void updateCurrentWeight(double weight) {
         this.currentWeight = weight; 
+        currentGoal.handleWeightChange();
     }
 
     public void updateTargetWeight(double weight) {
         this.targetWeight = weight; 
+        currentGoal.handleWeightChange();
     }
 }
