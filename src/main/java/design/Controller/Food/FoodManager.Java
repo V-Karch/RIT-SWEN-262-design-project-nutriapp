@@ -1,4 +1,4 @@
-package design.Controller;
+package design.Controller.Food;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -9,6 +9,7 @@ import java.util.List;
 
 import design.Model.Food;
 import design.Model.Ingredient;
+import design.Model.Recipe;
 
 public class FoodManager {
 
@@ -38,7 +39,12 @@ public class FoodManager {
         recipe.addIngredient(ingredient, quantity);
     }
 
-    public void createRecipe(String name, String Instructions) {
+    public void addRecipe(Meal meal, Recipe recipe)
+    {
+        meal.addRecipe(recipe);
+    }
+
+    public void createRecipe(String name, String[] Instructions) {
         Stock.add(new Recipe(name, Instructions));
     }
 
@@ -83,7 +89,7 @@ public class FoodManager {
                 return i;
             }
         }
-        throw new IOException("Could not find ingredient.");
+        throw new Exception("Could not find ingredient.");
     }
 
     public String[] getMealInstructions(Meal meal) {  
