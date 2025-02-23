@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class HistoryManager {
-    HashMap<String, DailyActivity> history;
+    HashMap<String, DailyActivity> history; // is date a STRING ???
     DailyActivity todaysActivity;
     Scanner scanner = new Scanner(System.in);
 
