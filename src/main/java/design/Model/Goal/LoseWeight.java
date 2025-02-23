@@ -1,6 +1,7 @@
 package design.Model.Goal;
 
 import java.lang.Math;
+import design.Model.UserSS.User;
 
 public class LoseWeight implements Goal {
   private User user;

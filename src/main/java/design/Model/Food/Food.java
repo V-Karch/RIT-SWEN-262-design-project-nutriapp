@@ -1,4 +1,4 @@
-package design.Model;
+package design.Model.Food;
 
 public interface Food {
     public int getCalories();
