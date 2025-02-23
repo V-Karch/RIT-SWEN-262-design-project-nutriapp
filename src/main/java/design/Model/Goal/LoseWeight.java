@@ -6,6 +6,14 @@ public class LoseWeight implements Goal {
   private int targetCalories;
   private int dailyCalories;
 
+  public LoseWeight(User user, boolean physicalFitness, int targetCalories, int dailyCalories) {
+    this.user = user;
+    this.physicalFitness = physicalFitness;
+    this.targetCalories = targetCalories;
+    this.dailyCalories = dailyCalories;
+  }
+
+
   @Override
   public int getTargetCalories() {
     return targetCalories;
