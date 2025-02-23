@@ -60,4 +60,7 @@ public class Meal implements Food{
         }
         return carbs;
     }
+    public void addRecipe(Recipe recipe){
+        recipes.add(recipe);
+    }
 }
