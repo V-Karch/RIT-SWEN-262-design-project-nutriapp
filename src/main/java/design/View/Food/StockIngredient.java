@@ -1,9 +1,10 @@
-package design.View;
+package design.View.Food;
 
 import java.util.Scanner;
 
 import design.Controller.FoodManager;
 import design.Model.Ingredient;
+import design.View.Action;
 
 public class StockIngredient implements Action{
     private FoodManager foodManager;
@@ -18,8 +19,7 @@ public class StockIngredient implements Action{
     }
 
 
-    public void execute()
-    {
+    public void execute(){
         foodManager.updateStock(ingredient, amount);
     }
 }
