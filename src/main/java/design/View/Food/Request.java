@@ -1,4 +1,4 @@
-package design.View;
+package design.View.Food;
 
 public class Request {
     private Action action;
