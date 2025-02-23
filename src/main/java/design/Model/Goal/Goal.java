@@ -1,4 +1,4 @@
-package design.Model;
+package design.Model.Goal;
 
 public interface Goal {
   public int getTargetCalories();
