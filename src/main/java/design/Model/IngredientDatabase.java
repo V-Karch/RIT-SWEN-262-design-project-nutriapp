@@ -2,13 +2,12 @@ package design.Model;
 
 import java.util.List;
 
-import javax.naming.NameNotFoundException;
 
 public class IngredientDatabase {
     private List<Ingredient> ingredients;
 
-    public IngredientDatabase(){
-
+    public IngredientDatabase(String filename){
+        CSVReader reader = new CSVReader(filename);
     }
 
     public List<Ingredient> getIngredients() {
