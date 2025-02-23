@@ -8,13 +8,21 @@ public class LoseWeight implements Goal {
   private int targetCalories;
   private int dailyCalories;
 
-  public LoseWeight(User user, boolean physicalFitness, int targetCalories, int dailyCalories) {
+  public LoseWeight(User user, boolean physicalFitness, int dailyCalories) {
     this.user = user;
     this.physicalFitness = physicalFitness;
-    this.targetCalories = targetCalories;
     this.dailyCalories = dailyCalories;
+    this.targetCalories = calculateTargetCalories();
   }
 
+  @Override
+  public int calculateTargetCalories() {
+    double kg = user.getCurrentWeight() / 2.205;
+    double cm = user.getHeight() * 2.54;
+    int age = user.getAge();
+    double calories = 10 * kg + 6.25 * cm - 5 * age;
+    return (int)calories - 750;
+  }
 
   @Override
   public int getTargetCalories() {
@@ -40,7 +48,7 @@ public class LoseWeight implements Goal {
     double targetWeight = user.getTargetWeight();
 
     if(Math.abs(currentWeight - targetWeight) < 5.0) {
-      user.setGoal(new MaintainWeight(user, physicalFitness, targetCalories, dailyCalories));
+      user.setGoal(new MaintainWeight(user, physicalFitness, dailyCalories));
     }
   }
 }
