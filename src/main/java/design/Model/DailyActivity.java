@@ -48,7 +48,7 @@ public class DailyActivity {
             return meals;
         }
 
-        public void addMeals(String new_meal) { //replace with Meal here
+        public void addMeal(String new_meal) { //replace with Meal here
             this.meals.add(new_meal);
         }
 
@@ -56,7 +56,7 @@ public class DailyActivity {
             return workouts;
         }
 
-        public void setWorkouts(String new_workout) { //replace with Workout here
+        public void addWorkout(String new_workout) { //replace with Workout here
             this.workouts.add(new_workout);
         }
     }
