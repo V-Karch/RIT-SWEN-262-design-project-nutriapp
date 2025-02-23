@@ -4,9 +4,16 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class HistoryManager {
-    HashMap<String, DailyActivity> history; // is date a STRING ???
-    DailyActivity todaysActivity;
-    Scanner scanner = new Scanner(System.in);
+    private HashMap<String, DailyActivity> history; // is date a STRING ???
+    private DailyActivity todaysActivity;
+    private Scanner scanner = new Scanner(System.in);
+
+    public HistoryManager() {
+        this.history = new HashMap<String, DailyActivity>();
+        System.out.println("Enter your weight for today: "); // prompt the user to enter their weight for today
+        int weight = scanner.nextInt();
+        setTodaysActivity(new DailyActivity(weight)); // create a new DailyActivity object for today with the user's weight
+    }
 
     public HashMap<String, DailyActivity> getHistory() {
         return history;
