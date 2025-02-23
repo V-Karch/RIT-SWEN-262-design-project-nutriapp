@@ -1,7 +1,9 @@
 package design.View.User;
 
-import design.View.Action;
+import java.util.Scanner;
+
 import design.Controller.User.UserBuilder;
+import design.View.Action;
 
 public class AddWeight implements Action {
     private UserBuilder userBuilder;
@@ -12,7 +14,18 @@ public class AddWeight implements Action {
 
     @Override
     public void execute() {
-        this.userBuilder.setWeight();
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter your weight in lbs:");
+        try {
+            String weight = input.nextLine();
+            float weightNum = Float.parseFloat(weight);
+            this.userBuilder.setWeight(weightNum);
+        } catch (Exception e) {
+            System.out.println("Invalid weight");
+        }
+        input.close();
+
+
     }
 
 }

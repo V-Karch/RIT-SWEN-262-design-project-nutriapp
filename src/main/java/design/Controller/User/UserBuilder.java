@@ -1,13 +1,13 @@
-package design.Controller;
+package design.Controller.User;
 
-import design.Model.User;
+import design.Model.UserSS.User;
 
 
 public class UserBuilder {
     private String name;
     private float height;
     private float weight;
-    private int[] birthdate;
+    private String birthdate;
     
 
     public UserBuilder() {
@@ -25,11 +25,11 @@ public class UserBuilder {
         this.weight  = weight;
     }
 
-    public void setBirthdate(int[] birthdate) {
+    public void setBirthdate(String birthdate) {
         this.birthdate  = birthdate;
     }
 
-    public Workout buildUser() {
+    public User buildUser() {
         return new User(name, height, weight, birthdate);
     }
 }

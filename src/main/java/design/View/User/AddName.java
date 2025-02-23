@@ -1,7 +1,9 @@
 package design.View.User;
 
-import design.View.Action;
+import java.util.Scanner;
+
 import design.Controller.User.UserBuilder;
+import design.View.Action;
 
 public class AddName implements Action {
     private UserBuilder userBuilder;
@@ -12,7 +14,15 @@ public class AddName implements Action {
 
     @Override
     public void execute() {
-        this.userBuilder.setName();
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter your name:");
+        try {
+            String name = input.nextLine();
+            this.userBuilder.setName(name);
+        } catch (Exception e) {
+            System.out.println("Invalid name");
+        }
+        input.close();
     }
 
 }
