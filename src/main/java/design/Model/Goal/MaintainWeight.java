@@ -1,7 +1,7 @@
 package design.Model.Goal;
 
 public class MaintainWeight implements Goal {
-  private User user;
+  private User user; //Needs to be implemented
   private boolean physicalFitness;
   private int targetCalories;
   private int dailyCalories;
@@ -32,14 +32,14 @@ public class MaintainWeight implements Goal {
 
   @Override
   public void handleWeightChange() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'handleWeightChange'");
-  }
+    //context
+    currentWeight = user.getCurrentWeight(); //placeholder
+    targetWeight = user.getTargetWeight(); //placeholder
 
-  @Override
-  public void handleTargetWeightChange() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'handleTargetWeightChange'");
+    if(currentWeight - targetWeight <= -5) {
+      user.setGoal(new GainWeight(user, physicalFitness, targetCalories, dailyCalories));
+    } else if(currentWeight - targetWeight >= 5) {
+      user.setGoal(new LoseWeight(user, physicalFitness, targetCalories, dailyCalories));
+    }
   }
-  
 }
