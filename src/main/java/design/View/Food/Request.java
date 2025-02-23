@@ -1,4 +1,4 @@
-package design.View;
+package design.View.Food;
 
 import design.View.Action;
 
