@@ -1,21 +1,30 @@
 package design.View.Workout;
 
 import design.View.Action;
+
+import java.util.Scanner;
+
 import design.Controller.Workout.WorkoutBuilder;
 
 public class SetMinutes implements Action {
 
-    private int minutes;
     private WorkoutBuilder workoutBuilder;
 
-    public SetMinutes(WorkoutBuilder workoutBuilder, int minutes) {
+    public SetMinutes(WorkoutBuilder workoutBuilder) {
         this.workoutBuilder = workoutBuilder;
-        this.minutes = minutes;
     }
 
     @Override
     public void execute() {
-        this.workoutBuilder.setMinutes(minutes);
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.print("Enter an amount of time in minutes: ");
+            String line = scanner.nextLine().toLowerCase();
+
+            int value = Integer.parseInt(line);
+            value = value < 0 ? 0 : value; // Ensure value is >= 0
+            
+            this.workoutBuilder.setMinutes(value);
+        }
     }
 
 }
