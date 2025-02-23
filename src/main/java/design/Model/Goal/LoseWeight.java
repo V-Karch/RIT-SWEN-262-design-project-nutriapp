@@ -36,10 +36,10 @@ public class LoseWeight implements Goal {
   @Override
   public void handleWeightChange() {
     //context
-    currentWeight = user.getCurrentWeight(); //placeholder
-    targetWeight = user.getTargetWeight(); //placeholder
+    double currentWeight = user.getCurrentWeight();
+    double targetWeight = user.getTargetWeight();
 
-    if(Math.abs(currentWeight - targetWeight) < 5) {
+    if(Math.abs(currentWeight - targetWeight) < 5.0) {
       user.setGoal(new MaintainWeight(user, physicalFitness, targetCalories, dailyCalories));
     }
   }
