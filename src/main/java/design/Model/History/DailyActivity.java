@@ -1,14 +1,17 @@
 package design.Model.History;
 
 import java.util.List;
+
+import design.Model.Workout.Workout;
+
 import java.util.ArrayList;
 
 public class DailyActivity {
     private int weight;
     private int calories_consumed;
     private int target_calories;
-    private List<String> meals;  // meals and workouts are stored as strings for now until we have a meal and workout class
-    private List<String> workouts; // will replace with Meal and Workout classes later
+    private List<String> meals;  // meals are stored as strings for now until we have a meal class
+    private List<Workout> workouts; 
 
     
     public DailyActivity(int weight) {
@@ -16,7 +19,7 @@ public class DailyActivity {
         this.calories_consumed = 0;
         this.target_calories = 0;
         this.meals = new ArrayList<String>(); //replace with Meal here
-        this.workouts = new ArrayList<String>(); // replace with Workout here
+        this.workouts = new ArrayList<Workout>(); 
 
         }
 
@@ -52,11 +55,11 @@ public class DailyActivity {
             this.meals.add(new_meal);
         }
 
-        public List<String> getWorkouts() { //replace with Workout here
+        public List<Workout> getWorkouts() { 
             return workouts;
         }
 
-        public void addWorkout(String new_workout) { //replace with Workout here
+        public void addWorkout(Workout new_workout) { 
             this.workouts.add(new_workout);
         }
     }

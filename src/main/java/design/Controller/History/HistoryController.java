@@ -2,6 +2,7 @@ package design.Controller.History;
 
 import design.Model.History.DailyActivity;
 import design.Model.History.HistoryManager;
+import design.Model.Workout.Workout;
 
 public class HistoryController {
     private HistoryManager historyManager;
@@ -14,7 +15,7 @@ public class HistoryController {
         this.historyManager.getTodaysActivity().addMeal(meal);
     }
 
-    public void logWorkout(String workout) { // Workout class not created yet
+    public void logWorkout(Workout workout) { 
         this.historyManager.getTodaysActivity().addWorkout(workout);
     }
 
@@ -30,8 +31,8 @@ public class HistoryController {
         this.historyManager.getTodaysActivity().setTargetCalories(targetCalories);
     }
 
-    public void logDailyActivity(String date) { // is date a string ???
-        this.historyManager.saveDailyActivityToHistory(date);
+    public void logDailyActivity(String date) { 
+        this.historyManager.saveTodaysActivityToHistory(date);
     }
     
 }

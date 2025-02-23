@@ -31,7 +31,7 @@ public class HistoryManager {
         this.todaysActivity = todaysActivity;
     }
 
-    public void saveDailyActivityToHistory(String date) {
+    public void saveTodaysActivityToHistory(String date) {
         history.put(date, this.todaysActivity); // save the current day's activity to the history
         System.out.println("Enter your weight for today: "); // prompt the user to enter their weight for the next day
         int weight = scanner.nextInt();
