@@ -10,11 +10,11 @@ public class HistoryController {
         this.historyManager = historyManager;
     }
 
-    public void logMeal(String meal) {
+    public void logMeal(String meal) { // Meal class not created yet
         this.historyManager.getTodaysActivity().addMeal(meal);
     }
 
-    public void logWorkout(String workout) {
+    public void logWorkout(String workout) { // Workout class not created yet
         this.historyManager.getTodaysActivity().addWorkout(workout);
     }
 
@@ -30,7 +30,7 @@ public class HistoryController {
         this.historyManager.getTodaysActivity().setTargetCalories(targetCalories);
     }
 
-    public void logDailyActivity(String date) {
+    public void logDailyActivity(String date) { // is date a string ???
         this.historyManager.saveDailyActivityToHistory(date);
     }
     
