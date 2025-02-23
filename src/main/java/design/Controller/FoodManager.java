@@ -1,4 +1,4 @@
-package design.Controller.Food;
+package design.Controller;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -9,11 +9,12 @@ import java.util.List;
 
 import design.Model.Food;
 import design.Model.Ingredient;
+import design.Model.IngredientDatabase;
 import design.Model.Recipe;
+import design.Model.Meal;
 
 public class FoodManager {
-
-    private ArrayList<Ingredient> Stock;
+    private List<Ingredient> Stock;
     private ArrayList<Food> MealsAndRecipes;
     private IngredientDatabase Ingredients;
     private ArrayList<ShoppingList> ShoppingLists;
@@ -45,15 +46,11 @@ public class FoodManager {
     }
 
     public void createRecipe(String name, String[] Instructions) {
-        Stock.add(new Recipe(name, Instructions));
-    }
-
-    public void createRecipe(String name){
-        Stock.add(new Recipe(name, ""));
+        MealsAndRecipes.add(new Recipe(name, Instructions));
     }
 
     public void createMeal(String name) {
-        Stock.add(new Meal(name));
+        MealsAndRecipes.add(new Meal(name));
     }
 
     public List<String> createShoppingList(List<Food> FoodList) {
