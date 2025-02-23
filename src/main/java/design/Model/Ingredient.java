@@ -9,13 +9,16 @@ public class Ingredient implements Food {
     private int stock;
     private String name;
     
-    public Ingredient(String name, int protein, int carbs, int fiber, int calories, int fat) {
+    public Ingredient(String name, int calories, int protein, int carbs, int fat, int fiber) {
         this.protein = protein;
         this.carbs = carbs;
         this.fiber = fiber;
         this.calories = calories;
         this.fat = fat;
         this.name = name;
+    }
+    public Ingredient() {
+        //TODO Auto-generated constructor stub
     }
     public int getProtein() {
         return protein;
