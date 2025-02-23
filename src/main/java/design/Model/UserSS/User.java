@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.Year;
 import java.time.format.DateTimeFormatter;
+import design.Model.Goal.Goal;
 
 public class User {
     //user attributes
@@ -46,6 +47,14 @@ public class User {
 
     public int getAge() {
         return age;
+    }
+
+    public double getCurrentWeight() {
+      return currentWeight;
+    }
+
+    public double getTargetWeight() {
+      return targetWeight;
     }
 
     public void setGoal(Goal goal) {
