@@ -17,7 +17,6 @@ public class AddName implements Action {
     @Override
     public void execute() {
         //Asks the user their name and passes the information to the userbuilder
-        Scanner input = new Scanner(System.in);
         System.out.println("Enter your name:");
         try {
             String name = input.nextLine();

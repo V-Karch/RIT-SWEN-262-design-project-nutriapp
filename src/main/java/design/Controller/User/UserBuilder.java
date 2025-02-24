@@ -13,6 +13,10 @@ public class UserBuilder {
     public UserBuilder() {
     }
 
+    public String getName(){
+        return name;
+    }
+    
     public void setName(String name) {
         this.name = name;
     }

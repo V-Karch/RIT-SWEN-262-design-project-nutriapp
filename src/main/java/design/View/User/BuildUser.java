@@ -1,7 +1,7 @@
 package design.View.User;
 
-import design.View.Action;
 import design.Controller.User.UserBuilder;
+import design.View.Action;
 
 public class BuildUser implements Action {
     private UserBuilder userBuilder;
