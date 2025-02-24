@@ -10,6 +10,7 @@ public class WorkoutBuilder {
     private String date;
     private Intensity intensity;
     private int minutes;
+    private String name;
 
     public WorkoutBuilder() {
         this.setDateTime();
@@ -31,8 +32,12 @@ public class WorkoutBuilder {
         this.date = now.format(formatter);
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Workout createWorkout() {
         // Make call to Goal subsystem so workout can be added to daily calories
-        return new Workout(minutes, intensity, date);
+        return new Workout(minutes, intensity, date, name);
     }
 }
