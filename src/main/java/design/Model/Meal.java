@@ -6,14 +6,13 @@ public class Meal implements Food{
     private String name;
     private List<Recipe> recipes;
 
-    public Meal(String name, List<Recipe> recipes){
+    public Meal(String name){
         this.name = name;
-        this.recipes = recipes;
     }
 
     @Override
-    public int getCalories() {
-        int calories = 0;
+    public Integer getCalories() {
+        Integer calories = 0;
         for (Recipe recipe : recipes){
             calories += recipe.getCalories();
         }
@@ -26,8 +25,8 @@ public class Meal implements Food{
     }
 
     @Override
-    public int getFat() {
-        int fat = 0;
+    public Integer getFat() {
+        Integer fat = 0;
         for (Recipe recipe : recipes){
             fat += recipe.getFat();
         }
@@ -35,8 +34,8 @@ public class Meal implements Food{
     }
 
     @Override
-    public int getProtein() {
-        int protein = 0;
+    public Integer getProtein() {
+        Integer protein = 0;
         for (Recipe recipe : recipes){
             protein += recipe.getProtein();
         }
@@ -44,8 +43,8 @@ public class Meal implements Food{
     }
 
     @Override
-    public int getFiber() {
-        int fiber = 0;
+    public Integer getFiber() {
+        Integer fiber = 0;
         for (Recipe recipe : recipes){
             fiber += recipe.getFiber();
         }
@@ -53,8 +52,8 @@ public class Meal implements Food{
     }
 
     @Override
-    public int getCarbs() {
-        int carbs = 0;
+    public Integer getCarbs() {
+        Integer carbs = 0;
         for (Recipe recipe : recipes){
             carbs += recipe.getCarbs();
         }
