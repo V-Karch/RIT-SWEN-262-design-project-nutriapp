@@ -17,7 +17,6 @@ public class AddHeight implements Action {
     @Override
     public void execute() {
         //Asks the user their height, parses the string as a float, and passes the information to the userbuilder
-        Scanner input = new Scanner(System.in);
         System.out.println("Enter your height in cm:");
         try {
             String height = input.nextLine();
