@@ -24,6 +24,8 @@ public class SetMinutes implements Action {
             value = value < 0 ? 0 : value; // Ensure value is >= 0
             
             this.workoutBuilder.setMinutes(value);
+        } catch (NumberFormatException e) {
+            System.out.println("Your input was not an integer. >:(");
         }
     }
 
