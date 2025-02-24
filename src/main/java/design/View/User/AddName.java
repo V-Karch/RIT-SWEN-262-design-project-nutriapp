@@ -17,7 +17,7 @@ public class AddName implements Action {
     @Override
     public void execute() {
         //Asks the user their name and passes the information to the userbuilder
-        System.out.println("Enter your name:");
+        System.out.print("Enter your name: ");
         try {
             String name = input.nextLine();
             this.userBuilder.setName(name);
