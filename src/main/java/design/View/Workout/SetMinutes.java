@@ -9,16 +9,18 @@ import design.Controller.Workout.WorkoutBuilder;
 public class SetMinutes implements Action {
 
     private WorkoutBuilder workoutBuilder;
+    private Scanner scanner;
 
-    public SetMinutes(WorkoutBuilder workoutBuilder) {
+    public SetMinutes(WorkoutBuilder workoutBuilder, Scanner scanner) {
         this.workoutBuilder = workoutBuilder;
+        this.scanner = scanner;
     }
 
     @Override
     public void execute() {
-        try (Scanner scanner = new Scanner(System.in)) {
+        try {
             System.out.print("Enter an amount of time in minutes: ");
-            String line = scanner.nextLine().toLowerCase();
+            String line = this.scanner.nextLine().toLowerCase();
 
             int value = Integer.parseInt(line);
             value = value < 0 ? 0 : value; // Ensure value is >= 0
