@@ -3,6 +3,7 @@ package design.Controller.Workout;
 import java.util.Map;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import design.Controller.History.HistoryController;
@@ -31,9 +32,20 @@ public class WorkoutManager {
     }
 
     public Workout recommendWorkout(int calories) {
-        for (Workout workout: this.workouts.values()) {
-            if (workout.getCalories() == calories) {
-                return workout;
+        HashMap<Intensity, Integer> intensityCount = new HashMap<>();
+
+        for (Workout workout : this.workouts.values()) {
+            Intensity intensity = workout.getIntensity();
+            intensityCount.put(intensity, intensityCount.getOrDefault(intensity, 0) + 1);
+        }
+
+        Intensity mostCommonIntensity = Intensity.MEDIUM;
+        int maxCount = 0;
+
+        for (Map.Entry<Intensity, Integer> entry : intensityCount.entrySet()) {
+            if (entry.getValue() > maxCount) {
+                maxCount = entry.getValue();
+                mostCommonIntensity = entry.getKey();
             }
         }
 
@@ -41,6 +53,6 @@ public class WorkoutManager {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String date = now.format(formatter);
 
-        return new Workout((int)(calories / 7.5), Intensity.MEDIUM, date, "Recommended Workout");
+        return new Workout((int) (calories / 7.5), mostCommonIntensity, date, "Recommended Workout");
     }
 }
