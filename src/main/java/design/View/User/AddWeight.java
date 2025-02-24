@@ -17,7 +17,7 @@ public class AddWeight implements Action {
     @Override
     public void execute() {
         //Asks the user their weight, parses the string as a float, and passes the information to the userbuilder
-        System.out.println("Enter your weight in lbs:");
+        System.out.print("Enter your weight in lbs: ");
         try {
             String weight = input.nextLine();
             float weightNum = Float.parseFloat(weight);

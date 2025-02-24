@@ -18,7 +18,7 @@ public class AddBirthdate implements Action {
     public void execute() {
         //Asks the user their birthday in mm-dd-yyyy format, parses the string as an int array, and passes the information to the userbuilder
         
-        System.out.println("Enter your birthdate (mm-dd-yyyy):");
+        System.out.print("Enter your birthdate (mm-dd-yyyy): ");
         try {
             String birthdate = input.nextLine();
             this.userBuilder.setBirthdate(birthdate);
