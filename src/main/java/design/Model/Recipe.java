@@ -20,7 +20,7 @@ public class Recipe implements Food{
         return CookInstructions;
     }
     
-    public void addIngredient(Ingredient ingredient, int quantity){
+    public void addIngredient(Ingredient ingredient, Integer quantity){
         this.ingredients.put(ingredient, quantity);
     }
     public void addCookInstructions(String[] CookInstructions){
@@ -31,36 +31,36 @@ public class Recipe implements Food{
             ingredient.use(ingredients.get(ingredient));
         }
     }
-    public int getCalories(){
-        int calories = 0;
+    public Integer getCalories(){
+        Integer calories = 0;
         for (Ingredient ingredient : ingredients.keySet()){
             calories += ingredient.getCalories();
         }
         return calories;
     }
-    public int getFat(){
-        int fat = 0;
+    public Integer getFat(){
+        Integer fat = 0;
         for (Ingredient ingredient : ingredients.keySet()){
             fat += ingredient.getFat();
         }
         return fat;
     }
-    public int getCarbs(){
-        int carbs = 0;
+    public Integer getCarbs(){
+        Integer carbs = 0;
         for (Ingredient ingredient : ingredients.keySet()){
             carbs += ingredient.getCarbs();
         }
         return carbs;
     }
-    public int getProtein(){
-        int protein = 0;
+    public Integer getProtein(){
+        Integer protein = 0;
         for (Ingredient ingredient : ingredients.keySet()){
             protein += ingredient.getProtein();
         }
         return protein;
     }
-    public int getFiber(){
-        int fiber = 0;
+    public Integer getFiber(){
+        Integer fiber = 0;
         for (Ingredient ingredient : ingredients.keySet()){
             fiber += ingredient.getFiber();
         }
