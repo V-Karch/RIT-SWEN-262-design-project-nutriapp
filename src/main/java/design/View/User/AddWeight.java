@@ -7,9 +7,11 @@ import design.View.Action;
 
 public class AddWeight implements Action {
     private UserBuilder userBuilder;
+    private Scanner input;
 
-    public AddWeight(UserBuilder userBuilder) {
+    public AddWeight(UserBuilder userBuilder, Scanner scanner) {
         this.userBuilder = userBuilder;
+        this.input = scanner;
     }
 
     @Override
@@ -24,7 +26,6 @@ public class AddWeight implements Action {
         } catch (Exception e) {
             System.out.println("Invalid weight");
         }
-        input.close();
 
 
     }
