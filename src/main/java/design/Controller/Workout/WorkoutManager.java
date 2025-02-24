@@ -3,7 +3,6 @@ package design.Controller.Workout;
 import java.util.Map;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import design.Model.Workout.Intensity;
