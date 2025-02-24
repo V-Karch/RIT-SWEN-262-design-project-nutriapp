@@ -7,15 +7,16 @@ import design.View.Action;
 
 public class AddBirthdate implements Action {
     private UserBuilder userBuilder;
+    private Scanner input;
 
-    public AddBirthdate(UserBuilder userBuilder) {
+    public AddBirthdate(UserBuilder userBuilder, Scanner scanner) {
         this.userBuilder = userBuilder;
+        this.input = scanner;
     }
 
     @Override
     public void execute() {
         //Asks the user their birthday in mm-dd-yyyy format, parses the string as an int array, and passes the information to the userbuilder
-        Scanner input = new Scanner(System.in);
         
         System.out.println("Enter your birthdate (mm-dd-yyyy):");
         try {
@@ -26,7 +27,6 @@ public class AddBirthdate implements Action {
         {
             System.out.println("Invaid birthdate");
         }
-        input.close();
     }
 
 }

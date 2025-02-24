@@ -7,9 +7,11 @@ import design.View.Action;
 
 public class AddHeight implements Action {
     private UserBuilder userBuilder;
+    private Scanner input;
 
-    public AddHeight(UserBuilder userBuilder) {
+    public AddHeight(UserBuilder userBuilder, Scanner scanner) {
         this.userBuilder = userBuilder;
+        this.input = scanner;
     }
 
     @Override
@@ -24,7 +26,6 @@ public class AddHeight implements Action {
         } catch (Exception e) {
             System.out.println("Invalid height");
         }
-        input.close();
     }
 
 }

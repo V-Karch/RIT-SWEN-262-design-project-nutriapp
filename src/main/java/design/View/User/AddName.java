@@ -7,9 +7,11 @@ import design.View.Action;
 
 public class AddName implements Action {
     private UserBuilder userBuilder;
+    private Scanner input;
 
-    public AddName(UserBuilder userBuilder) {
+    public AddName(UserBuilder userBuilder, Scanner scanner) {
         this.userBuilder = userBuilder;
+        this.input = scanner;
     }
 
     @Override
@@ -23,7 +25,6 @@ public class AddName implements Action {
         } catch (Exception e) {
             System.out.println("Invalid name");
         }
-        input.close();
     }
 
 }
