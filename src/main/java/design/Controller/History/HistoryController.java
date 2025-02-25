@@ -1,6 +1,7 @@
 package design.Controller.History;
 
 import design.Model.Workout.Workout;
+import design.Model.Food.Meal;
 import design.Model.History.DailyActivity;
 import design.Model.History.HistoryManager;
 
@@ -11,7 +12,7 @@ public class HistoryController {
         this.historyManager = historyManager;
     }
 
-    public void logMeal(String meal) { // Meal class not created yet
+    public void logMeal(Meal meal) { 
         this.historyManager.getTodaysActivity().addMeal(meal);
     }
 
