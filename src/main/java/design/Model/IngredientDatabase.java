@@ -17,6 +17,7 @@ public class IngredientDatabase {
         for (String[] ingredient : ingredientData){
             ingredients.add(new Ingredient(ingredient[1], Integer.parseInt(ingredient[3]), Integer.parseInt(ingredient[4]), Integer.parseInt(ingredient[5]), Integer.parseInt(ingredient[7]), Integer.parseInt(ingredient[8])));
         }
+        csvreader.close();
     }
 
     public List<Ingredient> getIngredients() {
