@@ -62,6 +62,7 @@ public class User {
     }
 
     public void updateCurrentWeight(double weight) {
+        //should also send a call to history
         this.currentWeight = weight; 
         currentGoal.handleWeightChange();
     }

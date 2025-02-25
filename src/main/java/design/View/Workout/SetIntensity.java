@@ -1,22 +1,36 @@
 package design.View.Workout;
 
-import design.Controller.Workout.WorkoutBuilder;
-import design.Model.Workout.Intensity;
+import java.util.Scanner;
 import design.View.Action;
+import design.Model.Workout.Intensity;
+import design.Controller.Workout.WorkoutBuilder;
 
 public class SetIntensity implements Action {
-    
-    private Intensity intensity;
-    private WorkoutBuilder workoutBuilder;
 
-    public SetIntensity(WorkoutBuilder workoutBuilder, Intensity intensity) {
+    private WorkoutBuilder workoutBuilder;
+    private Scanner scanner;
+
+    public SetIntensity(WorkoutBuilder workoutBuilder, Scanner scanner) {
         this.workoutBuilder = workoutBuilder;
-        this.intensity = intensity;
+        this.scanner = scanner;
     }
 
     @Override
     public void execute() {
-        this.workoutBuilder.setIntensity(this.intensity);
+        System.out.print("Enter an intensity: ");
+        String line = this.scanner.nextLine().toLowerCase();
+        Intensity intensity;
+
+        if (line == "high") {
+            intensity = Intensity.HIGH;
+        } else if (line == "medium") {
+            intensity = Intensity.MEDIUM;
+        } else { // Defaults to low
+            intensity = Intensity.LOW;
+        }
+
+        this.workoutBuilder.setIntensity(intensity);
+        
     }
-    
+
 }
