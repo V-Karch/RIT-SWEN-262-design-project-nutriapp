@@ -34,7 +34,5 @@ public class AddCalories implements Action{
     catch(Exception e) {
       System.out.println("Invaid calories");
     }
-    scanner.close();
   }
-  
 }
