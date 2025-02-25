@@ -32,6 +32,7 @@ public class NutriappCLI {
     }
 
     public static boolean parseInput(String input) {
+        boolean state = false;
         String request = input.toLowerCase();
         if (request.equals("stock")) {
             // call stock ingredient concrete command
@@ -63,16 +64,15 @@ public class NutriappCLI {
             input = scanner.nextLine();
             parseInput(input);
         }
-        if (input.equals("close")) {
-            return true;
+        if (request.equals("close")) {
+            state = true;
         }
-        if (input.equals("skip")) {
+        if (request.equals("skip")) {
             // skip to next day
-            return false;
-        }
-        // nextAction();
-        // ideally this shouldn't be reached
-        return true;
+            state = false;
+        } 
+        
+        return state;
     }
 
     public static void nextAction() {
@@ -120,7 +120,6 @@ public class NutriappCLI {
             } else {
                 // enables the user to do multiple things within a 24 hr period
                 boolean response = parseInput(input);
-
                 if (response == true) {
                     System.out.println("");
                     System.out.println("Sad to see you go!");
