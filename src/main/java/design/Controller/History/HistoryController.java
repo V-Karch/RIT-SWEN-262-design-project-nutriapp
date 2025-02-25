@@ -35,4 +35,5 @@ public class HistoryController {
         this.historyManager.saveTodaysActivityToHistory(date);
     }
     
+    //searches for the daily activity of a specific date
 }

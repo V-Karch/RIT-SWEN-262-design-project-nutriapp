@@ -14,8 +14,8 @@ public class DailyActivity {
     private List<Workout> workouts; 
 
     
-    public DailyActivity(int weight) {
-        this.weight = weight;
+    public DailyActivity() {
+        this.weight = 0;
         this.calories_consumed = 0;
         this.target_calories = 0;
         this.meals = new ArrayList<String>(); //replace with Meal here
