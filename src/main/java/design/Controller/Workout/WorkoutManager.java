@@ -2,15 +2,19 @@ package design.Controller.Workout;
 
 import java.util.Map;
 import java.util.HashMap;
+
+import design.Controller.History.HistoryController;
 import design.Model.Workout.Workout;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class WorkoutManager {
     private Map<String, Workout> workouts;
+    private HistoryController historyController;
 
-    public WorkoutManager() {
+    public WorkoutManager(HistoryController historyController) {
         this.workouts = new HashMap<>();
+        this.historyController = historyController;
     }
 
     private String getCurrentTime() {
@@ -22,6 +26,7 @@ public class WorkoutManager {
     public void addWorkout(Workout workout) {
         String currentTime = this.getCurrentTime();
         this.workouts.put(currentTime, workout);
+        this.historyController.logWorkout(workout); // history controller logs the workout to todays daily activity when a workout is added
     }
 
     public Workout getWorkout(String date) {
