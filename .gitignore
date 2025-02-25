@@ -26,3 +26,4 @@ target/**
 
 # Ignore tool files
 .vscode
+application.db
