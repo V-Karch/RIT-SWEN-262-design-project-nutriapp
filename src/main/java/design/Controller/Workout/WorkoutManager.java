@@ -5,18 +5,22 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
+import design.Controller.History.HistoryController;
 import design.Model.Workout.Intensity;
 import design.Model.Workout.Workout;
 
 public class WorkoutManager {
     private Map<String, Workout> workouts;
+    private HistoryController historyController;
 
-    public WorkoutManager() {
+    public WorkoutManager(HistoryController historyController) {
         this.workouts = new HashMap<>();
+        this.historyController = historyController;
     }
 
     public void addWorkout(Workout workout) {
         this.workouts.put(workout.getName(), workout);
+        this.historyController.logWorkout(workout);
     }
 
     public Workout getWorkout(String date) {
