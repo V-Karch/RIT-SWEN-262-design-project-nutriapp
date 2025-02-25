@@ -1,7 +1,5 @@
 package design.View.Goal;
 
-import java.util.Scanner;
-
 import design.Controller.Goal.GoalManager;
 import design.Model.Goal.Goal;
 import design.View.Action;
