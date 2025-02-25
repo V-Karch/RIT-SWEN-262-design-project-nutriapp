@@ -26,15 +26,15 @@ public class AddCalories implements Action{
   @Override
   public void execute() {
     System.out.println("Enter calories to add:");
-      try {
-        int calories = scanner.nextInt();
-        int newCalories = this.goalManager.addDailyCalories(calories, workoutManager);
-        System.out.println("Total daily calories:" + newCalories);
-      }
-      catch(Exception e) {
-        System.out.println("Invaid calories");
-      }
-      scanner.close();
+    try {
+      int calories = scanner.nextInt();
+      int newCalories = this.goalManager.addDailyCalories(calories, workoutManager);
+      System.out.println("Total daily calories:" + newCalories);
+    }
+    catch(Exception e) {
+      System.out.println("Invaid calories");
+    }
+    scanner.close();
   }
   
 }
