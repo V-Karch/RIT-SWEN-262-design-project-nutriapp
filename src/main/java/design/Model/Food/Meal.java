@@ -5,6 +5,7 @@ import java.util.List;
 public class Meal implements Food{
     private String name;
     private List<Recipe> recipes;
+    private String[] mealInstructions;
 
     public Meal(String name){
         this.name = name;
