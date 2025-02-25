@@ -1,4 +1,4 @@
-package design.Controller;
+package design.Controller.Food;
 
 import java.io.IOException;
 import java.util.ArrayList;
