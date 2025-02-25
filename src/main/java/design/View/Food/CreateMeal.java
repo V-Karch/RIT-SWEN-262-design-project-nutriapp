@@ -1,6 +1,6 @@
 package design.View.Food;
 
-import design.Controller.FoodManager;
+import design.Controller.Food.FoodManager;
 import design.View.Action;
 
 public class CreateMeal implements Action {

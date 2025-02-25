@@ -1,6 +1,6 @@
 package design.View.Food;
 
-import design.Controller.FoodManager;
+import design.Controller.Food.FoodManager;
 import design.Model.Food.Meal;
 import design.Model.Food.Recipe;
 import design.View.Action;
