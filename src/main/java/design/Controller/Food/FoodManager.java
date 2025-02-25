@@ -14,7 +14,7 @@ public class FoodManager {
     private List<Ingredient> Stock;
     private ArrayList<Food> MealsAndRecipes;
     private IngredientDatabase Ingredients;
-    private ArrayList<ShoppingList> ShoppingLists;
+    private List<ShoppingList> ShoppingLists;
 
     public FoodManager(String file) throws IOException {
         Ingredients = new IngredientDatabase(file);
