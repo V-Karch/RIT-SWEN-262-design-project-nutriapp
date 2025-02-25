@@ -1,6 +1,5 @@
 package design.View.History;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -29,9 +28,8 @@ public class SearchHistory implements Action{
             int weight = dailyActivity.getWeight();
             int calories_consumed = dailyActivity.getCaloriesConsumed();
             int target_calories = dailyActivity.getTargetCalories();
-            List<String> meals = dailyActivity.getMeals();
+            List<String> meals = dailyActivity.getMeals(); //meals is a string for now
             List<Workout> workouts = dailyActivity.getWorkouts();
-
 
             System.out.println("Weight: " + weight);
             System.out.println("Calories Consumed: " + calories_consumed);
@@ -42,11 +40,11 @@ public class SearchHistory implements Action{
                 System.out.println(meal);
             }
 
-
             System.out.println("\nWorkouts: ");
             for (Workout workout : workouts) {
                 System.out.println(workout);
             }
+
         } catch (Exception e) {
             System.out.println("Invalid Date.");
         }
