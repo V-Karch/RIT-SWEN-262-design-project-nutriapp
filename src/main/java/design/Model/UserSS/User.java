@@ -1,20 +1,18 @@
 package design.Model.UserSS;
-//need import for Goal
 
-import java.time.LocalDate;
 import java.time.Period;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 import design.Model.Goal.Goal;
+import java.time.format.DateTimeFormatter;
 
 public class User {
-    //user attributes
+    // user attributes
     private String name;
     private float height;
     private String birthdate;
     private int age;
 
-
-    //goal attributes
+    // goal attributes
     private double currentWeight;
     private double targetWeight;
     private Goal currentGoal;
@@ -25,13 +23,14 @@ public class User {
         this.currentWeight = weight;
         this.birthdate = birthdate;
 
-        //getting age from birthdate based on current date
+        // getting age from birthdate based on current date
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
         LocalDate birthDate = LocalDate.parse(birthdate, formatter);
         LocalDate currentDate = LocalDate.now();
         Period period = Period.between(birthDate, currentDate);
         this.age = period.getYears();
     }
+
     public String getName() {
         return name;
     }
@@ -49,25 +48,25 @@ public class User {
     }
 
     public double getCurrentWeight() {
-      return currentWeight;
+        return currentWeight;
     }
 
     public double getTargetWeight() {
-      return targetWeight;
+        return targetWeight;
     }
 
     public void setGoal(Goal goal) {
-        this.currentGoal = goal; 
+        this.currentGoal = goal;
     }
 
     public void updateCurrentWeight(double weight) {
-        //should also send a call to history
-        this.currentWeight = weight; 
+        // should also send a call to history
+        this.currentWeight = weight;
         currentGoal.handleWeightChange();
     }
 
     public void updateTargetWeight(double weight) {
-        this.targetWeight = weight; 
+        this.targetWeight = weight;
         currentGoal.handleWeightChange();
     }
 }
