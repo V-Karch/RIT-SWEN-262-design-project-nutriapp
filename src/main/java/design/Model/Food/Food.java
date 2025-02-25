@@ -1,10 +1,10 @@
 package design.Model.Food;
 
 public interface Food {
-    public int getCalories();
+    public Integer getCalories();
     public String getName();
-    public int getFat();
-    public int getProtein();
-    public int getFiber();
-    public int getCarbs();
+    public Integer getFat();
+    public Integer getProtein();
+    public Integer getFiber();
+    public Integer getCarbs();
 }
