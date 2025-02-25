@@ -16,6 +16,7 @@ public class WorkoutManager {
 
     public WorkoutManager(HistoryController historyController) {
         this.workouts = new HashMap<>();
+        this.historyController = historyController;
     }
 
     public void addWorkout(Workout workout) {
