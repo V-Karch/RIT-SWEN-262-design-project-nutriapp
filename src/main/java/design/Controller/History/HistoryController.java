@@ -19,10 +19,6 @@ public class HistoryController {
         this.historyManager.getTodaysActivity().addWorkout(workout);
     }
 
-    public void logWeight(int weight) {
-        this.historyManager.getTodaysActivity().setWeight(weight);
-    }
-
     public void logCaloriesConsumed(int calories) {
         this.historyManager.getTodaysActivity().setCaloriesConsumed(calories);
     }
@@ -35,5 +31,11 @@ public class HistoryController {
         this.historyManager.saveTodaysActivityToHistory(date);
     }
     
-    //searches for the daily activity of a specific date
+    public DailyActivity searchforDailyActivity(String date) {  //searches for the daily activity of a specific date
+        return this.historyManager.getDailyActivity(date);
+    }
+   
+    public void logWeight(int weight) {
+        this.historyManager.setTodaysWeight(weight);
+    }
 }
