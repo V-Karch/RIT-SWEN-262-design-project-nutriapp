@@ -32,7 +32,7 @@ public class HistoryController {
         this.historyManager.saveTodaysActivityToHistory(date);
     }
     
-    public DailyActivity searchforDailyActivity(String date) {  //searches for the daily activity of a specific date
+    public DailyActivity searchForDailyActivity(String date) {  //searches for the daily activity of a specific date
         return this.historyManager.getDailyActivity(date);
     }
 
