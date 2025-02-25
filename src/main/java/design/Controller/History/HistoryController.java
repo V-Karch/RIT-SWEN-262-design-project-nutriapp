@@ -1,6 +1,7 @@
 package design.Controller.History;
 
 import design.Model.Workout.Workout;
+import design.Model.History.DailyActivity;
 import design.Model.History.HistoryManager;
 
 public class HistoryController {
@@ -32,9 +33,8 @@ public class HistoryController {
     
     public DailyActivity searchforDailyActivity(String date) {  //searches for the daily activity of a specific date
         return this.historyManager.getDailyActivity(date);
-      
     }
-   
+
     public void logWeight(int weight) {
         this.historyManager.setTodaysWeight(weight);
     }
