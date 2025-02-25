@@ -95,7 +95,7 @@ public class Storage {
                         rs.getString("birth_date") // Expected in MM-dd-yyyy format
                 );
 
-                user.updateTargetWeight(rs.getDouble("target_weight"));
+                // TODO: FIX THIS PART user.updateTargetWeight(rs.getDouble("target_weight"));
                 // TODO: attach and store goal
                 // TODO: attach and store history
 
