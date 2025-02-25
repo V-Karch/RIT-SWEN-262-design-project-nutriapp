@@ -1,8 +1,11 @@
 package design.View;
 
+import java.io.IOException;
 import java.util.Scanner;
 
+import design.Controller.Food.FoodManager;
 import design.Controller.User.UserBuilder;
+import design.View.Food.StockIngredient;
 import design.View.User.AddBirthdate;
 import design.View.User.AddHeight;
 import design.View.User.AddName;
@@ -11,9 +14,11 @@ import design.View.User.BuildUser;
 
 public class NutriappCLI {
     static Scanner scanner = new Scanner(System.in);
+    static FoodManager foodManager;
 
-    public NutriappCLI() {
 
+    public NutriappCLI() throws IOException {
+        NutriappCLI.foodManager = new FoodManager("src\\main\\java\\design\\ingredients.csv");
     }
 
     public static void promptUser() {
@@ -31,11 +36,20 @@ public class NutriappCLI {
 
     }
 
-    public static boolean parseInput(String input) {
+    public static boolean parseInput(String input) throws Exception {
         boolean state = false;
         String request = input.toLowerCase();
         if (request.equals("stock")) {
-            // call stock ingredient concrete command
+            System.out.println("What ingredient would you like to stock? Type 'Options' to get ingredient options.");
+            String ingredient = scanner.nextLine();
+            
+
+            System.out.println("How much stock would you like to add?");
+            String amount_S = scanner.nextLine();
+            int amount = Integer.parseInt(amount_S);
+
+            StockIngredient stockIngredient = new StockIngredient(NutriappCLI.foodManager, ingredient, amount);
+            System.out.println("Successfully stocked!");
         }
         if (request.equals("recipe")) {
             // call create recipe concrete command
@@ -75,13 +89,13 @@ public class NutriappCLI {
         return state;
     }
 
-    public static void nextAction() {
+    public static void nextAction() throws Exception {
         System.out.println("What would you like to do next?");
         String input = scanner.nextLine();
         parseInput(input);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, Exception {
 
         // creating things
         UserBuilder userBuilder = new UserBuilder();
@@ -90,6 +104,7 @@ public class NutriappCLI {
         AddWeight weight = new AddWeight(userBuilder, scanner);
         AddBirthdate birthdate = new AddBirthdate(userBuilder, scanner);
         BuildUser buildUser = new BuildUser(userBuilder);
+        
 
         // startup
         System.out.println("\nWelcome to Nutriapp. Tell us a little more about yourself!");

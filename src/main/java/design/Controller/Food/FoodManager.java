@@ -33,8 +33,9 @@ public class FoodManager {
      * @param ingredient
      * @param quantity
      */
-    public void addIngredient(Recipe recipe, Ingredient ingredient, int quantity) {
-        recipe.addIngredient(ingredient, quantity);
+    public void addIngredient(Recipe recipe, String ingredient, int quantity) throws Exception {
+        Ingredient ingredient_Obj = getIngredient(ingredient);
+        recipe.addIngredient(ingredient_Obj, quantity);
     }
 
     public void addRecipe(Meal meal, Recipe recipe) {

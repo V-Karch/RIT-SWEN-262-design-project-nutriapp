@@ -9,10 +9,11 @@ public class StockIngredient implements Action{
     private Ingredient ingredient;
     private int amount;
 
-    public StockIngredient(FoodManager foodManager, Ingredient ingredient, int amount)
+    public StockIngredient(FoodManager foodManager, String ingredient, int amount) throws Exception
     {
         this.foodManager = foodManager;
-        this.ingredient = ingredient;
+        Ingredient ingredient_Obj = foodManager.getIngredient(ingredient);
+        this.ingredient = ingredient_Obj;
         this.amount = amount;
     }
 
