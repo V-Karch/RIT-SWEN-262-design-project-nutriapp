@@ -1,5 +1,7 @@
 package design.Model.Goal;
 
+import design.Model.UserSS.User;
+
 public class MaintainWeight implements Goal {
   private User user; //Needs to be implemented
   private boolean physicalFitness;
