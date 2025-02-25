@@ -25,7 +25,5 @@ public class SetTargetWeight implements Action {
     catch(Exception e) {
       System.out.println("Invalid weight");
     }
-    scanner.close();
-    
   }
 }
