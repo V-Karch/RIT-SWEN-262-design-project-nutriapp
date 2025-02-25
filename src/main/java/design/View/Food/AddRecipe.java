@@ -1,9 +1,9 @@
 package design.View.Food;
 
 import design.Controller.FoodManager;
-import design.Model.Recipe;
+import design.Model.Food.Meal;
+import design.Model.Food.Recipe;
 import design.View.Action;
-import design.Model.Meal;
 
 public class AddRecipe implements Action {
     private FoodManager foodManager;

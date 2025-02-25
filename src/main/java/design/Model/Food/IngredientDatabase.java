@@ -1,4 +1,4 @@
-package design.Model;
+package design.Model.Food;
 
 import java.io.FileReader;
 import java.io.IOException;

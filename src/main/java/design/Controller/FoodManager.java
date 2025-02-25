@@ -1,12 +1,8 @@
 package design.Controller;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import design.Model.Food.Food;
 import design.Model.Food.Ingredient;
 import design.Model.Food.IngredientDatabase;
@@ -20,8 +16,8 @@ public class FoodManager {
     private IngredientDatabase Ingredients;
     private ArrayList<ShoppingList> ShoppingLists;
 
-    public FoodManager() {
-        Ingredients = new IngredientDatabase();
+    public FoodManager(String file) throws IOException {
+        Ingredients = new IngredientDatabase(file);
         MealsAndRecipes = new ArrayList<Food>();
         Stock = Ingredients.getIngredients();
     }
@@ -32,17 +28,16 @@ public class FoodManager {
 
     /**
      * Adds an ingredient to a recipe
+     * 
      * @param recipe
      * @param ingredient
      * @param quantity
      */
-    public void addIngredient(Recipe recipe, Ingredient ingredient, int quantity)
-    {
+    public void addIngredient(Recipe recipe, Ingredient ingredient, int quantity) {
         recipe.addIngredient(ingredient, quantity);
     }
 
-    public void addRecipe(Meal meal, Recipe recipe)
-    {
+    public void addRecipe(Meal meal, Recipe recipe) {
         meal.addRecipe(recipe);
     }
 
@@ -54,20 +49,21 @@ public class FoodManager {
         MealsAndRecipes.add(new Meal(name));
     }
 
-    public List<String> createShoppingList(List<Food> FoodList) {
-        ShoppingLists.add(new ShoppingList(FoodList));
+    public ShoppingList createShoppingList(List<Food> FoodList) {
+        ShoppingList list = new ShoppingList(FoodList, "");
+        ShoppingLists.add(list);
+        return list;
     }
 
     /**
      * Gets a recommended shopping list based on ingredients that are low in stock
+     * 
      * @return string list of recommended shopping items
      */
     public ArrayList<String> getRecommendedShoppingList() {
         ArrayList<String> recommended = new ArrayList<String>();
-        for(Ingredient i : Stock)
-        {
-            if(i.getStock() <= 5)
-            {
+        for (Ingredient i : Stock) {
+            if (i.getStock() <= 5) {
                 recommended.add(i.getName());
             }
         }
@@ -76,14 +72,12 @@ public class FoodManager {
     }
 
     // public List<String> getRecommendedShoppingList(Recipe recipe) {
-        
+
     // }
 
     public Ingredient getIngredient(String name) throws Exception {
-        for(Ingredient i : Stock)
-        {
-            if(i.getName().equals(name))
-            {
+        for (Ingredient i : Stock) {
+            if (i.getName().equals(name)) {
                 return i;
             }
         }

@@ -1,20 +1,20 @@
-package design.Model;
+package design.Model.Food;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingList {
     private String name;
-    private List<Ingredient> ingredients;
+    private List<Food> ingredients;
 
-    public ShoppingList(List<Ingredient> ingredients, String name){
+    public ShoppingList(List<Food> ingredients, String name){
         this.ingredients = ingredients;
         this.name = name;
     }
 
     public List<String> getShoppingList(){
         List<String> shoppingList = new ArrayList<String>();
-        for (Ingredient ingredient : ingredients){
+        for (Food ingredient : ingredients){
             shoppingList.add(ingredient.getName());
         }
         return shoppingList;
@@ -28,5 +28,9 @@ public class ShoppingList {
         List<String> shoppingList = this.getShoppingList();
         shoppingList.remove(ingredient.getName());
         return shoppingList;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }
