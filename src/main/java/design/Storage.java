@@ -96,8 +96,8 @@ public class Storage {
                 );
 
                 user.updateTargetWeight(rs.getDouble("target_weight"));
-                // attach and store goal
-                // attach and store history
+                // TODO: attach and store goal
+                // TODO: attach and store history
 
                 return user;
             }
