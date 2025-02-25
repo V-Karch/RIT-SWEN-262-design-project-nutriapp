@@ -1,8 +1,8 @@
 package design.View.Food;
 
 import design.Controller.FoodManager;
-import design.Model.Ingredient;
-import design.Model.Recipe;
+import design.Model.Food.Ingredient;
+import design.Model.Food.Recipe;
 
 
 public class AddIngredient {
