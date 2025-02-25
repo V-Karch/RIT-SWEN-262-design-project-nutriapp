@@ -1,7 +1,10 @@
 package design.Controller.Goal;
 
+import design.Controller.Workout.WorkoutManager;
 import design.Model.Goal.Goal;
 import design.Model.UserSS.User;
+import design.Model.Workout.Workout;
+import static design.View.Goal.AddCalories.displayWorkout;
 
 public class GoalManager {
   private User user;
@@ -32,7 +35,14 @@ public class GoalManager {
     return goal.removeDailyCalories(calories);
   }
 
-  public int addDailyCalories(int calories) {
-    return goal.addDailyCalories(calories);
+  public int addDailyCalories(int calories, WorkoutManager workoutManager) {
+    int currentCalories = goal.addDailyCalories(calories);
+    int targetCalories = goal.getTargetCalories();
+    int calorieDifference = currentCalories - targetCalories;
+    if(calorieDifference > 0) {
+      Workout workout = workoutManager.recommendWorkout(calorieDifference);
+      displayWorkout(calorieDifference, workout);
+    }
+    return currentCalories;
   }
 }
