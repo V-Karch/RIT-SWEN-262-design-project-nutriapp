@@ -33,6 +33,7 @@ public class HistoryController {
     
     public DailyActivity searchforDailyActivity(String date) {  //searches for the daily activity of a specific date
         return this.historyManager.getDailyActivity(date);
+      
     }
    
     public void logWeight(int weight) {
