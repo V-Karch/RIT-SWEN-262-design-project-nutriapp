@@ -24,7 +24,7 @@ public class SearchHistory implements Action{
         System.out.println("Enter a previous date to search for: ");
         try {
             String date = input.nextLine();
-            DailyActivity dailyActivity = historyController.searchforDailyActivity(date);
+            DailyActivity dailyActivity = historyController.searchForDailyActivity(date);
 
             int weight = dailyActivity.getWeight();
             int calories_consumed = dailyActivity.getCaloriesConsumed();
