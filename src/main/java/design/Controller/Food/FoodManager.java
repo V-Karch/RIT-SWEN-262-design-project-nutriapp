@@ -85,6 +85,14 @@ public class FoodManager {
         throw new Exception("Could not find ingredient.");
     }
 
+    public List<String> getIngredients(){
+        List<String> ingredients = new ArrayList<>();
+        for (Ingredient i : Stock) {
+            ingredients.add(i.getName());
+        }
+        return ingredients;
+    }
+
     public String[] getMealInstructions(Meal meal) {
         return new String[5]; // Temporary
     }
