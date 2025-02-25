@@ -7,11 +7,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import design.Model.Food;
-import design.Model.Ingredient;
-import design.Model.IngredientDatabase;
-import design.Model.Recipe;
-import design.Model.Meal;
+import design.Model.Food.Food;
+import design.Model.Food.Ingredient;
+import design.Model.Food.IngredientDatabase;
+import design.Model.Food.Meal;
+import design.Model.Food.Recipe;
+import design.Model.Food.ShoppingList;
 
 public class FoodManager {
     private List<Ingredient> Stock;
@@ -78,7 +79,7 @@ public class FoodManager {
         
     // }
 
-    public Ingredient getIngredient(String name) {
+    public Ingredient getIngredient(String name) throws Exception {
         for(Ingredient i : Stock)
         {
             if(i.getName().equals(name))
@@ -89,6 +90,7 @@ public class FoodManager {
         throw new Exception("Could not find ingredient.");
     }
 
-    public String[] getMealInstructions(Meal meal) {  
+    public String[] getMealInstructions(Meal meal) {
+        return new String[5]; // Temporary
     }
 }
