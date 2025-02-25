@@ -1,8 +1,7 @@
 package design.Controller.History;
 
-import design.Model.History.DailyActivity;
-import design.Model.History.HistoryManager;
 import design.Model.Workout.Workout;
+import design.Model.History.HistoryManager;
 
 public class HistoryController {
     private HistoryManager historyManager;
