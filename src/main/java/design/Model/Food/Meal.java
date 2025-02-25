@@ -62,4 +62,10 @@ public class Meal implements Food{
     public void addRecipe(Recipe recipe){
         recipes.add(recipe);
     }
+
+    @Override
+    public String toString() {
+        return "Meal[Name: " + name + ", Calories: " + getCalories() + ", Fat: " + getFat() + 
+            ", Protein: " + getProtein() + ", Fiber: " + getFiber() + ", Carbs: " + getCarbs() + "]";
+    }
 }
