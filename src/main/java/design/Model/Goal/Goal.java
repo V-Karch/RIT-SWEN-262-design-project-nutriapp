@@ -6,4 +6,5 @@ public interface Goal {
   public int removeDailyCalories(int calories);
   public int addDailyCalories(int calories);
   public void handleWeightChange();
+  public void setPhysicalFitness();
 }

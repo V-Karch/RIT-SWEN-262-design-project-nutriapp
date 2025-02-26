@@ -1,6 +1,5 @@
 package design.Model.Goal;
 
-import java.lang.Math;
 import design.Model.UserSS.User;
 
 public class LoseWeight implements Goal {
@@ -52,4 +51,9 @@ public class LoseWeight implements Goal {
       user.setGoal(new MaintainWeight(user, physicalFitness, dailyCalories));
     }
   }
+
+  @Override
+    public void setPhysicalFitness() {
+      physicalFitness = true;
+    }
 }

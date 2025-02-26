@@ -8,6 +8,7 @@ public class UserBuilder {
     private float height;
     private float weight;
     private String birthdate;
+    private User user;
     
 
     public UserBuilder() {
@@ -34,6 +35,12 @@ public class UserBuilder {
     }
 
     public User buildUser() {
-        return new User(name, height, weight, birthdate);
+        this.user = new User(name, height, weight, birthdate);
+        return this.user;
     }
+
+    public User getUser(){
+        return this.user;
+    }
+    
 }
