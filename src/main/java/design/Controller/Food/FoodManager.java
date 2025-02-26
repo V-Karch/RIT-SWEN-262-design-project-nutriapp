@@ -16,8 +16,11 @@ public class FoodManager {
     private IngredientDatabase Ingredients;
     private ArrayList<ShoppingList> ShoppingLists;
 
-    public FoodManager(String file) throws IOException {
-        Ingredients = new IngredientDatabase(file);
+    public FoodManager(String file) {
+        try {
+            Ingredients = new IngredientDatabase(file);
+        } catch (IOException ex) {
+        }
         MealsAndRecipes = new ArrayList<Food>();
         Stock = Ingredients.getIngredients();
     }

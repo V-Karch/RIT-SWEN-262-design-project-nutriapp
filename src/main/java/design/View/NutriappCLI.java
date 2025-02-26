@@ -3,8 +3,10 @@ package design.View;
 import java.io.IOException;
 import java.util.Scanner;
 
+import design.Controller.Food.FoodManager;
 import design.Controller.Goal.GoalManager;
 import design.Controller.User.UserBuilder;
+import design.View.Food.StockIngredient;
 import design.View.Goal.SetPhysicalFitness;
 import design.View.Goal.SetTargetWeight;
 import design.View.User.AddBirthdate;
@@ -15,12 +17,12 @@ import design.View.User.BuildUser;
 
 public class NutriappCLI {
     Scanner scanner = new Scanner(System.in);
-    // FoodManager foodManager;
+    FoodManager foodManager;
 
 
     
     public NutriappCLI() throws IOException {
-        // this.foodManager = new FoodManager("src\\main\\java\\design\\ingredients.csv");
+        this.foodManager = new FoodManager("src\\main\\java\\design\\ingredients.csv");
     }
     
     public static void main (String[] args) throws IOException, Exception {
@@ -49,28 +51,7 @@ public class NutriappCLI {
         String request = input.toLowerCase();
         String ingredient;
         if (request.equals("stock")) {
-            /* 
-            System.out.println("What ingredient would you like to stock? Type 'Options' to get ingredient options.");
-            String response = scanner.nextLine();
-            response = response.toLowerCase();
-            if (response.equals("options")) {
-                List<String> ingredients = this.foodManager.getIngredients();
-                for (String i : ingredients){
-                    System.out.println(i);
-                }
-                System.out.println("What ingredient would you like to stock?");
-                ingredient = scanner.nextLine();
-            } else {
-                ingredient = response;
-            }
-
-            System.out.println("How much stock would you like to add?");
-            String amount_S = scanner.nextLine();
-            int amount = Integer.parseInt(amount_S);
-
-            StockIngredient stockIngredient = new StockIngredient(this.foodManager, ingredient, amount);
-            System.out.println("Successfully stocked!");
-            */
+            StockIngredient stockIngredient = new StockIngredient(this.foodManager, scanner);
         }
         if (request.equals("recipe")) {
             // call create recipe concrete command
