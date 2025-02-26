@@ -71,4 +71,5 @@ public class GainWeight implements Goal{
 	public User getUser() {
     return user;
   }
+
 }

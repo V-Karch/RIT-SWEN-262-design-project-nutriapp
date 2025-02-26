@@ -16,6 +16,9 @@ import design.Model.History.HistoryManager;
 import design.Model.Workout.WorkoutBuilder;
 import design.Model.Workout.WorkoutManager;
 import design.View.History.SearchHistory;
+import design.View.Food.StockIngredient;
+import design.View.Goal.SetPhysicalFitness;
+import design.View.Goal.SetTargetWeight;
 import design.View.User.AddBirthdate;
 import design.View.User.AddHeight;
 import design.View.User.AddName;
@@ -38,7 +41,7 @@ public class NutriappCLI {
     static CreateWorkout createWorkout = new CreateWorkout(workoutController, historyController);
 
     public NutriappCLI() throws IOException {
-        this.foodManager = new FoodManager("src\\main\\java\\design\\ingredients.csv");
+        // this.foodManager = new FoodManager("src\\main\\java\\design\\ingredients.csv");
     }
     
     public static void main (String[] args) throws IOException, Exception {
