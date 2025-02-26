@@ -57,6 +57,24 @@ public class NutriappCLI {
             // offer different types of history that the user can peruse
             // call the concrete command for the specific type
         }
+
+        //Goal requests 
+        if(request.equals("set target weight")) {
+            // call set target weight
+        }
+        if(request.equals("set daily weight")) {
+            // call set daily weight
+        }
+        if(request.equals("add calories")) {
+            // call add calories
+        }
+        if(request.equals("remove calories")) {
+            // call remove calories
+        }
+        if(request.equals("get target calories")) {
+            // call get target calories
+        } 
+
         if (request.equals("help")) {
             System.out.println("");
             promptUser();
