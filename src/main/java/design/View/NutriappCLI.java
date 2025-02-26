@@ -2,7 +2,10 @@ package design.View;
 
 import java.util.Scanner;
 
+import design.Controller.History.HistoryController;
 import design.Controller.User.UserBuilder;
+import design.Model.History.HistoryManager;
+import design.View.History.SearchHistory;
 import design.View.User.AddBirthdate;
 import design.View.User.AddHeight;
 import design.View.User.AddName;
@@ -11,9 +14,11 @@ import design.View.User.BuildUser;
 
 public class NutriappCLI {
     static Scanner scanner = new Scanner(System.in);
+    static HistoryController historyController = new HistoryController(new HistoryManager());
+    static SearchHistory searchHistory = new SearchHistory(scanner, historyController);
 
     public NutriappCLI() {
-
+        
     }
 
     public static void promptUser() {
@@ -54,8 +59,8 @@ public class NutriappCLI {
             // call log workout concrete command
         }
         if (request.equals("history")) {
-            // offer different types of history that the user can peruse
-            // call the concrete command for the specific type
+            // prompt user for a specific date and display history for that date
+            searchHistory.execute();
         }
         if (request.equals("help")) {
             System.out.println("");
