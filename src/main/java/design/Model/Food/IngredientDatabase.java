@@ -12,7 +12,7 @@ public class IngredientDatabase {
 
     public IngredientDatabase(String file) throws IOException{
         FileReader reader = new FileReader(file);
-        CSVReader csvreader = new CSVReader(reader);
+        CSVReader csvreader = new CSVReader(reader,',','"',1);
         List<String[]> ingredientData = csvreader.readAll();
         for (String[] ingredient : ingredientData){
             ingredients.add(new Ingredient(ingredient[1], Integer.parseInt(ingredient[3]), Integer.parseInt(ingredient[4]), Integer.parseInt(ingredient[5]), Integer.parseInt(ingredient[7]), Integer.parseInt(ingredient[8])));
