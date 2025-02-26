@@ -93,6 +93,24 @@ public class NutriappCLI {
             // prompt user for a specific date and display history for that date-time (yyyy-mm-dd HH:mm)
             searchHistory.execute();
         }
+
+        //Goal requests 
+        if(request.equals("set target weight")) {
+            // call set target weight
+        }
+        if(request.equals("set daily weight")) {
+            // call set daily weight
+        }
+        if(request.equals("add calories")) {
+            // call add calories
+        }
+        if(request.equals("remove calories")) {
+            // call remove calories
+        }
+        if(request.equals("get target calories")) {
+            // call get target calories
+        } 
+
         if (request.equals("help")) {
             System.out.println("");
             promptUser();
