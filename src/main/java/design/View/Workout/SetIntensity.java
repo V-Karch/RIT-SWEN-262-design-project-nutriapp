@@ -3,7 +3,6 @@ package design.View.Workout;
 import java.util.Scanner;
 import design.View.Action;
 import design.Model.Workout.Intensity;
-import design.Model.Workout.WorkoutBuilder;
 import design.Controller.Workout.WorkoutController;
 
 public class SetIntensity implements Action {
