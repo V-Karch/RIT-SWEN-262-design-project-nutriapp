@@ -12,7 +12,7 @@ public class CreateWorkout implements Action {
 
     @Override
     public void execute() {
-        this.workoutBuilder.createWorkout(); 
+        this.workoutBuilder.createWorkout(); //where is the workout being stored? - CJ
 
         // need to log the workout in history
         // this.historyController.logWorkout(workout); 
