@@ -1,5 +1,7 @@
 package design.View.History;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 import design.Controller.History.HistoryController;
@@ -17,7 +19,11 @@ public class EnterWeight implements Action {
 
     @Override
     public void execute() {
-       System.out.println("Enter your weight:");
+        //Save the previous day's activity to history
+        this.historyController.logTodaysActivity(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))); 
+
+        //Enter the user's weight
+        System.out.println("Enter your weight:");
        try {
            int weight = Integer.parseInt(input.nextLine());
            this.historyController.logWeight(weight);

@@ -28,7 +28,7 @@ public class HistoryController {
         this.historyManager.getTodaysActivity().setTargetCalories(targetCalories);
     }
 
-    public void logDailyActivity(String date) { 
+    public void logTodaysActivity(String date) { 
         this.historyManager.saveTodaysActivityToHistory(date);
     }
     
