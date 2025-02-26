@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import design.Controller.Food.FoodManager;
+import design.Controller.History.HistoryController;
 import design.Controller.User.UserBuilder;
 import design.Controller.Workout.WorkoutController;
 import design.Model.History.HistoryManager;
