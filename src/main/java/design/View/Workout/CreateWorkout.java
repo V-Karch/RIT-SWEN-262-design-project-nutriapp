@@ -12,7 +12,10 @@ public class CreateWorkout implements Action {
 
     @Override
     public void execute() {
-        this.workoutBuilder.createWorkout();
+        this.workoutBuilder.createWorkout(); 
+
+        // need to log the workout in history
+        // this.historyController.logWorkout(workout); 
     }
 
 }
