@@ -41,7 +41,7 @@ public class NutriappCLI {
     static CreateWorkout createWorkout = new CreateWorkout(workoutController, historyController);
 
     public NutriappCLI() throws IOException {
-        // this.foodManager = new FoodManager("src\\main\\java\\design\\ingredients.csv");
+        this.foodManager = new FoodManager("src\\main\\java\\design\\ingredients.csv");
     }
     
     public static void main (String[] args) throws IOException, Exception {
