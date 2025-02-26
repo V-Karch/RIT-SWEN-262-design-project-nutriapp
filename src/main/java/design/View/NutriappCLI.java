@@ -1,8 +1,12 @@
 package design.View;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
+import design.Controller.Food.FoodManager;
 import design.Controller.User.UserBuilder;
+import design.View.Food.StockIngredient;
 import design.View.User.AddBirthdate;
 import design.View.User.AddHeight;
 import design.View.User.AddName;
@@ -10,13 +14,22 @@ import design.View.User.AddWeight;
 import design.View.User.BuildUser;
 
 public class NutriappCLI {
-    static Scanner scanner = new Scanner(System.in);
+    Scanner scanner = new Scanner(System.in);
+    FoodManager foodManager;
 
-    public NutriappCLI() {
 
+    
+    public NutriappCLI() throws IOException {
+        this.foodManager = new FoodManager("src\\main\\java\\design\\ingredients.csv");
+    }
+    
+    public static void main (String[] args) throws IOException, Exception {
+        NutriappCLI nutriapp = new NutriappCLI ();
+        nutriapp.run (args);
+        
     }
 
-    public static void promptUser() {
+    public void promptUser() {
         System.out.println("Type 'Stock' to add stock to an ingredient");
         System.out.println("Type 'Recipe' to create a recipe");
         System.out.println("Type 'Create Meal' to create a meal");
@@ -31,10 +44,31 @@ public class NutriappCLI {
 
     }
 
-    public static boolean parseInput(String input) {
+    public boolean parseInput(String input) throws Exception {
+        boolean state = false;
         String request = input.toLowerCase();
+        String ingredient;
         if (request.equals("stock")) {
-            // call stock ingredient concrete command
+            System.out.println("What ingredient would you like to stock? Type 'Options' to get ingredient options.");
+            String response = scanner.nextLine();
+            response = response.toLowerCase();
+            if (response.equals("options")) {
+                List<String> ingredients = this.foodManager.getIngredients();
+                for (String i : ingredients){
+                    System.out.println(i);
+                }
+                System.out.println("What ingredient would you like to stock?");
+                ingredient = scanner.nextLine();
+            } else {
+                ingredient = response;
+            }
+
+            System.out.println("How much stock would you like to add?");
+            String amount_S = scanner.nextLine();
+            int amount = Integer.parseInt(amount_S);
+
+            StockIngredient stockIngredient = new StockIngredient(this.foodManager, ingredient, amount);
+            System.out.println("Successfully stocked!");
         }
         if (request.equals("recipe")) {
             // call create recipe concrete command
@@ -81,25 +115,24 @@ public class NutriappCLI {
             input = scanner.nextLine();
             parseInput(input);
         }
-        if (input.equals("close")) {
-            return true;
+        if (request.equals("close")) {
+            state = true;
         }
-        if (input.equals("skip")) {
+        if (request.equals("skip")) {
             // skip to next day
-            return false;
-        }
-        // nextAction();
-        // ideally this shouldn't be reached
-        return true;
+            state = false;
+        } 
+        
+        return state;
     }
 
-    public static void nextAction() {
+    public void nextAction() throws Exception {
         System.out.println("What would you like to do next?");
         String input = scanner.nextLine();
         parseInput(input);
     }
 
-    public static void main(String[] args) {
+    public void run(String[] args) throws IOException, Exception {
 
         // creating things
         UserBuilder userBuilder = new UserBuilder();
@@ -108,6 +141,7 @@ public class NutriappCLI {
         AddWeight weight = new AddWeight(userBuilder, scanner);
         AddBirthdate birthdate = new AddBirthdate(userBuilder, scanner);
         BuildUser buildUser = new BuildUser(userBuilder);
+        
 
         // startup
         System.out.println("\nWelcome to Nutriapp. Tell us a little more about yourself!");
@@ -138,7 +172,6 @@ public class NutriappCLI {
             } else {
                 // enables the user to do multiple things within a 24 hr period
                 boolean response = parseInput(input);
-
                 if (response == true) {
                     System.out.println("");
                     System.out.println("Sad to see you go!");
