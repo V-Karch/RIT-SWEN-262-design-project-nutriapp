@@ -9,6 +9,10 @@ import design.Controller.User.UserBuilder;
 import design.View.Food.StockIngredient;
 import design.View.Goal.SetPhysicalFitness;
 import design.View.Goal.SetTargetWeight;
+import design.Controller.History.HistoryController;
+import design.Controller.User.UserBuilder;
+import design.Model.History.HistoryManager;
+import design.View.History.SearchHistory;
 import design.View.User.AddBirthdate;
 import design.View.User.AddHeight;
 import design.View.User.AddName;
@@ -16,19 +20,19 @@ import design.View.User.AddWeight;
 import design.View.User.BuildUser;
 
 public class NutriappCLI {
-    Scanner scanner = new Scanner(System.in);
     FoodManager foodManager;
-
-
+    static Scanner scanner = new Scanner(System.in);
+    static HistoryController historyController = new HistoryController(new HistoryManager());
+    static SearchHistory searchHistory = new SearchHistory(scanner, historyController);
     
     public NutriappCLI() throws IOException {
         this.foodManager = new FoodManager("src\\main\\java\\design\\ingredients.csv");
+        
     }
     
     public static void main (String[] args) throws IOException, Exception {
         NutriappCLI nutriapp = new NutriappCLI ();
         nutriapp.run (args);
-        
     }
 
     public void promptUser() {
@@ -71,8 +75,8 @@ public class NutriappCLI {
             // call log workout concrete command
         }
         if (request.equals("history")) {
-            // offer different types of history that the user can peruse
-            // call the concrete command for the specific type
+            // prompt user for a specific date and display history for that date
+            searchHistory.execute();
         }
         if (request.equals("help")) {
             System.out.println("");
