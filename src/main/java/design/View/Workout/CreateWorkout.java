@@ -21,6 +21,8 @@ public class CreateWorkout implements Action {
         
         //log the new workout in history
         this.historyController.logWorkout(newWorkout); 
+
+        System.out.println("Workout created! Name: " + newWorkout.getName() + ", Intensity: " + newWorkout.getIntensity() + ", Minutes: " + newWorkout.getMinutes());
     }
 
 }

@@ -21,7 +21,7 @@ public class WorkoutController {
         return workout;
     }
 
-    public Workout recommendWorkout(int calories) { // needs a View Command
+    public Workout recommendWorkout(int calories) { 
         return this.workoutManager.recommendWorkout(calories);
     }
 
@@ -37,7 +37,7 @@ public class WorkoutController {
         this.workoutBuilder.setIntensity(intensity);
     }  
 
-    public void setName(String name) { //needs a View Command
+    public void setName(String name) { 
         this.workoutBuilder.setName(name); 
     }
 

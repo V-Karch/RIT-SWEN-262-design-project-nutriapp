@@ -18,13 +18,13 @@ public class SetIntensity implements Action {
 
     @Override
     public void execute() {
-        System.out.print("Enter an intensity: ");
+        System.out.print("Enter an intensity (\'high\', \'medium\',\'low\'): ");
         String line = this.scanner.nextLine().toLowerCase();
         Intensity intensity;
 
-        if (line == "high") {
+        if (line.equals( "high")) {
             intensity = Intensity.HIGH;
-        } else if (line == "medium") {
+        } else if (line.equals( "medium")) {
             intensity = Intensity.MEDIUM;
         } else { // Defaults to low
             intensity = Intensity.LOW;
