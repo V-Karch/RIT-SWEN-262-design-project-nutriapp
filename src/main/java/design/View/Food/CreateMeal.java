@@ -10,15 +10,18 @@ public class CreateMeal implements Action {
     private String name;
     private Scanner input;
 
-    public CreateMeal(FoodManager foodManager, String name, Scanner input)
+    public CreateMeal(FoodManager foodManager, Scanner input)
     {
-        this.name = name;
         this.foodManager = foodManager;
         this.input = input;
     }
 
     public void execute()
     {
+        System.out.println("What would you like to name your meal?");
+        name = input.nextLine();
+
         foodManager.createMeal(name);
+        System.out.println("Meal created.");
     }
 }

@@ -1,11 +1,11 @@
 package design.Model.Food;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Meal implements Food{
     private String name;
     private List<Recipe> recipes;
-    private String[] mealInstructions;
 
     public Meal(String name){
         this.name = name;
@@ -62,5 +62,23 @@ public class Meal implements Food{
     }
     public void addRecipe(Recipe recipe){
         recipes.add(recipe);
+    }
+
+    public List<String> getInstructions(){
+        List<String> instructions = new ArrayList<String>();;
+        for(Recipe r : recipes){
+            String[] recipeInstructions = r.getCookInstructions();
+            for(String s : recipeInstructions){
+                instructions.add(s);
+            }
+        }
+
+        return instructions;
+    }
+
+    public void prepareMeal(){
+        for(Recipe r : recipes){
+            r.useIngredients();
+        }
     }
 }
