@@ -21,4 +21,11 @@ public class Workout {
     public int getCalories() { return this.calories; }
     public String getDate() { return this.date; }
     public String getName() { return this.name; }
+
+    
+    @Override
+    public String toString() {
+        return "Workout[Name: " + getName() + ", Date: " + getDate() + ", Minutes: " + 
+            getMinutes() + ", Intensity: " + getIntensity() + ", Calories: " + getCalories() + "]"; 
+    }
 }

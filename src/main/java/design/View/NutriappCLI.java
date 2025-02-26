@@ -17,8 +17,6 @@ public class NutriappCLI {
     Scanner scanner = new Scanner(System.in);
     FoodManager foodManager;
 
-
-    
     public NutriappCLI() throws IOException {
         this.foodManager = new FoodManager("src\\main\\java\\design\\ingredients.csv");
     }
@@ -88,8 +86,8 @@ public class NutriappCLI {
             // call log workout concrete command
         }
         if (request.equals("history")) {
-            // offer different types of history that the user can peruse
-            // call the concrete command for the specific type
+            // prompt user for a specific date and display history for that date
+            searchHistory.execute();
         }
 
         //Goal requests 
