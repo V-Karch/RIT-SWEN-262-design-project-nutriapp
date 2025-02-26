@@ -1,9 +1,10 @@
 package design.Controller.Goal;
 
-import design.Controller.Workout.WorkoutManager;
 import design.Model.Goal.Goal;
 import design.Model.UserSS.User;
 import design.Model.Workout.Workout;
+import design.Model.Workout.WorkoutManager;
+
 import static design.View.Goal.AddCalories.displayWorkout;
 
 public class GoalManager {

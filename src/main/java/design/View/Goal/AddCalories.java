@@ -3,8 +3,8 @@ package design.View.Goal;
 import java.util.Scanner;
 
 import design.Controller.Goal.GoalManager;
-import design.Controller.Workout.WorkoutManager;
 import design.Model.Workout.Workout;
+import design.Model.Workout.WorkoutManager;
 import design.View.Action;
 
 public class AddCalories implements Action{

@@ -1,7 +1,9 @@
 package design.View.History;
 
+
 import java.util.List;
 import java.util.Scanner;
+
 
 import design.Controller.History.HistoryController;
 import design.Model.History.DailyActivity;
@@ -13,6 +15,7 @@ public class SearchHistory implements Action{
     
     private Scanner input;
     private HistoryController historyController;
+    //private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public SearchHistory(Scanner input, HistoryController historyController) {
         this.input = input;

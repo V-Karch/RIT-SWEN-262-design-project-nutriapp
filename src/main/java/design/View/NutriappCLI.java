@@ -6,15 +6,31 @@ import java.util.Scanner;
 
 import design.Controller.Food.FoodManager;
 import design.Controller.User.UserBuilder;
+import design.Controller.Workout.WorkoutController;
+import design.Model.History.HistoryManager;
+import design.Model.Workout.WorkoutBuilder;
+import design.Model.Workout.WorkoutManager;
+import design.View.History.SearchHistory;
 import design.View.Food.StockIngredient;
 import design.View.User.AddBirthdate;
 import design.View.User.AddHeight;
 import design.View.User.AddName;
 import design.View.User.AddWeight;
 import design.View.User.BuildUser;
+import design.View.Workout.CreateWorkout;
+import design.View.Workout.SetIntensity;
+import design.View.Workout.SetMinutes;
+import design.View.Workout.SetName;
 
 public class NutriappCLI {
-    Scanner scanner = new Scanner(System.in);
+    static Scanner scanner = new Scanner(System.in);
+    static HistoryController historyController = new HistoryController(new HistoryManager());
+    static WorkoutController workoutController = new WorkoutController(new WorkoutBuilder(), new WorkoutManager());
+    static SearchHistory searchHistory = new SearchHistory(scanner, historyController);
+    static SetName setName = new SetName(workoutController, scanner);
+    static SetIntensity setIntensity = new SetIntensity(workoutController, scanner);
+    static SetMinutes setMinutes = new SetMinutes(workoutController, scanner);
+    static CreateWorkout createWorkout = new CreateWorkout(workoutController, historyController);
     FoodManager foodManager;
 
     public NutriappCLI() throws IOException {
@@ -79,14 +95,18 @@ public class NutriappCLI {
             // call prepare meal concrete command
             // offer user a list of meals to prepare
         }
-        if (request.equals("shopping list")) {
+        if (request.equals("shopping list")) { 
             // call recommended shopping list concrete command
         }
-        if (request.equals("workout")) {
-            // call log workout concrete command
+        if (request.equals("workout")) { 
+            setName.execute();
+            setIntensity.execute();
+            setMinutes.execute();
+            createWorkout.execute();
+
         }
         if (request.equals("history")) {
-            // prompt user for a specific date and display history for that date
+            // prompt user for a specific date and display history for that date-time (yyyy-mm-dd HH:mm)
             searchHistory.execute();
         }
 
