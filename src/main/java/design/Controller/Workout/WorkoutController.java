@@ -10,9 +10,9 @@ public class WorkoutController {
     private WorkoutBuilder workoutBuilder;
     private WorkoutManager workoutManager;
 
-    public WorkoutController(WorkoutBuilder workoutBuilder, WorkoutController workoutController) {
+    public WorkoutController(WorkoutBuilder workoutBuilder, WorkoutManager workoutManager) {
         this.workoutBuilder = workoutBuilder;
-        this.workoutManager = workoutController.workoutManager;
+        this.workoutManager = workoutManager;
     }
 
     public Workout createWorkout() {
