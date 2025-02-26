@@ -15,7 +15,7 @@ public class IngredientDatabase {
         CSVReader csvreader = new CSVReader(reader,',','"',1);
         List<String[]> ingredientData = csvreader.readAll();
         for (String[] ingredient : ingredientData){
-            ingredients.add(new Ingredient(ingredient[1], Integer.parseInt(ingredient[3]), Integer.parseInt(ingredient[4]), Integer.parseInt(ingredient[5]), Integer.parseInt(ingredient[7]), Integer.parseInt(ingredient[8])));
+            ingredients.add(new Ingredient(ingredient[1], Integer.parseInt(ingredient[3]), Double.parseDouble(ingredient[4]), Double.parseDouble(ingredient[5]), Double.parseDouble(ingredient[7]), Double.parseDouble(ingredient[8])));
         }
         csvreader.close();
     }
