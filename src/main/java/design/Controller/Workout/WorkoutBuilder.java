@@ -38,6 +38,7 @@ public class WorkoutBuilder {
 
     public Workout createWorkout() {
         // Make call to Goal subsystem so workout can be added to daily calories
+        setDateTime();
         return new Workout(minutes, intensity, date, name);
     }
 }

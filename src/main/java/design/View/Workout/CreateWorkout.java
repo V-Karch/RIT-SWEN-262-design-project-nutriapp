@@ -3,23 +3,24 @@ package design.View.Workout;
 import design.View.Action;
 import design.Controller.History.HistoryController;
 import design.Controller.Workout.WorkoutBuilder;
+import design.Controller.Workout.WorkoutController;
 import design.Model.Workout.Workout;
 
 public class CreateWorkout implements Action {
-    private WorkoutBuilder workoutBuilder;
+    private WorkoutController workoutController;
     private HistoryController historyController;
 
-    public CreateWorkout(WorkoutBuilder workoutBuilder,HistoryController historyController) {
-        this.workoutBuilder = workoutBuilder;
+    public CreateWorkout(WorkoutController workoutController,HistoryController historyController) {
+        this.workoutController = workoutController;
         this.historyController = historyController;
     }
 
     @Override
     public void execute() {
-        Workout workout = this.workoutBuilder.createWorkout(); 
+        Workout newWorkout = this.workoutController.createWorkout(); 
         
-        // need to log the workout in history
-        this.historyController.logWorkout(workout); 
+        //log the new workout in history
+        this.historyController.logWorkout(newWorkout); 
     }
 
 }
