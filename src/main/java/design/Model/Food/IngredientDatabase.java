@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVReader;
+import java.util.ArrayList;
 
 
 public class IngredientDatabase {
     private List<Ingredient> ingredients;
+    
 
     public IngredientDatabase(String file) throws IOException{
         FileReader reader = new FileReader(file);
