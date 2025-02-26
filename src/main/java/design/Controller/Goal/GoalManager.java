@@ -45,4 +45,20 @@ public class GoalManager {
     }
     return currentCalories;
   }
+
+  public int getDailyCalories() {
+    return goal.getDailyCalories();
+  }
+
+  public boolean getPhysicalFitness() {
+    return goal.getPhysicalFitness();
+  }
+
+  public void setPhysicalFitness(boolean doesFitness) {
+    goal.setPhysicalFitness(doesFitness);
+  }
+
+  public User getUser() {
+    return goal.getUser();
+  }
 }

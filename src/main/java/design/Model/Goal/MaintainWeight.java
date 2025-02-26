@@ -53,4 +53,24 @@ public class MaintainWeight implements Goal {
       user.setGoal(new LoseWeight(user, physicalFitness, dailyCalories));
     }
   }
+
+  @Override
+  public int getDailyCalories() {
+    return dailyCalories;
+  }
+
+  @Override
+  public boolean getPhysicalFitness() {
+    return physicalFitness;
+  }
+
+  @Override
+  public void setPhysicalFitness(boolean doesFitness) {
+    physicalFitness = doesFitness;
+  }
+
+	@Override
+	public User getUser() {
+    return user;
+  }
 }
