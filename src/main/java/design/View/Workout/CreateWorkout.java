@@ -2,9 +2,9 @@ package design.View.Workout;
 
 import design.View.Action;
 import design.Controller.History.HistoryController;
-import design.Controller.Workout.WorkoutBuilder;
 import design.Controller.Workout.WorkoutController;
 import design.Model.Workout.Workout;
+import design.Model.Workout.WorkoutBuilder;
 
 public class CreateWorkout implements Action {
     private WorkoutController workoutController;

@@ -1,10 +1,7 @@
-package design.Controller.Workout;
+package design.Model.Workout;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
-import design.Model.Workout.Intensity;
-import design.Model.Workout.Workout;
 
 public class WorkoutBuilder {
     private String date;

@@ -2,6 +2,8 @@ package design.Controller.Workout;
 
 import design.Model.Workout.Intensity;
 import design.Model.Workout.Workout;
+import design.Model.Workout.WorkoutBuilder;
+import design.Model.Workout.WorkoutManager;
 
 
 public class WorkoutController {
@@ -19,7 +21,7 @@ public class WorkoutController {
         return workout;
     }
 
-    public Workout recommendWorkout(int calories) {
+    public Workout recommendWorkout(int calories) { // needs a View Command
         return this.workoutManager.recommendWorkout(calories);
     }
 
@@ -35,8 +37,8 @@ public class WorkoutController {
         this.workoutBuilder.setIntensity(intensity);
     }  
 
-    public void setName(String name) {
-        this.workoutBuilder.setName(name);
+    public void setName(String name) { //needs a View Command
+        this.workoutBuilder.setName(name); 
     }
 
     public void setDateTime() {
