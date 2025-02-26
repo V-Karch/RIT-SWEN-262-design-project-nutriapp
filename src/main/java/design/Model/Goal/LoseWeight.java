@@ -53,7 +53,22 @@ public class LoseWeight implements Goal {
   }
 
   @Override
-    public void setPhysicalFitness() {
-      physicalFitness = true;
-    }
+  public int getDailyCalories() {
+    return dailyCalories;
+  }
+
+  @Override
+  public boolean getPhysicalFitness() {
+    return physicalFitness;
+  }
+
+  @Override
+  public void setPhysicalFitness(boolean doesFitness) {
+    physicalFitness = doesFitness;
+  }
+
+	@Override
+	public User getUser() {
+    return user;
+  }
 }
