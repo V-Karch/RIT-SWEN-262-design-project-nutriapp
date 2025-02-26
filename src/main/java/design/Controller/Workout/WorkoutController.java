@@ -1,6 +1,5 @@
 package design.Controller.Workout;
 
-import design.Controller.History.HistoryController;
 import design.Model.Workout.Intensity;
 import design.Model.Workout.Workout;
 
@@ -8,18 +7,16 @@ import design.Model.Workout.Workout;
 public class WorkoutController {
     private WorkoutBuilder workoutBuilder;
     private WorkoutManager workoutManager;
-    private HistoryController historyController;
 
-    public WorkoutController(WorkoutBuilder workoutBuilder, WorkoutController workoutController, HistoryController historyController) {
+    public WorkoutController(WorkoutBuilder workoutBuilder, WorkoutController workoutController) {
         this.workoutBuilder = workoutBuilder;
         this.workoutManager = workoutController.workoutManager;
-        this.historyController = historyController;
     }
 
-    public void createWorkout() {
+    public Workout createWorkout() {
         Workout workout = this.workoutBuilder.createWorkout();
         this.workoutManager.addWorkout(workout);
-        this.historyController.logWorkout(workout);
+        return workout;
     }
 
     public Workout recommendWorkout(int calories) {

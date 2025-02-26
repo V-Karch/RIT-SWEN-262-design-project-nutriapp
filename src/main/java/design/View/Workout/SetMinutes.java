@@ -4,15 +4,16 @@ import design.View.Action;
 
 import java.util.Scanner;
 
-import design.Controller.Workout.WorkoutBuilder;
+
+import design.Controller.Workout.WorkoutController;
 
 public class SetMinutes implements Action {
 
-    private WorkoutBuilder workoutBuilder;
+    private WorkoutController workoutController;
     private Scanner scanner;
 
-    public SetMinutes(WorkoutBuilder workoutBuilder, Scanner scanner) {
-        this.workoutBuilder = workoutBuilder;
+    public SetMinutes(WorkoutController workoutController, Scanner scanner) {
+        this.workoutController = workoutController;
         this.scanner = scanner;
     }
 
@@ -25,7 +26,7 @@ public class SetMinutes implements Action {
             int value = Integer.parseInt(line);
             value = value < 0 ? 0 : value; // Ensure value is >= 0
             
-            this.workoutBuilder.setMinutes(value);
+            this.workoutController.setMinutes(value);
         } catch (NumberFormatException e) {
             System.out.println("Your input was not an integer. >:(");
         }
