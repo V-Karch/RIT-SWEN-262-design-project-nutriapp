@@ -4,7 +4,11 @@ import java.util.Scanner;
 
 import design.Controller.History.HistoryController;
 import design.Controller.User.UserBuilder;
+import design.Controller.Workout.WorkoutController;
 import design.Model.History.HistoryManager;
+import design.Model.Workout.Workout;
+import design.Model.Workout.WorkoutBuilder;
+import design.Model.Workout.WorkoutManager;
 import design.View.History.SearchHistory;
 import design.View.User.AddBirthdate;
 import design.View.User.AddHeight;
@@ -16,6 +20,7 @@ public class NutriappCLI {
     static Scanner scanner = new Scanner(System.in);
     static HistoryController historyController = new HistoryController(new HistoryManager());
     static SearchHistory searchHistory = new SearchHistory(scanner, historyController);
+    static WorkoutController workoutController = new WorkoutController(new WorkoutBuilder(), new WorkoutManager());
 
     public NutriappCLI() {
         
@@ -52,10 +57,10 @@ public class NutriappCLI {
             // call prepare meal concrete command
             // offer user a list of meals to prepare
         }
-        if (request.equals("shopping list")) {
+        if (request.equals("shopping list")) { 
             // call recommended shopping list concrete command
         }
-        if (request.equals("workout")) {
+        if (request.equals("workout")) { //TODO: figure out cli stuff for workout
             // call log workout concrete command
         }
         if (request.equals("history")) {
