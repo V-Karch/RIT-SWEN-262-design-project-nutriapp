@@ -1,12 +1,9 @@
-package design.Controller.Workout;
+package design.Model.Workout;
 
 import java.util.Map;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
-
-import design.Model.Workout.Intensity;
-import design.Model.Workout.Workout;
 
 public class WorkoutManager {
     private Map<String, Workout> workouts;
