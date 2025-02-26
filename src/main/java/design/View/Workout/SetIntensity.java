@@ -4,14 +4,15 @@ import java.util.Scanner;
 import design.View.Action;
 import design.Model.Workout.Intensity;
 import design.Controller.Workout.WorkoutBuilder;
+import design.Controller.Workout.WorkoutController;
 
 public class SetIntensity implements Action {
 
-    private WorkoutBuilder workoutBuilder;
+    private WorkoutController workoutController;
     private Scanner scanner;
 
-    public SetIntensity(WorkoutBuilder workoutBuilder, Scanner scanner) {
-        this.workoutBuilder = workoutBuilder;
+    public SetIntensity(WorkoutController workoutController, Scanner scanner) {
+        this.workoutController = workoutController;
         this.scanner = scanner;
     }
 
@@ -29,7 +30,7 @@ public class SetIntensity implements Action {
             intensity = Intensity.LOW;
         }
 
-        this.workoutBuilder.setIntensity(intensity);
+        this.workoutController.setIntensity(intensity);
         
     }
 
