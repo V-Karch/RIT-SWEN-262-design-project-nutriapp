@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import design.Controller.Food.FoodManager;
 import design.Model.Food.Meal;
+import design.Model.Goal.Goal;
 import design.View.Action;
 
 public class PrepareMeal implements Action{
@@ -12,10 +13,12 @@ public class PrepareMeal implements Action{
     private Scanner input;
     private List<Meal> Meals;
     private Meal meal;
+    private Goal goal;
     private List<String> instructions;
 
-    public PrepareMeal(FoodManager foodManager, Scanner input){
+    public PrepareMeal(FoodManager foodManager, Goal goal, Scanner input){
         this.foodManager = foodManager;
+        this.goal = goal;
         this.input = input;
 
         Meals = foodManager.getAllMeals();
@@ -59,7 +62,7 @@ public class PrepareMeal implements Action{
             choice = input.nextLine();
             if(choice.equals("1")){
                 meal.prepareMeal();
-                //do we need to deduct calories here or in goal or in history?
+                goal.addDailyCalories(meal.getCalories());
             }
 
         }
