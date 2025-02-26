@@ -75,7 +75,7 @@ public class NutriappCLI {
 
         }
         if (request.equals("history")) {
-            // prompt user for a specific date and display history for that date
+            // prompt user for a specific date and display history for that date-time (yyyy-mm-dd HH:mm)
             searchHistory.execute();
         }
         if (request.equals("help")) {

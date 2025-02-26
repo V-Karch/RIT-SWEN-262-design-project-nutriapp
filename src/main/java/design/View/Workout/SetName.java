@@ -3,7 +3,6 @@ package design.View.Workout;
 import design.View.Action;
 
 import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
 
 import design.Controller.Workout.WorkoutController;
 
