@@ -22,6 +22,9 @@ public class AddWeight implements Action {
             String weight = input.nextLine();
             float weightNum = Float.parseFloat(weight);
             this.userBuilder.setWeight(weightNum);
+            //log weight in history
+            //this.historyController.logWeight(weightNum);
+
         } catch (Exception e) {
             System.out.println("Invalid weight");
         }
