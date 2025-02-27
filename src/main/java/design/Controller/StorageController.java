@@ -6,6 +6,7 @@ import design.Controller.User.UserBuilder;
 import design.Model.Goal.Goal;
 import design.Model.History.HistoryManager;
 import design.Model.UserSS.User;
+import design.Storage;
 
 
 public class StorageController {
@@ -13,13 +14,19 @@ public class StorageController {
     Goal goal;
     HistoryManager historyManager;
 
-    public StorageController(UserBuilder userBuilder, HistoryController historyController) {
-        this.user = userBuilder.getUser();
-        this.goal = user.currentGoal;
-        this.historyManager = historyController.getHistoryManager();
+    public StorageController() {}
+
+    public void store(UserBuilder userBuilder, HistoryController historyController) {
+        Storage.addUser(userBuilder.getUser());
     }
 
-    public void store() {
-        Storage.addUser(user);
+    public Boolean checkUser(String name) {
+        //true if user exists, false if user doesn't
+        return Storage.getUserByName(name) != null;
+    }
+
+    public User getUser(String name) {
+        //true if user exists, false if user doesn't
+        return Storage.getUserByName(name);
     }
 }
