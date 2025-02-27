@@ -17,11 +17,7 @@ public class IngredientDatabase {
         this.ingredients = new ArrayList<Ingredient>();
         List<String[]> ingredientData = csvreader.readAll();
         for (String[] ingredient : ingredientData) {
-            try {
-                this.ingredients.add(new Ingredient(ingredient[1], Integer.parseInt(ingredient[3]), Double.parseDouble(ingredient[4]), Double.parseDouble(ingredient[5]), Double.parseDouble(ingredient[7]), Double.parseDouble(ingredient[8])));
-            } finally {
-                this.ingredients.add(new Ingredient(ingredient[1], Integer.parseInt(ingredient[3]), Double.parseDouble(ingredient[4]), Double.parseDouble(ingredient[5]), Double.parseDouble(ingredient[7])));
-            }
+                this.ingredients.add(new Ingredient(ingredient[1], ensureInt(ingredient[3]), ensureDouble(ingredient[4]), ensureDouble(ingredient[5]), ensureDouble(ingredient[7]), ensureDouble(ingredient[8])));
         }
         csvreader.close();
     }
