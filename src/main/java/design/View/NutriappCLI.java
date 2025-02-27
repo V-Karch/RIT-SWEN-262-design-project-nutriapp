@@ -48,6 +48,7 @@ public class NutriappCLI {
     static CreateWorkout createWorkout = new CreateWorkout(workoutController, historyController);
     static UserBuilder userBuilder = new UserBuilder();
     static StorageController storageController = new StorageController();
+    Boolean existingUser;
 
     FoodManager foodManager;
     GoalManager goalManager;
@@ -173,8 +174,10 @@ public class NutriappCLI {
             return state;
         }
         if (request.equals("close")) {
-            storageController.store(userBuilder, historyController);
-            System.out.println("User profile stored!");
+            if (this.existingUser == false){
+                storageController.store(userBuilder, historyController);
+                System.out.println("User profile stored!");
+            }
             state = true;
         }
         if (request.equals("skip")) {
@@ -219,12 +222,13 @@ public class NutriappCLI {
             //goal itself should have target weight and physical fitness boolean
             //which should address the startup concerns and any functionality should be fine going forward if i understand this right
             System.out.println("\nHi " + userBuilder.getName() + "!");
-
+            this.existingUser = true;
         } else {
             height.execute();
             weight.execute();
             birthdate.execute();
             buildUser.execute();
+            this.existingUser = false;
 
             // now that user has been created, goal subsystem can be created bc user is a
             // dependency
@@ -244,8 +248,10 @@ public class NutriappCLI {
             String input = scanner.nextLine();
             input = input.toLowerCase();
             if (input.equals("close")) {
-                storageController.store(userBuilder, historyController);
-                System.out.println("User profile stored!");
+                if (this.existingUser == false){
+                    storageController.store(userBuilder, historyController);
+                    System.out.println("User profile stored!");
+                }
                 System.out.println("Bye!");
                 break;
             } else {
