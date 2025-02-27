@@ -12,17 +12,41 @@ public class StockIngredient implements Action{
     private int amount;
     private Scanner input;
 
-    public StockIngredient(FoodManager foodManager, String ingredient, int amount) throws Exception
+
+    public StockIngredient(FoodManager foodManager, Scanner input)
     {
         this.foodManager = foodManager;
-        Ingredient ingredient_Obj = foodManager.getIngredient(ingredient);
-        this.ingredient = ingredient_Obj;
-        this.amount = amount;
         this.input = input;
     }
 
 
     public void execute(){
+        System.out.println("Which ingredient would you like to stock?");
+        String choice = input.nextLine();
+            try{
+                ingredient = foodManager.getIngredient(choice);
+            }
+            catch(Exception e){
+                System.out.println(e.getMessage());
+                return;
+            }
+
+            System.out.println("How many grams would you like to stock?");
+            choice = input.nextLine();
+            try{
+                amount = Integer.parseInt(choice);
+            }
+            catch(Exception e){
+                System.out.println("Invalid amount.");
+                return;
+            }
+
+            if(amount <= 0){
+                System.out.println("Amount out of range.");
+                return;
+            }
+
         foodManager.updateStock(ingredient, amount);
+        System.out.println("Stock updated!");
     }
 }

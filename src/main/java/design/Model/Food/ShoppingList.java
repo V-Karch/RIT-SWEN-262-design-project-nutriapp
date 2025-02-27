@@ -5,9 +5,9 @@ import java.util.List;
 
 public class ShoppingList {
     private String name;
-    private List<Food> ingredients;
+    private List<Ingredient> ingredients;
 
-    public ShoppingList(List<Food> ingredients, String name){
+    public ShoppingList(List<Ingredient> ingredients, String name){
         this.ingredients = ingredients;
         this.name = name;
     }
