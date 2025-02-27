@@ -182,20 +182,22 @@ public class Storage {
     }
 
     public static void main(String args[]) {
-        if (!(new File("application.db").isFile())) {
-            createNewDatabase("application.db");
-            setupTables();
+        if (!(new File("application.db").isFile())) { // Check if database file exists
+            createNewDatabase("application.db"); // make database file
+            setupTables(); // setup database tables
 
             User input = new User("Luna", 160, 200, "02-14-2005");
             LoseWeight goal = new LoseWeight(input, true, 2000);
             input.setGoal(goal);
             input.updateTargetWeight(160);
 
-            addUser(input);
+            // Sample data with user and goal + target weight set ^^
+
+            addUser(input); // add user to database
         }
 
-        User output = Storage.getUserByName("Luna");
-        System.out.println(output.getName());
+        User output = Storage.getUserByName("Luna"); // get user by name
+        System.out.println(output.getName()); // display user data
         System.out.println(output.getAge());
         System.out.println(output.getHeight());
         System.out.println(output.getBirthdate());
