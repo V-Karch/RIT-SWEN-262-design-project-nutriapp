@@ -159,7 +159,7 @@ public class NutriappCLI {
         UserBuilder userBuilder = new UserBuilder();
         AddName name = new AddName(userBuilder, scanner);
         AddHeight height = new AddHeight(userBuilder, scanner);
-        AddWeight weight = new AddWeight(userBuilder, scanner);
+        AddWeight weight = new AddWeight(userBuilder, scanner,historyController);
         AddBirthdate birthdate = new AddBirthdate(userBuilder, scanner);
         BuildUser buildUser = new BuildUser(userBuilder);
         
