@@ -1,5 +1,6 @@
 package design.Controller;
 
+import design.Storage;
 import design.Controller.History.HistoryController;
 import design.Controller.User.UserBuilder;
 import design.Model.Goal.Goal;
@@ -19,6 +20,6 @@ public class StorageController {
     }
 
     public void store() {
-        //do a thing!
+        Storage.addUser(user);
     }
 }
