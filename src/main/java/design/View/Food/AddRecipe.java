@@ -14,10 +14,8 @@ public class AddRecipe implements Action {
     private Meal meal;
     private Scanner input;
 
-
     public AddRecipe(FoodManager foodManager, Scanner input) {
         this.foodManager = foodManager;
-
         this.input = input;
     }
 

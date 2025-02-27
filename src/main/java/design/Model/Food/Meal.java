@@ -27,8 +27,8 @@ public class Meal implements Food{
     }
 
     @Override
-    public Integer getFat() {
-        Integer fat = 0;
+    public Double getFat() {
+        Double fat = 0.0;
         for (Recipe recipe : recipes){
             fat += recipe.getFat();
         }
@@ -36,8 +36,8 @@ public class Meal implements Food{
     }
 
     @Override
-    public Integer getProtein() {
-        Integer protein = 0;
+    public Double getProtein() {
+        Double protein = 0.0;
         for (Recipe recipe : recipes){
             protein += recipe.getProtein();
         }
@@ -45,8 +45,8 @@ public class Meal implements Food{
     }
 
     @Override
-    public Integer getFiber() {
-        Integer fiber = 0;
+    public Double getFiber() {
+        Double fiber = 0.0;
         for (Recipe recipe : recipes){
             fiber += recipe.getFiber();
         }
@@ -54,8 +54,8 @@ public class Meal implements Food{
     }
 
     @Override
-    public Integer getCarbs() {
-        Integer carbs = 0;
+    public Double getCarbs() {
+        Double carbs = 0.0;
         for (Recipe recipe : recipes){
             carbs += recipe.getCarbs();
         }
@@ -87,6 +87,5 @@ public class Meal implements Food{
     public String toString() {
         return "Meal[Name: " + name + ", Calories: " + getCalories() + ", Fat: " + getFat() + 
             ", Protein: " + getProtein() + ", Fiber: " + getFiber() + ", Carbs: " + getCarbs() + "]";
-
     }
 }

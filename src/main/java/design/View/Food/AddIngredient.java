@@ -1,10 +1,7 @@
 package design.View.Food;
 
-
 import java.util.List;
 import java.util.Scanner;
-
-
 
 import design.Controller.Food.FoodManager;
 import design.Model.Food.Ingredient;
@@ -16,7 +13,6 @@ public class AddIngredient {
     private Recipe recipe;
     private int quantity;
     private Scanner input;
-
 
     public AddIngredient(FoodManager foodManager, Ingredient ingredient, int quantity, Scanner input)
     {

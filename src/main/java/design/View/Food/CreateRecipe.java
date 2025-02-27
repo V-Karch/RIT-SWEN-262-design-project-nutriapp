@@ -12,11 +12,9 @@ public class CreateRecipe implements Action{
     private String[] cookInstructions;
     private Scanner input;
 
-
     public CreateRecipe(FoodManager foodManager, Scanner input)
     {
         this.foodManager = foodManager;
-
         this.input = input;
     }
 

@@ -40,29 +40,29 @@ public class Recipe implements Food{
         }
         return calories;
     }
-    public Integer getFat(){
-        Integer fat = 0;
+    public Double getFat(){
+        Double fat = 0.0;
         for (Ingredient ingredient : ingredients.keySet()){
             fat += ingredient.getFat();
         }
         return fat;
     }
-    public Integer getCarbs(){
-        Integer carbs = 0;
+    public Double getCarbs(){
+        Double carbs = 0.0;
         for (Ingredient ingredient : ingredients.keySet()){
             carbs += ingredient.getCarbs();
         }
         return carbs;
     }
-    public Integer getProtein(){
-        Integer protein = 0;
+    public Double getProtein(){
+        Double protein = 0.0;
         for (Ingredient ingredient : ingredients.keySet()){
             protein += ingredient.getProtein();
         }
         return protein;
     }
-    public Integer getFiber(){
-        Integer fiber = 0;
+    public Double getFiber(){
+        Double fiber = 0.0;
         for (Ingredient ingredient : ingredients.keySet()){
             fiber += ingredient.getFiber();
         }

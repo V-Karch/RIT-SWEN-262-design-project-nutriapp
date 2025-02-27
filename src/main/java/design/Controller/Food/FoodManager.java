@@ -22,6 +22,7 @@ public class FoodManager {
         Recipes = new ArrayList<Recipe>();
         Meals = new ArrayList<Meal>();
         ShoppingLists = new ArrayList<ShoppingList>();
+
         Stock = Ingredients.getIngredients();
     }
 

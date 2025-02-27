@@ -1,15 +1,15 @@
 package design.Model.Food;
 
 public class Ingredient implements Food {
-    private Integer protein;
-    private Integer carbs;
-    private Integer fiber;
+    private Double protein;
+    private Double carbs;
+    private Double fiber;
     private Integer calories;
-    private Integer fat;
+    private Double fat;
     private Integer stock;
     private String name;
     
-    public Ingredient(String name, Integer calories, Integer protein, Integer carbs, Integer fat, Integer fiber) {
+    public Ingredient(String name, Integer calories, Double protein, Double carbs, Double fat, Double fiber) {
         this.protein = protein;
         this.carbs = carbs;
         this.fiber = fiber;
@@ -20,19 +20,26 @@ public class Ingredient implements Food {
     public Ingredient() {
         //TODO Auto-generated constructor stub
     }
-    public Integer getProtein() {
+    public Ingredient(String name, Integer calories, Double protein, Double carbs, Double fat) {
+        this.protein = protein;
+        this.carbs = carbs;
+        this.calories = calories;
+        this.fat = fat;
+        this.name = name;
+    }
+    public Double getProtein() {
         return protein;
     }
-    public Integer getCarbs() {
+    public Double getCarbs() {
         return carbs;
     }
-    public Integer getFiber() {
+    public Double getFiber() {
         return fiber;
     }
     public Integer getCalories() {
         return calories;
     }
-    public Integer getFat() {
+    public Double getFat() {
         return fat;
     }
     public Integer getStock() {

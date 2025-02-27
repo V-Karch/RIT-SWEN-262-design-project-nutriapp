@@ -1,5 +1,6 @@
 package design.View.Food;
 
+import java.util.List;
 import java.util.Scanner;
 
 import design.Controller.Food.FoodManager;
@@ -12,7 +13,6 @@ public class StockIngredient implements Action{
     private int amount;
     private Scanner input;
 
-
     public StockIngredient(FoodManager foodManager, Scanner input)
     {
         this.foodManager = foodManager;
@@ -20,7 +20,7 @@ public class StockIngredient implements Action{
     }
 
 
-    public void execute(){
+    public void execute() {
         System.out.println("Which ingredient would you like to stock?");
         String choice = input.nextLine();
             try{

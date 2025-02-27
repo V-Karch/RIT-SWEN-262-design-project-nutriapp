@@ -11,13 +11,18 @@ public class GoalManager {
   private User user;
   private Goal goal;
 
-  public GoalManager(User user, Goal goal) {
+  public GoalManager(User user) {
     this.user = user;
-    this.goal = goal;
+    this.goal = user.getGoal();
   }
 
   public void setGoal(Goal goal) {
+    this.goal = goal;
     user.setGoal(goal);
+  }
+
+  public void setPhysicalFitness() {
+    goal.setPhysicalFitness();
   }
 
   public void setTargetWeight(double weight) {

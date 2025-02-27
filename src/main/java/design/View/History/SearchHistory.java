@@ -15,6 +15,7 @@ public class SearchHistory implements Action{
     
     private Scanner input;
     private HistoryController historyController;
+    //private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 
     public SearchHistory(Scanner input, HistoryController historyController) {

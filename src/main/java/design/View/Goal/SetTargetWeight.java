@@ -18,11 +18,12 @@ public class SetTargetWeight implements Action {
   public void execute() {
     System.out.println("Enter target weight:");
     try {
-      double weight = scanner.nextDouble();
+      String weight_S = scanner.nextLine();
+      Double weight = Double.parseDouble(weight_S);
       this.goalManager.setTargetWeight(weight);
       System.out.println("Target weight updated.");
     }
-    catch(Exception e) {
+      catch(Exception e) {
       System.out.println("Invalid weight");
     }
   }

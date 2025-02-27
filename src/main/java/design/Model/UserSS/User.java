@@ -1,9 +1,11 @@
 package design.Model.UserSS;
 
-import java.time.Period;
 import java.time.LocalDate;
-import design.Model.Goal.Goal;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
+
+import design.Model.Goal.Goal;
+import design.Model.Goal.MaintainWeight;
 
 public class User {
     // user attributes
@@ -15,7 +17,7 @@ public class User {
     // goal attributes
     private double currentWeight;
     private double targetWeight;
-    private Goal currentGoal;
+    public Goal currentGoal;
 
     public User(String name, float height, float weight, String birthdate) {
         this.name = name;
@@ -29,6 +31,8 @@ public class User {
         LocalDate currentDate = LocalDate.now();
         Period period = Period.between(birthDate, currentDate);
         this.age = period.getYears();
+
+        this.currentGoal = new MaintainWeight(this, false, 0);
     }
 
     public String getName() {
@@ -57,6 +61,10 @@ public class User {
 
     public void setGoal(Goal goal) {
         this.currentGoal = goal;
+    }
+
+    public Goal getGoal(){
+        return this.currentGoal;
     }
 
     public void updateCurrentWeight(double weight) {

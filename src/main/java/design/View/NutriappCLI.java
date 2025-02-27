@@ -1,10 +1,10 @@
 package design.View;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Scanner;
 
 import design.Controller.Food.FoodManager;
+import design.Controller.Goal.GoalManager;
 import design.Controller.History.HistoryController;
 import design.Controller.User.UserBuilder;
 import design.Controller.Workout.WorkoutController;
@@ -14,6 +14,18 @@ import design.Model.Workout.WorkoutManager;
 import design.View.History.LogTodaysActivity;
 import design.View.History.SearchHistory;
 import design.View.Food.StockIngredient;
+import design.View.Goal.SetPhysicalFitness;
+import design.View.Goal.SetTargetWeight;
+import design.Controller.History.HistoryController;
+import design.Controller.User.UserBuilder;
+import design.Controller.Workout.WorkoutController;
+import design.Model.History.HistoryManager;
+import design.Model.Workout.WorkoutBuilder;
+import design.Model.Workout.WorkoutManager;
+import design.View.History.SearchHistory;
+import design.View.Food.StockIngredient;
+import design.View.Goal.SetPhysicalFitness;
+import design.View.Goal.SetTargetWeight;
 import design.View.User.AddBirthdate;
 import design.View.User.AddHeight;
 import design.View.User.AddName;
@@ -34,6 +46,7 @@ public class NutriappCLI {
     static SetIntensity setIntensity = new SetIntensity(workoutController, scanner);
     static SetMinutes setMinutes = new SetMinutes(workoutController, scanner);
     static CreateWorkout createWorkout = new CreateWorkout(workoutController, historyController);
+
     FoodManager foodManager;
 
     public NutriappCLI() throws IOException {
@@ -44,7 +57,6 @@ public class NutriappCLI {
     public static void main (String[] args) throws IOException, Exception {
         NutriappCLI nutriapp = new NutriappCLI ();
         nutriapp.run (args);
-        
     }
 
     public void promptUser() {
@@ -67,26 +79,7 @@ public class NutriappCLI {
         String request = input.toLowerCase();
         String ingredient;
         if (request.equals("stock")) {
-            System.out.println("What ingredient would you like to stock? Type 'Options' to get ingredient options.");
-            String response = scanner.nextLine();
-            response = response.toLowerCase();
-            if (response.equals("options")) {
-                List<String> ingredients = this.foodManager.getIngredients();
-                for (String i : ingredients){
-                    System.out.println(i);
-                }
-                System.out.println("What ingredient would you like to stock?");
-                ingredient = scanner.nextLine();
-            } else {
-                ingredient = response;
-            }
-
-            System.out.println("How much stock would you like to add?");
-            String amount_S = scanner.nextLine();
-            int amount = Integer.parseInt(amount_S);
-
-            StockIngredient stockIngredient = new StockIngredient(this.foodManager,scanner);
-            System.out.println("Successfully stocked!");
+            StockIngredient stockIngredient = new StockIngredient(this.foodManager, scanner);
         }
         if (request.equals("recipe")) {
             // call create recipe concrete command
@@ -112,21 +105,12 @@ public class NutriappCLI {
         if (request.equals("history")) {
             // prompt user for a specific date and display history for that date-time (yyyy-mm-dd HH:mm)
             searchHistory.execute();
-        }
 
         //Goal requests 
         if(request.equals("set target weight")) {
             // call set target weight
         }
-        if(request.equals("set daily weight")) {
-            // call set daily weight
-        }
-        if(request.equals("add calories")) {
-            // call add calories
-        }
-        if(request.equals("remove calories")) {
-            // call remove calories
-        }
+
         if(request.equals("get target calories")) {
             // call get target calories
         } 
@@ -164,6 +148,7 @@ public class NutriappCLI {
         AddBirthdate birthdate = new AddBirthdate(userBuilder, scanner);
         BuildUser buildUser = new BuildUser(userBuilder);
         
+        
 
         // startup
         System.out.println("\nWelcome to Nutriapp. Tell us a little more about yourself!");
@@ -171,14 +156,18 @@ public class NutriappCLI {
         height.execute();
         weight.execute();
         birthdate.execute();
-        try {
-            buildUser.execute();
-        } catch (Error e) {
-            System.out.println("goal hasn't been implemented yet");
-        }
+        buildUser.execute();
+
+        //now that user has been created, goal subsystem can be created bc user is a dependency
+        GoalManager goalManager = new GoalManager(userBuilder.getUser());
+        SetTargetWeight setTargetWeight = new SetTargetWeight(goalManager, scanner);
+        SetPhysicalFitness setPhysicalFitness = new SetPhysicalFitness(goalManager, scanner);
 
         System.out.println("\nHi " + userBuilder.getName() + "!");
         System.out.println("Tell us more about your fitness goals!");
+        setTargetWeight.execute();
+        setPhysicalFitness.execute();
+
         // set goal
         // determine physical fitness
         while (true) {
