@@ -14,7 +14,7 @@ public class AddIngredient {
     private int quantity;
     private Scanner input;
 
-    public AddIngredient(FoodManager foodManager, Ingredient ingredient, int quantity, Scanner input)
+    public AddIngredient(FoodManager foodManager, Scanner input)
     {
         this.foodManager = foodManager;
         this.ingredient = ingredient;
