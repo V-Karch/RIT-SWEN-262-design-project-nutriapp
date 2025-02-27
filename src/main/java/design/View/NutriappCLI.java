@@ -6,6 +6,7 @@ import java.util.Scanner;
 import design.Controller.Food.FoodManager;
 import design.Controller.Goal.GoalManager;
 import design.Controller.History.HistoryController;
+import design.Controller.StorageController;
 import design.Controller.User.UserBuilder;
 import design.Controller.Workout.WorkoutController;
 import design.Model.History.HistoryManager;
@@ -23,6 +24,8 @@ import design.View.Food.StockIngredient;
 import design.View.Food.ViewShoppingList;
 import design.View.Goal.SetPhysicalFitness;
 import design.View.Goal.SetTargetWeight;
+import design.View.History.LogTodaysActivity;
+import design.View.History.SearchHistory;
 import design.View.User.AddBirthdate;
 import design.View.User.AddHeight;
 import design.View.User.AddName;
@@ -43,6 +46,7 @@ public class NutriappCLI {
     static SetIntensity setIntensity = new SetIntensity(workoutController, scanner);
     static SetMinutes setMinutes = new SetMinutes(workoutController, scanner);
     static CreateWorkout createWorkout = new CreateWorkout(workoutController, historyController);
+    static UserBuilder userBuilder = new UserBuilder();
 
     FoodManager foodManager;
     UserBuilder userBuilder = new UserBuilder();
@@ -78,11 +82,12 @@ public class NutriappCLI {
     }
 
     public boolean parseInput(String input) throws Exception {
-        boolean state = false;
+        boolean state = true;
         String request = input.toLowerCase();
-        String ingredient;
+        System.out.println();
         if (request.equals("stock")) {
-            StockIngredient stockIngredient = new StockIngredient(foodManager, scanner);
+            StockIngredient stockIngredient = new StockIngredient(this.foodManager, scanner);
+
             stockIngredient.execute();
         }
         if (request.equals("recipe")) {
@@ -137,16 +142,20 @@ public class NutriappCLI {
             System.out.println("");
             promptUser();
             input = scanner.nextLine();
-            parseInput(input);
+            boolean response =parseInput(input);
+            state = response;
+            return state;
         }
         if (request.equals("close")) {
+            StorageController storageController = new StorageController(userBuilder, historyController);
+            storageController.store();
+            System.out.println("User profile stored!");
             state = true;
         }
         if (request.equals("skip")) {
             // skip to next day
             state = false;
         }
-
         return state;
     }
 
@@ -190,7 +199,6 @@ public class NutriappCLI {
             System.out.println("\nWhat would you like to do today?");
             System.out.println("Type 'Help' to view possible commands");
             System.out.print("$ ");
-
             String input = scanner.nextLine();
             input = input.toLowerCase();
             if (input.equals("close")) {
@@ -198,7 +206,8 @@ public class NutriappCLI {
                 break;
             } else {
                 // enables the user to do multiple things within a 24 hr period
-                boolean response = parseInput(input);
+                boolean response;
+                response = parseInput(input);
                 if (response == true) {
                     System.out.println("");
                     System.out.println("Sad to see you go!");
@@ -212,6 +221,7 @@ public class NutriappCLI {
                 System.out.println("Good Morning!");
                 weight.execute();
                 System.out.println("");
+                
             }
         }
         scanner.close();
