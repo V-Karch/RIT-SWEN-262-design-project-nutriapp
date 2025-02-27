@@ -120,12 +120,21 @@ public class NutriappCLI {
             ViewShoppingList viewShoppingList = new ViewShoppingList(foodManager, scanner);
             viewShoppingList.execute();
         }
-        if (request.equals("workout")) {
+        if (request.equals("set workout name")) {
+            SetName setName = new SetName(workoutController, scanner);
             setName.execute();
+        }
+        if (request.equals("set workout intensity")) {
+            SetIntensity setIntensity = new SetIntensity(workoutController, scanner);
             setIntensity.execute();
+        }
+        if (request.equals("set workout minutes")) {
+            SetMinutes setMinutes = new SetMinutes(workoutController, scanner);
             setMinutes.execute();
+        }
+        if (request.equals("create workout")) {
+            CreateWorkout createWorkout = new CreateWorkout(workoutController, historyController);
             createWorkout.execute();
-
         }
         if (request.equals("history")) {
             // prompt user for a specific date and display history for that date-time
