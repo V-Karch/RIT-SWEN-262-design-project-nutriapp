@@ -20,6 +20,7 @@ public class LogTodaysActivity implements Action {
     public void execute() {
         //Save the previous day's activity to history and create a new DailyActivity object for today
         this.historyController.logTodaysActivity(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))); 
+        System.out.println("Activity logged for the previous day!");
 
     }
 }
