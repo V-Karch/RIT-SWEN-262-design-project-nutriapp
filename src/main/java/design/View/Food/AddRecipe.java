@@ -5,8 +5,8 @@ import design.Model.Food.Meal;
 import design.Model.Food.Recipe;
 import design.View.Action;
 
-import java.util.List;
 import java.util.Scanner;
+import java.util.List;
 
 public class AddRecipe implements Action {
     private FoodManager foodManager;
@@ -14,8 +14,10 @@ public class AddRecipe implements Action {
     private Meal meal;
     private Scanner input;
 
+
     public AddRecipe(FoodManager foodManager, Scanner input) {
         this.foodManager = foodManager;
+
         this.input = input;
     }
 

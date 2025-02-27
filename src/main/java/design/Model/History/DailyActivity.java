@@ -2,6 +2,7 @@ package design.Model.History;
 
 import java.util.List;
 
+import design.Model.Food.Meal;
 import design.Model.Workout.Workout;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ public class DailyActivity {
     private int weight;
     private int calories_consumed;
     private int target_calories;
-    private List<String> meals;  // meals are stored as strings for now until we have a meal class
+    private List<Meal> meals;  
     private List<Workout> workouts; 
 
     
@@ -18,7 +19,7 @@ public class DailyActivity {
         this.weight = 0;
         this.calories_consumed = 0;
         this.target_calories = 0;
-        this.meals = new ArrayList<String>(); //replace with Meal here
+        this.meals = new ArrayList<Meal>(); 
         this.workouts = new ArrayList<Workout>(); 
 
         }
@@ -47,11 +48,11 @@ public class DailyActivity {
             this.target_calories = target_calories;
         }
 
-        public List<String> getMeals() { //replace with Meal here
+        public List<Meal> getMeals() { 
             return meals;
         }
 
-        public void addMeal(String new_meal) { //replace with Meal here
+        public void addMeal(Meal new_meal) { 
             this.meals.add(new_meal);
         }
 

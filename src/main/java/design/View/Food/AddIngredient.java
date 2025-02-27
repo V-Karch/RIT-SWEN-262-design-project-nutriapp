@@ -1,7 +1,10 @@
 package design.View.Food;
 
+
 import java.util.List;
 import java.util.Scanner;
+
+
 
 import design.Controller.Food.FoodManager;
 import design.Model.Food.Ingredient;
@@ -14,8 +17,12 @@ public class AddIngredient {
     private int quantity;
     private Scanner input;
 
-    public AddIngredient(FoodManager foodManager, Scanner input) {
+
+    public AddIngredient(FoodManager foodManager, Ingredient ingredient, int quantity, Scanner input)
+    {
         this.foodManager = foodManager;
+        this.ingredient = ingredient;
+        this.quantity = quantity;
         this.input = input;
     }
 

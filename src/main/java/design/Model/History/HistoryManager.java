@@ -3,7 +3,7 @@ package design.Model.History;
 import java.util.HashMap;
 
 public class HistoryManager {
-    private HashMap<String, DailyActivity> history; // date is a string here
+    private HashMap<String, DailyActivity> history; // date is a string 
     private DailyActivity todaysActivity;
    
 

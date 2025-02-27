@@ -10,7 +10,9 @@ public class CreateMeal implements Action {
     private String name;
     private Scanner input;
 
-    public CreateMeal(FoodManager foodManager, Scanner input)
+
+    public CreateMeal(FoodManager foodManager, String name, Scanner input)
+
     {
         this.foodManager = foodManager;
         this.input = input;

@@ -12,6 +12,7 @@ public class StockIngredient implements Action{
     private int amount;
     private Scanner input;
 
+
     public StockIngredient(FoodManager foodManager, Scanner input)
     {
         this.foodManager = foodManager;

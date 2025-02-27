@@ -3,33 +3,33 @@ package design.View.Workout;
 import java.util.Scanner;
 import design.View.Action;
 import design.Model.Workout.Intensity;
-import design.Controller.Workout.WorkoutBuilder;
+import design.Controller.Workout.WorkoutController;
 
 public class SetIntensity implements Action {
 
-    private WorkoutBuilder workoutBuilder;
+    private WorkoutController workoutController;
     private Scanner scanner;
 
-    public SetIntensity(WorkoutBuilder workoutBuilder, Scanner scanner) {
-        this.workoutBuilder = workoutBuilder;
+    public SetIntensity(WorkoutController workoutController, Scanner scanner) {
+        this.workoutController = workoutController;
         this.scanner = scanner;
     }
 
     @Override
     public void execute() {
-        System.out.print("Enter an intensity: ");
+        System.out.print("Enter an intensity (\'high\', \'medium\',\'low\'): ");
         String line = this.scanner.nextLine().toLowerCase();
         Intensity intensity;
 
-        if (line == "high") {
+        if (line.equals( "high")) {
             intensity = Intensity.HIGH;
-        } else if (line == "medium") {
+        } else if (line.equals( "medium")) {
             intensity = Intensity.MEDIUM;
         } else { // Defaults to low
             intensity = Intensity.LOW;
         }
 
-        this.workoutBuilder.setIntensity(intensity);
+        this.workoutController.setIntensity(intensity);
         
     }
 

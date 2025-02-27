@@ -36,8 +36,9 @@ public class FoodManager {
      * @param ingredient
      * @param quantity
      */
-    public void addIngredient(Recipe recipe, Ingredient ingredient, int quantity) {
-        recipe.addIngredient(ingredient, quantity);
+    public void addIngredient(Recipe recipe, String ingredient, int quantity) throws Exception {
+        Ingredient ingredient_Obj = getIngredient(ingredient);
+        recipe.addIngredient(ingredient_Obj, quantity);
     }
 
     public void addRecipe(Meal meal, Recipe recipe) {
@@ -88,6 +89,14 @@ public class FoodManager {
             }
         }
         throw new Exception("Could not find ingredient.");
+    }
+
+    public List<String> getIngredients(){
+        List<String> ingredients = new ArrayList<>();
+        for (Ingredient i : Stock) {
+            ingredients.add(i.getName());
+        }
+        return ingredients;
     }
 
     public String[] getMealInstructions(Meal meal) {

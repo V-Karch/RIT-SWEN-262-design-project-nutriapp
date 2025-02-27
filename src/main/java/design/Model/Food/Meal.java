@@ -6,6 +6,7 @@ import java.util.List;
 public class Meal implements Food{
     private String name;
     private List<Recipe> recipes;
+    private String[] mealInstructions;
 
     public Meal(String name){
         this.name = name;
@@ -80,5 +81,11 @@ public class Meal implements Food{
         for(Recipe r : recipes){
             r.useIngredients();
         }
+    
+    @Override
+    public String toString() {
+        return "Meal[Name: " + name + ", Calories: " + getCalories() + ", Fat: " + getFat() + 
+            ", Protein: " + getProtein() + ", Fiber: " + getFiber() + ", Carbs: " + getCarbs() + "]";
+
     }
 }
