@@ -38,6 +38,7 @@ public class NutriappCLI {
 
     public NutriappCLI() throws IOException {
        // this.foodManager = new FoodManager("src\\main\\java\\design\\ingredients.csv");
+       //this thing is breaking everything so I'm commenting it out for now -CJ
     }
     
     public static void main (String[] args) throws IOException, Exception {
