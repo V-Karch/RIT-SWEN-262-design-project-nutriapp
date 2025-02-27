@@ -21,10 +21,6 @@ public class GoalManager {
     user.setGoal(goal);
   }
 
-  public void setPhysicalFitness() {
-    goal.setPhysicalFitness();
-  }
-
   public void setTargetWeight(double weight) {
     user.updateTargetWeight(weight);
   }

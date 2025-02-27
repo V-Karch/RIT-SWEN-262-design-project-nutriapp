@@ -16,7 +16,7 @@ public class SetPhysicalFitness implements Action {
 
   @Override
   public void execute() {
-    System.out.println("Enter target weight:");
+    System.out.println("Would you like to include physical fitness? (true or false)");
     try {
       boolean doesFitness = scanner.nextBoolean();
       this.goalManager.setPhysicalFitness(doesFitness);
