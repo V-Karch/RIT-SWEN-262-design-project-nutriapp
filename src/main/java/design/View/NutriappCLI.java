@@ -16,16 +16,6 @@ import design.View.History.SearchHistory;
 import design.View.Food.StockIngredient;
 import design.View.Goal.SetPhysicalFitness;
 import design.View.Goal.SetTargetWeight;
-import design.Controller.History.HistoryController;
-import design.Controller.User.UserBuilder;
-import design.Controller.Workout.WorkoutController;
-import design.Model.History.HistoryManager;
-import design.Model.Workout.WorkoutBuilder;
-import design.Model.Workout.WorkoutManager;
-import design.View.History.SearchHistory;
-import design.View.Food.StockIngredient;
-import design.View.Goal.SetPhysicalFitness;
-import design.View.Goal.SetTargetWeight;
 import design.View.User.AddBirthdate;
 import design.View.User.AddHeight;
 import design.View.User.AddName;
@@ -50,13 +40,14 @@ public class NutriappCLI {
     FoodManager foodManager;
 
     public NutriappCLI() throws IOException {
-       // this.foodManager = new FoodManager("src\\main\\java\\design\\ingredients.csv");
-       //this thing is breaking everything so I'm commenting it out for now -CJ
+        // this.foodManager = new
+        // FoodManager("src\\main\\java\\design\\ingredients.csv");
+        // this thing is breaking everything so I'm commenting it out for now -CJ
     }
-    
-    public static void main (String[] args) throws IOException, Exception {
-        NutriappCLI nutriapp = new NutriappCLI ();
-        nutriapp.run (args);
+
+    public static void main(String[] args) throws IOException, Exception {
+        NutriappCLI nutriapp = new NutriappCLI();
+        nutriapp.run(args);
     }
 
     public void promptUser() {
@@ -92,10 +83,10 @@ public class NutriappCLI {
             // call prepare meal concrete command
             // offer user a list of meals to prepare
         }
-        if (request.equals("shopping list")) { 
+        if (request.equals("shopping list")) {
             // call recommended shopping list concrete command
         }
-        if (request.equals("workout")) { 
+        if (request.equals("workout")) {
             setName.execute();
             setIntensity.execute();
             setMinutes.execute();
@@ -103,17 +94,18 @@ public class NutriappCLI {
 
         }
         if (request.equals("history")) {
-            // prompt user for a specific date and display history for that date-time (yyyy-mm-dd HH:mm)
+            // prompt user for a specific date and display history for that date-time
+            // (yyyy-mm-dd HH:mm)
             searchHistory.execute();
-
-        //Goal requests 
-        if(request.equals("set target weight")) {
+        }
+        // Goal requests
+        if (request.equals("set target weight")) {
             // call set target weight
         }
 
-        if(request.equals("get target calories")) {
+        if (request.equals("get target calories")) {
             // call get target calories
-        } 
+        }
 
         if (request.equals("help")) {
             System.out.println("");
@@ -127,8 +119,8 @@ public class NutriappCLI {
         if (request.equals("skip")) {
             // skip to next day
             state = false;
-        } 
-        
+        }
+
         return state;
     }
 
@@ -144,11 +136,9 @@ public class NutriappCLI {
         UserBuilder userBuilder = new UserBuilder();
         AddName name = new AddName(userBuilder, scanner);
         AddHeight height = new AddHeight(userBuilder, scanner);
-        AddWeight weight = new AddWeight(userBuilder, scanner,historyController);
+        AddWeight weight = new AddWeight(userBuilder, scanner, historyController);
         AddBirthdate birthdate = new AddBirthdate(userBuilder, scanner);
         BuildUser buildUser = new BuildUser(userBuilder);
-        
-        
 
         // startup
         System.out.println("\nWelcome to Nutriapp. Tell us a little more about yourself!");
@@ -158,7 +148,8 @@ public class NutriappCLI {
         birthdate.execute();
         buildUser.execute();
 
-        //now that user has been created, goal subsystem can be created bc user is a dependency
+        // now that user has been created, goal subsystem can be created bc user is a
+        // dependency
         GoalManager goalManager = new GoalManager(userBuilder.getUser());
         SetTargetWeight setTargetWeight = new SetTargetWeight(goalManager, scanner);
         SetPhysicalFitness setPhysicalFitness = new SetPhysicalFitness(goalManager, scanner);
