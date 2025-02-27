@@ -39,8 +39,10 @@ public class NutriappCLI {
     static SetMinutes setMinutes = new SetMinutes(workoutController, scanner);
     static CreateWorkout createWorkout = new CreateWorkout(workoutController, historyController);
     static UserBuilder userBuilder = new UserBuilder();
+    static StorageController storageController = new StorageController();
 
     FoodManager foodManager;
+    GoalManager goalManager;
 
     public NutriappCLI() throws IOException {
         // this.foodManager = new
@@ -61,6 +63,8 @@ public class NutriappCLI {
         System.out.println("Type 'Shopping List' to get a list of your commonly used ingredients");
         System.out.println("Type 'Workout' to log a completed workout");
         System.out.println("Type 'History' to view your history");
+        System.out.println("Type 'Get Target Calories' to see your remaining allotted calories for the day");
+        System.out.println("Type 'Set Target Weight' to change your target weight");
         System.out.println("Type 'Skip' to skip to the next day");
         System.out.println("Type 'Close' to exit the application");
         System.out.println("Type 'Help' to view all commands");
@@ -122,8 +126,7 @@ public class NutriappCLI {
             return state;
         }
         if (request.equals("close")) {
-            StorageController storageController = new StorageController(userBuilder, historyController);
-            storageController.store();
+            storageController.store(userBuilder, historyController);
             System.out.println("User profile stored!");
             state = true;
         }
@@ -140,6 +143,10 @@ public class NutriappCLI {
         parseInput(input);
     }
 
+    public void checkUser(){
+        
+    }
+
     public void run(String[] args) throws IOException, Exception {
 
         // creating things
@@ -152,24 +159,33 @@ public class NutriappCLI {
         // startup
         System.out.println("\nWelcome to Nutriapp. Tell us a little more about yourself!");
         name.execute();
-        height.execute();
-        weight.execute();
-        birthdate.execute();
-        buildUser.execute();
+        //check to see if the user exists
+        Boolean exists = storageController.checkUser(userBuilder.getName());
+        if (exists == true){
+            userBuilder.setUser(storageController.getUser(userBuilder.getName()));
+            //sets user through userbuilder which is the primary way the program accesses user?
+            this.goalManager = new GoalManager(userBuilder.getUser());
+            //creates the goal manager based of the existing user profile, accesses goal through user
+            //goal itself should have target weight and physical fitness boolean
+            //which should address the startup concerns and any functionality should be fine going forward if i understand this right
 
-        // now that user has been created, goal subsystem can be created bc user is a
-        // dependency
-        GoalManager goalManager = new GoalManager(userBuilder.getUser());
-        SetTargetWeight setTargetWeight = new SetTargetWeight(goalManager, scanner);
-        SetPhysicalFitness setPhysicalFitness = new SetPhysicalFitness(goalManager, scanner);
+        } else {
+            height.execute();
+            weight.execute();
+            birthdate.execute();
+            buildUser.execute();
 
-        System.out.println("\nHi " + userBuilder.getName() + "!");
-        System.out.println("Tell us more about your fitness goals!");
-        setTargetWeight.execute();
-        setPhysicalFitness.execute();
+            // now that user has been created, goal subsystem can be created bc user is a
+            // dependency
+            this.goalManager = new GoalManager(userBuilder.getUser());
+            SetTargetWeight setTargetWeight = new SetTargetWeight(goalManager, scanner);
+            SetPhysicalFitness setPhysicalFitness = new SetPhysicalFitness(goalManager, scanner);
 
-        // set goal
-        // determine physical fitness
+            System.out.println("\nHi " + userBuilder.getName() + "!");
+            System.out.println("Tell us more about your fitness goals!");
+            setTargetWeight.execute();
+            setPhysicalFitness.execute();
+        }
         while (true) {
             System.out.println("\nWhat would you like to do today?");
             System.out.println("Type 'Help' to view possible commands");

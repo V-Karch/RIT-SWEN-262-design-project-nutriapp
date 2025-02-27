@@ -12,13 +12,20 @@ public class StorageController {
     Goal goal;
     HistoryManager historyManager;
 
-    public StorageController(UserBuilder userBuilder, HistoryController historyController) {
-        this.user = userBuilder.getUser();
-        this.goal = user.currentGoal;
-        this.historyManager = historyController.getHistoryManager();
+    public StorageController() {
     }
 
-    public void store() {
+    public void store(UserBuilder userBuilder, HistoryController historyController) {
         //do a thing!
+    }
+
+    public Boolean checkUser(String name) {
+        //true if user exists, false if user doesn't
+        return true;
+    }
+
+    public User getUser(String name) {
+        //true if user exists, false if user doesn't
+        return user;
     }
 }
