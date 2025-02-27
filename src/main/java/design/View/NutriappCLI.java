@@ -12,8 +12,14 @@ import design.Controller.Workout.WorkoutController;
 import design.Model.History.HistoryManager;
 import design.Model.Workout.WorkoutBuilder;
 import design.Model.Workout.WorkoutManager;
+import design.View.Food.AddIngredient;
+import design.View.Food.AddRecipe;
+import design.View.Food.CreateMeal;
 import design.View.Food.CreateRecipe;
+import design.View.Food.CreateShoppingList;
+import design.View.Food.PrepareMeal;
 import design.View.Food.StockIngredient;
+import design.View.Food.ViewShoppingList;
 import design.View.Goal.SetPhysicalFitness;
 import design.View.Goal.SetTargetWeight;
 import design.View.History.LogTodaysActivity;
@@ -45,9 +51,10 @@ public class NutriappCLI {
     GoalManager goalManager;
 
     public NutriappCLI() throws IOException {
-        // this.foodManager = new
-        // FoodManager("src\\main\\java\\design\\ingredients.csv");
-        // this thing is breaking everything so I'm commenting it out for now -CJ
+        this.foodManager = new
+        FoodManager("src\\main\\java\\design\\ingredients.csv");
+
+        userBuilder = new UserBuilder();
     }
 
     public static void main(String[] args) throws IOException, Exception {
@@ -59,8 +66,11 @@ public class NutriappCLI {
         System.out.println("Type 'Stock' to add stock to an ingredient");
         System.out.println("Type 'Recipe' to create a recipe");
         System.out.println("Type 'Create Meal' to create a meal");
+        System.out.println("Type 'Add Recipe' to add a recipe to a meal");
+        System.out.println("Type 'Add Ingredient' to add an ingredient to a recipe");
         System.out.println("Type 'Prepare Meal' to prepare a specific meal");
-        System.out.println("Type 'Shopping List' to get a list of your commonly used ingredients");
+        System.out.println("Type 'Shopping List' to create a new shopping list");
+        System.out.println("Type 'View Shopping List' to get a list of your commonly used ingredients");
         System.out.println("Type 'Workout' to log a completed workout");
         System.out.println("Type 'History' to view your history");
         System.out.println("Type 'Get Target Calories' to see your remaining allotted calories for the day");
@@ -78,23 +88,35 @@ public class NutriappCLI {
         System.out.println();
         if (request.equals("stock")) {
             StockIngredient stockIngredient = new StockIngredient(this.foodManager, scanner);
+
             stockIngredient.execute();
         }
         if (request.equals("recipe")) {
             CreateRecipe createRecipe = new CreateRecipe(this.foodManager, scanner);
             createRecipe.execute();
-
         }
         if (request.equals("create meal")) {
-            // call create meal concrete command
-
+            CreateMeal createMeal = new CreateMeal(foodManager, "", scanner);
+            createMeal.execute();
+        }
+        if (request.equals("add recipe")){
+            AddRecipe addRecipe = new AddRecipe(foodManager, scanner);
+            addRecipe.execute();
+        }
+        if (request.equals("add ingredient")){
+            AddIngredient addIngredient = new AddIngredient(foodManager, scanner);
         }
         if (request.equals("prepare meal")) {
-            // call prepare meal concrete command
-            // offer user a list of meals to prepare
+            PrepareMeal prepareMeal = new PrepareMeal(foodManager, userBuilder.getUser().getGoal(), scanner, historyController);
+            prepareMeal.execute();
         }
         if (request.equals("shopping list")) {
-            // call recommended shopping list concrete command
+            CreateShoppingList createShoppingList = new CreateShoppingList(foodManager, scanner);
+            createShoppingList.execute();
+        }
+        if(request.equals("view shopping list")){
+            ViewShoppingList viewShoppingList = new ViewShoppingList(foodManager, scanner);
+            viewShoppingList.execute();
         }
         if (request.equals("workout")) {
             setName.execute();
