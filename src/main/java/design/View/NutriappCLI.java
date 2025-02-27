@@ -7,13 +7,13 @@ import java.util.Scanner;
 import design.Controller.Food.FoodManager;
 import design.Controller.Goal.GoalManager;
 import design.Controller.History.HistoryController;
-import design.Storage;
 import design.Controller.StorageController;
 import design.Controller.User.UserBuilder;
 import design.Controller.Workout.WorkoutController;
 import design.Model.History.HistoryManager;
 import design.Model.Workout.WorkoutBuilder;
 import design.Model.Workout.WorkoutManager;
+import design.Storage;
 import design.View.Food.AddIngredient;
 import design.View.Food.AddRecipe;
 import design.View.Food.CreateMeal;
@@ -86,61 +86,75 @@ public class NutriappCLI {
     }
 
     public boolean parseInput(String input) throws Exception {
-        boolean state = true;
+        boolean state = false;
         String request = input.toLowerCase();
         System.out.println();
         if (request.equals("stock")) {
             StockIngredient stockIngredient = new StockIngredient(this.foodManager, scanner);
 
             stockIngredient.execute();
+            state = nextAction();
         }
         if (request.equals("recipe")) {
             CreateRecipe createRecipe = new CreateRecipe(this.foodManager, scanner);
             createRecipe.execute();
+            state = nextAction();
         }
         if (request.equals("create meal")) {
             CreateMeal createMeal = new CreateMeal(foodManager, "", scanner);
             createMeal.execute();
+            state = nextAction();
         }
         if (request.equals("add recipe")){
             AddRecipe addRecipe = new AddRecipe(foodManager, scanner);
             addRecipe.execute();
+            state = nextAction();
         }
         if (request.equals("add ingredient")){
             AddIngredient addIngredient = new AddIngredient(foodManager, scanner);
+            addIngredient.execute();
+            state = nextAction();
         }
         if (request.equals("prepare meal")) {
             PrepareMeal prepareMeal = new PrepareMeal(foodManager, userBuilder.getUser().getGoal(), scanner, historyController);
             prepareMeal.execute();
+            state = nextAction();
         }
         if (request.equals("shopping list")) {
             CreateShoppingList createShoppingList = new CreateShoppingList(foodManager, scanner);
             createShoppingList.execute();
+            state = nextAction();
         }
         if(request.equals("view shopping list")){
             ViewShoppingList viewShoppingList = new ViewShoppingList(foodManager, scanner);
             viewShoppingList.execute();
+            state = nextAction();
         }
         if (request.equals("set workout name")) {
             SetName setName = new SetName(workoutController, scanner);
             setName.execute();
+            state = nextAction();
         }
         if (request.equals("set workout intensity")) {
             SetIntensity setIntensity = new SetIntensity(workoutController, scanner);
             setIntensity.execute();
+            state = nextAction();
         }
         if (request.equals("set workout minutes")) {
             SetMinutes setMinutes = new SetMinutes(workoutController, scanner);
             setMinutes.execute();
+            state = nextAction();
         }
         if (request.equals("create workout")) {
             CreateWorkout createWorkout = new CreateWorkout(workoutController, historyController);
             createWorkout.execute();
+            state = nextAction();
         }
         if (request.equals("history")) {
             // prompt user for a specific date and display history for that date-time
             // (yyyy-mm-dd HH:mm)
             searchHistory.execute();
+            state = nextAction();
         }
         // Goal requests
         if (request.equals("set target weight")) {
@@ -173,15 +187,14 @@ public class NutriappCLI {
         return state;
     }
 
-    public void nextAction() throws Exception {
+    public Boolean nextAction() throws Exception {
+        System.out.println("");
         System.out.println("What would you like to do next?");
         String input = scanner.nextLine();
-        parseInput(input);
+        Boolean bool = parseInput(input);
+        return bool;
     }
 
-    public void checkUser(){
-        
-    }
 
     public void run(String[] args) throws IOException, Exception {
         if (!(new File("application.db").isFile())) { // Check if database file exists
@@ -208,6 +221,7 @@ public class NutriappCLI {
             //creates the goal manager based of the existing user profile, accesses goal through user
             //goal itself should have target weight and physical fitness boolean
             //which should address the startup concerns and any functionality should be fine going forward if i understand this right
+            System.out.println("\nHi " + userBuilder.getName() + "!");
 
         } else {
             height.execute();
@@ -233,6 +247,8 @@ public class NutriappCLI {
             String input = scanner.nextLine();
             input = input.toLowerCase();
             if (input.equals("close")) {
+                storageController.store(userBuilder, historyController);
+                System.out.println("User profile stored!");
                 System.out.println("Bye!");
                 break;
             } else {
