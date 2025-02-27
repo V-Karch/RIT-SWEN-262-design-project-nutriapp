@@ -81,6 +81,7 @@ public class Meal implements Food{
         for(Recipe r : recipes){
             r.useIngredients();
         }
+    }
     
     @Override
     public String toString() {

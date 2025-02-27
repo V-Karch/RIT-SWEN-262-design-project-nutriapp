@@ -15,7 +15,7 @@ public class SearchHistory implements Action{
     
     private Scanner input;
     private HistoryController historyController;
-    //private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
 
     public SearchHistory(Scanner input, HistoryController historyController) {
         this.input = input;
@@ -24,7 +24,7 @@ public class SearchHistory implements Action{
 
     @Override
     public void execute() {
-        System.out.println("Enter a previous date to search for: ");
+        System.out.println("Enter a previous date to search for (yyyy-mm-dd): ");
         try {
             String date = input.nextLine();
             DailyActivity dailyActivity = historyController.searchForDailyActivity(date);
@@ -35,18 +35,27 @@ public class SearchHistory implements Action{
             List<Meal> meals = dailyActivity.getMeals(); 
             List<Workout> workouts = dailyActivity.getWorkouts();
 
-            System.out.println("Weight: " + weight);
-            System.out.println("Calories Consumed: " + calories_consumed);
-            System.out.println("Target Calories: " + target_calories);
+            System.out.println("Weight: " + weight + " lbs");
+            System.out.println("Calories Consumed: " + calories_consumed + " cal");
+            System.out.println("Target Calories: " + target_calories + " cal");
             
-            System.out.println("\nMeals: ");
-            for (Meal meal : meals) {
-                System.out.println(meal.toString());
+            System.out.println("\n***MEALS*** ");
+            if( meals.isEmpty()) {
+                System.out.println("No meals logged for this day.");
+            } else {
+                for (Meal meal : meals) {
+                    System.out.println(meal.toString());
+                }
             }
+            
 
-            System.out.println("\nWorkouts: ");
-            for (Workout workout : workouts) {
-                System.out.println(workout.toString());
+            System.out.println("\n***WORKOUTS*** ");
+            if( workouts.isEmpty()) {
+                System.out.println("No workouts logged for this day.");
+            } else {
+                for (Workout workout : workouts) {
+                    System.out.println(workout.toString());
+                }
             }
 
         } catch (Exception e) {

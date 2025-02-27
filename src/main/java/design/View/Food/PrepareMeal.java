@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import design.Controller.Food.FoodManager;
+import design.Controller.History.HistoryController;
 import design.Model.Food.Meal;
 import design.Model.Goal.Goal;
 import design.View.Action;
@@ -15,8 +16,9 @@ public class PrepareMeal implements Action{
     private Meal meal;
     private Goal goal;
     private List<String> instructions;
+    private HistoryController historyController;
 
-    public PrepareMeal(FoodManager foodManager, Goal goal, Scanner input){
+    public PrepareMeal(FoodManager foodManager, Goal goal, Scanner input, HistoryController historyController) {
         this.foodManager = foodManager;
         this.goal = goal;
         this.input = input;
@@ -63,6 +65,7 @@ public class PrepareMeal implements Action{
             if(choice.equals("1")){
                 meal.prepareMeal();
                 goal.addDailyCalories(meal.getCalories());
+                historyController.logMeal(meal);
             }
 
         }

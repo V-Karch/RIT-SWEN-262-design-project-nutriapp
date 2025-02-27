@@ -11,6 +11,7 @@ import design.Controller.Workout.WorkoutController;
 import design.Model.History.HistoryManager;
 import design.Model.Workout.WorkoutBuilder;
 import design.Model.Workout.WorkoutManager;
+import design.View.History.LogTodaysActivity;
 import design.View.History.SearchHistory;
 import design.View.Food.StockIngredient;
 import design.View.User.AddBirthdate;
@@ -28,6 +29,7 @@ public class NutriappCLI {
     static HistoryController historyController = new HistoryController(new HistoryManager());
     static WorkoutController workoutController = new WorkoutController(new WorkoutBuilder(), new WorkoutManager());
     static SearchHistory searchHistory = new SearchHistory(scanner, historyController);
+    static LogTodaysActivity logTodaysActivity = new LogTodaysActivity(historyController);
     static SetName setName = new SetName(workoutController, scanner);
     static SetIntensity setIntensity = new SetIntensity(workoutController, scanner);
     static SetMinutes setMinutes = new SetMinutes(workoutController, scanner);
@@ -35,7 +37,8 @@ public class NutriappCLI {
     FoodManager foodManager;
 
     public NutriappCLI() throws IOException {
-        this.foodManager = new FoodManager("src\\main\\java\\design\\ingredients.csv");
+       // this.foodManager = new FoodManager("src\\main\\java\\design\\ingredients.csv");
+       //this thing is breaking everything so I'm commenting it out for now -CJ
     }
     
     public static void main (String[] args) throws IOException, Exception {
@@ -82,7 +85,7 @@ public class NutriappCLI {
             String amount_S = scanner.nextLine();
             int amount = Integer.parseInt(amount_S);
 
-            StockIngredient stockIngredient = new StockIngredient(this.foodManager, ingredient, amount);
+            StockIngredient stockIngredient = new StockIngredient(this.foodManager,scanner);
             System.out.println("Successfully stocked!");
         }
         if (request.equals("recipe")) {
@@ -157,7 +160,7 @@ public class NutriappCLI {
         UserBuilder userBuilder = new UserBuilder();
         AddName name = new AddName(userBuilder, scanner);
         AddHeight height = new AddHeight(userBuilder, scanner);
-        AddWeight weight = new AddWeight(userBuilder, scanner);
+        AddWeight weight = new AddWeight(userBuilder, scanner,historyController);
         AddBirthdate birthdate = new AddBirthdate(userBuilder, scanner);
         BuildUser buildUser = new BuildUser(userBuilder);
         
@@ -196,8 +199,10 @@ public class NutriappCLI {
                     System.out.println("Sad to see you go!");
                     break;
                 }
-
                 System.out.println("");
+
+                logTodaysActivity.execute();
+
                 System.out.println("***A day has passed***");
                 System.out.println("Good Morning!");
                 weight.execute();
