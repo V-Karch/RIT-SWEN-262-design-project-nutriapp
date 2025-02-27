@@ -40,7 +40,7 @@ public class IngredientDatabase {
 
     private double ensureDouble(String input) {
         try {
-            return Integer.parseInt(input);
+            return Double.parseDouble(input);
         } catch (NumberFormatException e) {
             return 0;
         }
