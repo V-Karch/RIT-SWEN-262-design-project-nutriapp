@@ -6,10 +6,15 @@
 2. **Run** the file **without debugging**
 3. **Follow the prompts** in the terminal to interact with the application.
 
-# Contributors
+## Contributors
 Liliana Cantillo <lnc7142@rit.edu>
+
 Malachi Levinson <mll8777@rit.edu>
+
 V. Karch <vfk4083@rit.edu>
-CJ Agwai<cja6637@rit.edu>
+
+CJ Agwai <cja6637@rit.edu>
+
 Chase Collins <cmc1639@rit.edu>
+
 Anthony Guo <ayg9231@rit.edu>
