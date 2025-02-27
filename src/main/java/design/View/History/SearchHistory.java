@@ -15,7 +15,7 @@ public class SearchHistory implements Action{
     
     private Scanner input;
     private HistoryController historyController;
-    //private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
 
     public SearchHistory(Scanner input, HistoryController historyController) {
         this.input = input;
@@ -24,7 +24,7 @@ public class SearchHistory implements Action{
 
     @Override
     public void execute() {
-        System.out.println("Enter a previous date to search for: ");
+        System.out.println("Enter a previous date to search for (yyyy-mm-dd): ");
         try {
             String date = input.nextLine();
             DailyActivity dailyActivity = historyController.searchForDailyActivity(date);
