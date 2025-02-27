@@ -6,6 +6,7 @@ import java.util.Scanner;
 import design.Controller.Food.FoodManager;
 import design.Controller.Goal.GoalManager;
 import design.Controller.History.HistoryController;
+import design.Controller.StorageController;
 import design.Controller.User.UserBuilder;
 import design.Controller.Workout.WorkoutController;
 import design.Model.History.HistoryManager;
@@ -37,6 +38,8 @@ public class NutriappCLI {
     static SetIntensity setIntensity = new SetIntensity(workoutController, scanner);
     static SetMinutes setMinutes = new SetMinutes(workoutController, scanner);
     static CreateWorkout createWorkout = new CreateWorkout(workoutController, historyController);
+    static UserBuilder userBuilder = new UserBuilder();
+    static StorageController storageController = new StorageController(userBuilder, historyController);
 
     FoodManager foodManager;
 
@@ -118,13 +121,14 @@ public class NutriappCLI {
             parseInput(input);
         }
         if (request.equals("close")) {
+            storageController.store();
+            System.out.println("User profile stored!");
             state = true;
         }
         if (request.equals("skip")) {
             // skip to next day
             state = false;
         }
-
         return state;
     }
 
@@ -137,7 +141,6 @@ public class NutriappCLI {
     public void run(String[] args) throws IOException, Exception {
 
         // creating things
-        UserBuilder userBuilder = new UserBuilder();
         AddName name = new AddName(userBuilder, scanner);
         AddHeight height = new AddHeight(userBuilder, scanner);
         AddWeight weight = new AddWeight(userBuilder, scanner, historyController);
