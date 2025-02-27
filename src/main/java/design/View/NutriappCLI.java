@@ -1,11 +1,13 @@
 package design.View;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
 import design.Controller.Food.FoodManager;
 import design.Controller.Goal.GoalManager;
 import design.Controller.History.HistoryController;
+import design.Storage;
 import design.Controller.StorageController;
 import design.Controller.User.UserBuilder;
 import design.Controller.Workout.WorkoutController;
@@ -52,7 +54,7 @@ public class NutriappCLI {
 
     public NutriappCLI() throws IOException {
         this.foodManager = new
-        FoodManager("src\\main\\java\\design\\ingredients.csv");
+        FoodManager("src/main/java/design/ingredients.csv");
 
         userBuilder = new UserBuilder();
     }
@@ -170,6 +172,10 @@ public class NutriappCLI {
     }
 
     public void run(String[] args) throws IOException, Exception {
+        if (!(new File("application.db").isFile())) { // Check if database file exists
+            Storage.createNewDatabase("application.db"); // make database file
+            Storage.setupTables(); // setup database tables
+        }
 
         // creating things
         AddName name = new AddName(userBuilder, scanner);
