@@ -11,11 +11,12 @@ import design.Controller.Workout.WorkoutController;
 import design.Model.History.HistoryManager;
 import design.Model.Workout.WorkoutBuilder;
 import design.Model.Workout.WorkoutManager;
-import design.View.History.LogTodaysActivity;
-import design.View.History.SearchHistory;
+import design.View.Food.CreateRecipe;
 import design.View.Food.StockIngredient;
 import design.View.Goal.SetPhysicalFitness;
 import design.View.Goal.SetTargetWeight;
+import design.View.History.LogTodaysActivity;
+import design.View.History.SearchHistory;
 import design.View.User.AddBirthdate;
 import design.View.User.AddHeight;
 import design.View.User.AddName;
@@ -71,9 +72,12 @@ public class NutriappCLI {
         String ingredient;
         if (request.equals("stock")) {
             StockIngredient stockIngredient = new StockIngredient(this.foodManager, scanner);
+            stockIngredient.execute();
         }
         if (request.equals("recipe")) {
-            // call create recipe concrete command
+            CreateRecipe createRecipe = new CreateRecipe(this.foodManager, scanner);
+            createRecipe.execute();
+
         }
         if (request.equals("create meal")) {
             // call create meal concrete command
