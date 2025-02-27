@@ -131,8 +131,8 @@ public class NutriappCLI {
             viewShoppingList.execute();
             state = nextAction();
         }
-        if (request.equals("set workout name")) {
-            SetName setName = new SetName(workoutController, scanner);
+        if (request.equals("workout")) { //asks for a workout name, intensity, and duration
+            //DONT TOUCH THIS, IT WORKS FOR DEMO
             setName.execute();
             state = nextAction();
         }
@@ -151,6 +151,7 @@ public class NutriappCLI {
             createWorkout.execute();
             state = nextAction();
         }
+        
         if (request.equals("history")) {
             // prompt user for a specific date and display history for that date-time
             // (yyyy-mm-dd HH:mm)
