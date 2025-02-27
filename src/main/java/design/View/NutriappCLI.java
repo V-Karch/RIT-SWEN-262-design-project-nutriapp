@@ -22,6 +22,7 @@ import design.View.Food.CreateShoppingList;
 import design.View.Food.PrepareMeal;
 import design.View.Food.StockIngredient;
 import design.View.Food.ViewShoppingList;
+import design.View.Goal.GetTargetCalories;
 import design.View.Goal.SetPhysicalFitness;
 import design.View.Goal.SetTargetWeight;
 import design.View.History.LogTodaysActivity;
@@ -143,11 +144,13 @@ public class NutriappCLI {
         }
         // Goal requests
         if (request.equals("set target weight")) {
-            // call set target weight
+            SetTargetWeight setTargetWeight = new SetTargetWeight(goalManager, scanner);
+            setTargetWeight.execute();
         }
 
         if (request.equals("get target calories")) {
-            // call get target calories
+            GetTargetCalories getTargetCalories = new GetTargetCalories(goalManager);
+            getTargetCalories.execute();
         }
 
         if (request.equals("help")) {
