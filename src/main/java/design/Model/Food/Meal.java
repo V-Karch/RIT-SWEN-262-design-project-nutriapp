@@ -1,5 +1,6 @@
 package design.Model.Food;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Meal implements Food{
@@ -64,6 +65,24 @@ public class Meal implements Food{
         recipes.add(recipe);
     }
 
+    public List<String> getInstructions(){
+        List<String> instructions = new ArrayList<String>();;
+        for(Recipe r : recipes){
+            String[] recipeInstructions = r.getCookInstructions();
+            for(String s : recipeInstructions){
+                instructions.add(s);
+            }
+        }
+
+        return instructions;
+    }
+
+    public void prepareMeal(){
+        for(Recipe r : recipes){
+            r.useIngredients();
+        }
+    }
+    
     @Override
     public String toString() {
         return "Meal[Name: " + name + ", Calories: " + getCalories() + ", Fat: " + getFat() + 

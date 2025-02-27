@@ -5,7 +5,14 @@ import java.util.Scanner;
 
 import design.Controller.Food.FoodManager;
 import design.Controller.Goal.GoalManager;
+import design.Controller.History.HistoryController;
 import design.Controller.User.UserBuilder;
+import design.Controller.Workout.WorkoutController;
+import design.Model.History.HistoryManager;
+import design.Model.Workout.WorkoutBuilder;
+import design.Model.Workout.WorkoutManager;
+import design.View.History.LogTodaysActivity;
+import design.View.History.SearchHistory;
 import design.View.Food.StockIngredient;
 import design.View.Goal.SetPhysicalFitness;
 import design.View.Goal.SetTargetWeight;
@@ -30,18 +37,21 @@ import design.View.Workout.SetMinutes;
 import design.View.Workout.SetName;
 
 public class NutriappCLI {
-    FoodManager foodManager;
     static Scanner scanner = new Scanner(System.in);
     static HistoryController historyController = new HistoryController(new HistoryManager());
     static WorkoutController workoutController = new WorkoutController(new WorkoutBuilder(), new WorkoutManager());
     static SearchHistory searchHistory = new SearchHistory(scanner, historyController);
+    static LogTodaysActivity logTodaysActivity = new LogTodaysActivity(historyController);
     static SetName setName = new SetName(workoutController, scanner);
     static SetIntensity setIntensity = new SetIntensity(workoutController, scanner);
     static SetMinutes setMinutes = new SetMinutes(workoutController, scanner);
     static CreateWorkout createWorkout = new CreateWorkout(workoutController, historyController);
 
+    FoodManager foodManager;
+
     public NutriappCLI() throws IOException {
-        this.foodManager = new FoodManager("src\\main\\java\\design\\ingredients.csv");
+       // this.foodManager = new FoodManager("src\\main\\java\\design\\ingredients.csv");
+       //this thing is breaking everything so I'm commenting it out for now -CJ
     }
     
     public static void main (String[] args) throws IOException, Exception {
@@ -95,21 +105,12 @@ public class NutriappCLI {
         if (request.equals("history")) {
             // prompt user for a specific date and display history for that date-time (yyyy-mm-dd HH:mm)
             searchHistory.execute();
-        }
 
         //Goal requests 
         if(request.equals("set target weight")) {
             // call set target weight
         }
-        if(request.equals("set daily weight")) {
-            // call set daily weight
-        }
-        if(request.equals("add calories")) {
-            // call add calories
-        }
-        if(request.equals("remove calories")) {
-            // call remove calories
-        }
+
         if(request.equals("get target calories")) {
             // call get target calories
         } 
@@ -143,7 +144,7 @@ public class NutriappCLI {
         UserBuilder userBuilder = new UserBuilder();
         AddName name = new AddName(userBuilder, scanner);
         AddHeight height = new AddHeight(userBuilder, scanner);
-        AddWeight weight = new AddWeight(userBuilder, scanner);
+        AddWeight weight = new AddWeight(userBuilder, scanner,historyController);
         AddBirthdate birthdate = new AddBirthdate(userBuilder, scanner);
         BuildUser buildUser = new BuildUser(userBuilder);
         
@@ -187,8 +188,10 @@ public class NutriappCLI {
                     System.out.println("Sad to see you go!");
                     break;
                 }
-
                 System.out.println("");
+
+                logTodaysActivity.execute();
+
                 System.out.println("***A day has passed***");
                 System.out.println("Good Morning!");
                 weight.execute();

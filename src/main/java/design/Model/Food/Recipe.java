@@ -1,6 +1,8 @@
 package design.Model.Food;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Recipe implements Food{
     private String name;
@@ -65,5 +67,14 @@ public class Recipe implements Food{
             fiber += ingredient.getFiber();
         }
         return fiber;
+    }
+
+    public List<Ingredient> getIngredients(){
+        List<Ingredient> ingredientsList = new ArrayList<Ingredient>();
+        for(Ingredient i : ingredients.keySet()){
+            ingredientsList.add(i);
+        }
+
+        return ingredientsList;
     }
 }
