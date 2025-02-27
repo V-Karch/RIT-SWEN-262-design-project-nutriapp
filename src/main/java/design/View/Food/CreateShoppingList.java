@@ -17,6 +17,7 @@ public class CreateShoppingList implements Action {
     public CreateShoppingList(FoodManager foodManager, Scanner input) {
         this.foodManager = foodManager;
         this.input = input;
+        this.items = new ArrayList<Ingredient>();
     }
 
     public void execute() {
@@ -31,9 +32,9 @@ public class CreateShoppingList implements Action {
         name = input.nextLine();
 
         String choice = "";
-        while (choice != "0") {
+        while (!choice.equals("0")) {
             System.out.println("What ingredient would you like to add? Enter '0' to finish list.");
-            if (choice != "0") {
+            if (!choice.equals("0")) {
                 choice = input.nextLine();
                 try {
                     Ingredient item = foodManager.getIngredient(choice);
@@ -43,9 +44,8 @@ public class CreateShoppingList implements Action {
                     continue;
                 }
             }
-
-            foodManager.createShoppingList(items, name);
-            System.out.println("Your shopping list has been created!");
         }
+        foodManager.createShoppingList(items, name);
+        System.out.println("Your shopping list has been created!");
     }
 }

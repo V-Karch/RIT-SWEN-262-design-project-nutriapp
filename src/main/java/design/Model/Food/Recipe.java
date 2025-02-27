@@ -12,6 +12,7 @@ public class Recipe implements Food{
     public Recipe(String name, String[] CookInstructions){
         this.name = name;
         this.CookInstructions = CookInstructions;
+        ingredients = new HashMap<Ingredient, Integer>();
     }
 
     public String getName() {
