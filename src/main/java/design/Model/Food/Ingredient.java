@@ -20,6 +20,13 @@ public class Ingredient implements Food {
     public Ingredient() {
         //TODO Auto-generated constructor stub
     }
+    public Ingredient(String name, Integer calories, Double protein, Double carbs, Double fat) {
+        this.protein = protein;
+        this.carbs = carbs;
+        this.calories = calories;
+        this.fat = fat;
+        this.name = name;
+    }
     public Double getProtein() {
         return protein;
     }
