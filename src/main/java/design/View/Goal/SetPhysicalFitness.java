@@ -18,7 +18,8 @@ public class SetPhysicalFitness implements Action {
   public void execute() {
     System.out.println("Would you like to include physical fitness? (true or false)");
     try {
-      boolean doesFitness = scanner.nextBoolean();
+      String doesFitness_S = scanner.nextLine();
+      Boolean doesFitness = Boolean.getBoolean(doesFitness_S);
       this.goalManager.setPhysicalFitness(doesFitness);
       System.out.println("Physical fitness updated.");
     }
