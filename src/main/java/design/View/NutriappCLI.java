@@ -22,6 +22,7 @@ import design.View.Food.CreateShoppingList;
 import design.View.Food.PrepareMeal;
 import design.View.Food.StockIngredient;
 import design.View.Food.ViewShoppingList;
+import design.View.Goal.GetTargetCalories;
 import design.View.Goal.SetPhysicalFitness;
 import design.View.Goal.SetTargetWeight;
 import design.View.History.LogTodaysActivity;
@@ -133,8 +134,20 @@ public class NutriappCLI {
         if (request.equals("workout")) { //asks for a workout name, intensity, and duration
             //DONT TOUCH THIS, IT WORKS FOR DEMO
             setName.execute();
+            state = nextAction();
+        }
+        if (request.equals("set workout intensity")) {
+            SetIntensity setIntensity = new SetIntensity(workoutController, scanner);
             setIntensity.execute();
+            state = nextAction();
+        }
+        if (request.equals("set workout minutes")) {
+            SetMinutes setMinutes = new SetMinutes(workoutController, scanner);
             setMinutes.execute();
+            state = nextAction();
+        }
+        if (request.equals("create workout")) {
+            CreateWorkout createWorkout = new CreateWorkout(workoutController, historyController);
             createWorkout.execute();
             state = nextAction();
         }
@@ -147,11 +160,13 @@ public class NutriappCLI {
         }
         // Goal requests
         if (request.equals("set target weight")) {
-            // call set target weight
+            SetTargetWeight setTargetWeight = new SetTargetWeight(goalManager, scanner);
+            setTargetWeight.execute();
         }
 
         if (request.equals("get target calories")) {
-            // call get target calories
+            GetTargetCalories getTargetCalories = new GetTargetCalories(goalManager);
+            getTargetCalories.execute();
         }
 
         if (request.equals("help")) {

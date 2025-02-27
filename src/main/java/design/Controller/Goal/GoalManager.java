@@ -23,6 +23,7 @@ public class GoalManager {
 
   public void setTargetWeight(double weight) {
     user.updateTargetWeight(weight);
+    goal = user.getGoal();
   }
 
   public int getTargetCalories() {
@@ -41,7 +42,8 @@ public class GoalManager {
     int currentCalories = goal.addDailyCalories(calories);
     int targetCalories = goal.getTargetCalories();
     int calorieDifference = currentCalories - targetCalories;
-    if(calorieDifference > 0) {
+    boolean physicalFitness = goal.getPhysicalFitness();
+    if(calorieDifference > 0 && physicalFitness == true) {
       Workout workout = workoutManager.recommendWorkout(calorieDifference);
       displayWorkout(calorieDifference, workout);
     }
