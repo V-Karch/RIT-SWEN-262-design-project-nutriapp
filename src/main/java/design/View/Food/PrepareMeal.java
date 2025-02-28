@@ -22,6 +22,7 @@ public class PrepareMeal implements Action{
         this.foodManager = foodManager;
         this.goal = goal;
         this.input = input;
+        this.historyController = historyController;
 
         Meals = foodManager.getAllMeals();
     }

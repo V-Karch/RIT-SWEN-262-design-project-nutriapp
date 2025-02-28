@@ -16,6 +16,7 @@ public class Ingredient implements Food {
         this.calories = calories;
         this.fat = fat;
         this.name = name;
+        this.stock = 0;
     }
     public Ingredient() {
         //TODO Auto-generated constructor stub
@@ -26,6 +27,7 @@ public class Ingredient implements Food {
         this.calories = calories;
         this.fat = fat;
         this.name = name;
+        this.stock = 0;
     }
     public Double getProtein() {
         return protein;

@@ -10,6 +10,7 @@ public class Meal implements Food{
 
     public Meal(String name){
         this.name = name;
+        recipes = new ArrayList<Recipe>();
     }
 
     @Override
