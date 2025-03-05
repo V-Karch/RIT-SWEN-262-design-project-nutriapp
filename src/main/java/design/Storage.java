@@ -12,9 +12,20 @@ import design.Model.Goal.LoseWeight;
 import design.Model.Goal.GainWeight;
 import design.Model.Goal.MaintainWeight;
 
+/**
+ * The Storage class provides methods for interacting with a SQLite database.
+ * It handles database creation, table setup, and CRUD operations for users and goals.
+ * 
+ * @Author: V-Karch
+ */
 public class Storage {
     private static final String DATABASE_URL = "jdbc:sqlite:application.db";
 
+    /**
+     * Creates a new SQLite database file.
+     * 
+     * @param fileName The name of the database file to be created.
+     */
     public static void createNewDatabase(String fileName) {
         String url = "jdbc:sqlite:" + fileName;
 
@@ -25,6 +36,11 @@ public class Storage {
         }
     }
 
+    /**
+     * Executes a given SQL statement.
+     * 
+     * @param sql The SQL statement to be executed.
+     */
     public static void executeSQL(String sql) {
         try {
             Connection connection = DriverManager.getConnection(DATABASE_URL);
@@ -36,6 +52,9 @@ public class Storage {
         }
     }
 
+    /**
+     * Creates the 'users' table if it does not already exist.
+     */
     private static void createUsersTable() {
         String sql = "CREATE TABLE IF NOT EXISTS users (\n" +
                 "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
@@ -50,6 +69,9 @@ public class Storage {
         Storage.executeSQL(sql);
     }
 
+    /**
+     * Creates the 'goals' table if it does not already exist.
+     */
     private static void createGoalsTable() {
         String sql = "CREATE TABLE IF NOT EXISTS goals (\n" +
                 "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
@@ -63,6 +85,11 @@ public class Storage {
         Storage.executeSQL(sql);
     }
 
+    /**
+     * Inserts a new goal into the database.
+     * 
+     * @param goal The goal object to be added.
+     */
     public static void addGoal(Goal goal) {
         String sql = "INSERT INTO goals (username, physical_fitness, target_calories, daily_calories, type) " +
                 "VALUES (?, ?, ?, ?, ?);";
@@ -83,6 +110,11 @@ public class Storage {
         }
     }
 
+    /**
+     * Inserts a new user into the database and assigns a goal.
+     * 
+     * @param user The user object to be added.
+     */
     public static void addUser(User user) {
         String sql = "INSERT INTO users (name, height, birth_date, age, current_weight, target_weight) "
                 +
@@ -107,6 +139,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Retrieves a user by name from the database, along with their associated goal.
+     * 
+     * @param name The name of the user to retrieve.
+     * @return The User object, or null if not found.
+     */
     public static User getUserByName(String name) {
         String userSql = "SELECT name, height, birth_date, age, current_weight, target_weight FROM users WHERE name = ?";
         String goalSql = "SELECT physical_fitness, target_calories, daily_calories, type FROM goals WHERE username = ?";
