@@ -12,7 +12,7 @@ public class GoalTest {
     public void testUpdateGoalToLose() {
         User user = new User("User", 66, 160, "05-16-2005");
         GoalManager goalManager = new GoalManager(user);
-        goalManager.updateCurrentWeight(180);
+        goalManager.setDailyWeight(180);
         assertEquals(user.currentGoal.getTargetCalories(), goalManager.getTargetCalories());
     }
 
@@ -20,7 +20,7 @@ public class GoalTest {
     public void testUpdateGoalToMaintain() {
         User user = new User("User", 66, 160, "05-16-2005");
         GoalManager goalManager = new GoalManager(user);
-        goalManager.updateCurrentWeight(160);
+        goalManager.setDailyWeight(160);
         assertEquals(user.currentGoal.getTargetCalories(), goalManager.getTargetCalories());
     }
 
@@ -28,7 +28,7 @@ public class GoalTest {
     public void testUpdateGoalToGain() {
         User user = new User("User", 66, 160, "05-16-2005");
         GoalManager goalManager = new GoalManager(user);
-        goalManager.updateCurrentWeight(140);
+        goalManager.setDailyWeight(140);
         assertEquals(user.currentGoal.getTargetCalories(), goalManager.getTargetCalories());
     }
 }
