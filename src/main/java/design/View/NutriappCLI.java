@@ -38,7 +38,9 @@ import design.View.Workout.SetMinutes;
 import design.View.Workout.SetName;
 
 public class NutriappCLI {
+    
     static Scanner scanner = new Scanner(System.in);
+    NALogger logger = new NALogger(scanner);
     static HistoryController historyController = new HistoryController(new HistoryManager());
     static WorkoutController workoutController = new WorkoutController(new WorkoutBuilder(), new WorkoutManager());
     static SearchHistory searchHistory = new SearchHistory(scanner, historyController);
@@ -67,29 +69,29 @@ public class NutriappCLI {
     }
 
     public void promptUser() {
-        System.out.println("Type 'Stock' to add stock to an ingredient");
-        System.out.println("Type 'Recipe' to create a recipe");
-        System.out.println("Type 'Create Meal' to create a meal");
-        System.out.println("Type 'Add Recipe' to add a recipe to a meal");
-        System.out.println("Type 'Add Ingredient' to add an ingredient to a recipe");
-        System.out.println("Type 'Prepare Meal' to prepare a specific meal");
-        System.out.println("Type 'Shopping List' to create a new shopping list");
-        System.out.println("Type 'View Shopping List' to get a list of your commonly used ingredients");
-        System.out.println("Type 'Workout' to log a completed workout");
-        System.out.println("Type 'History' to view your history");
-        System.out.println("Type 'Get Target Calories' to see your remaining allotted calories for the day");
-        System.out.println("Type 'Set Target Weight' to change your target weight");
-        System.out.println("Type 'Skip' to skip to the next day");
-        System.out.println("Type 'Close' to exit the application");
-        System.out.println("Type 'Help' to view all commands");
-        System.out.print("$ ");
+        logger.message("Type 'Stock' to add stock to an ingredient");
+        logger.message("Type 'Recipe' to create a recipe");
+        logger.message("Type 'Create Meal' to create a meal");
+        logger.message("Type 'Add Recipe' to add a recipe to a meal");
+        logger.message("Type 'Add Ingredient' to add an ingredient to a recipe");
+        logger.message("Type 'Prepare Meal' to prepare a specific meal");
+        logger.message("Type 'Shopping List' to create a new shopping list");
+        logger.message("Type 'View Shopping List' to get a list of your commonly used ingredients");
+        logger.message("Type 'Workout' to log a completed workout");
+        logger.message("Type 'History' to view your history");
+        logger.message("Type 'Get Target Calories' to see your remaining allotted calories for the day");
+        logger.message("Type 'Set Target Weight' to change your target weight");
+        logger.message("Type 'Skip' to skip to the next day");
+        logger.message("Type 'Close' to exit the application");
+        logger.message("Type 'Help' to view all commands");
+        logger.gap();
 
     }
 
     public boolean parseInput(String input) throws Exception {
         boolean state = false;
         String request = input.toLowerCase();
-        System.out.println();
+        logger.gap();
         if (request.equals("stock")) {
             StockIngredient stockIngredient = new StockIngredient(this.foodManager, scanner);
 
@@ -162,15 +164,17 @@ public class NutriappCLI {
         if (request.equals("set target weight")) {
             SetTargetWeight setTargetWeight = new SetTargetWeight(goalManager, scanner);
             setTargetWeight.execute();
+            state = nextAction();
         }
 
         if (request.equals("get target calories")) {
             GetTargetCalories getTargetCalories = new GetTargetCalories(goalManager);
             getTargetCalories.execute();
+            state = nextAction();
         }
 
         if (request.equals("help")) {
-            System.out.println("");
+            logger.gap();
             promptUser();
             input = scanner.nextLine();
             boolean response =parseInput(input);
@@ -180,7 +184,7 @@ public class NutriappCLI {
         if (request.equals("close")) {
             if (this.existingUser == false){
                 storageController.store(userBuilder, historyController);
-                System.out.println("User profile stored!");
+                logger.message("User profile stored!");
             }
             state = true;
         }
@@ -192,8 +196,8 @@ public class NutriappCLI {
     }
 
     public Boolean nextAction() throws Exception {
-        System.out.println("");
-        System.out.println("What would you like to do next?");
+        logger.gap();
+        logger.print("What would you like to do next?");
         String input = scanner.nextLine();
         Boolean bool = parseInput(input);
         return bool;
@@ -207,14 +211,14 @@ public class NutriappCLI {
         }
 
         // creating things
-        AddName name = new AddName(userBuilder, scanner);
-        AddHeight height = new AddHeight(userBuilder, scanner);
-        AddWeight weight = new AddWeight(userBuilder, scanner, historyController);
-        AddBirthdate birthdate = new AddBirthdate(userBuilder, scanner);
+        AddName name = new AddName(userBuilder, logger);
+        AddHeight height = new AddHeight(userBuilder, logger);
+        AddWeight weight = new AddWeight(userBuilder, logger, historyController);
+        AddBirthdate birthdate = new AddBirthdate(userBuilder, logger);
         BuildUser buildUser = new BuildUser(userBuilder);
 
         // startup
-        System.out.println("\nWelcome to Nutriapp. Tell us a little more about yourself!");
+        logger.message("\nWelcome to Nutriapp. Tell us a little more about yourself!");
         name.execute();
         //check to see if the user exists
         Boolean exists = storageController.checkUser(userBuilder.getName());
@@ -225,7 +229,7 @@ public class NutriappCLI {
             //creates the goal manager based of the existing user profile, accesses goal through user
             //goal itself should have target weight and physical fitness boolean
             //which should address the startup concerns and any functionality should be fine going forward if i understand this right
-            System.out.println("\nHi " + userBuilder.getName() + "!");
+            logger.message("\nHi " + userBuilder.getName() + "!");
             this.existingUser = true;
         } else {
             height.execute();
@@ -240,41 +244,41 @@ public class NutriappCLI {
             SetTargetWeight setTargetWeight = new SetTargetWeight(goalManager, scanner);
             SetPhysicalFitness setPhysicalFitness = new SetPhysicalFitness(goalManager, scanner);
 
-            System.out.println("\nHi " + userBuilder.getName() + "!");
-            System.out.println("Tell us more about your fitness goals!");
+            logger.message("\nHi " + userBuilder.getName() + "!");
+            logger.message("Tell us more about your fitness goals!");
             setTargetWeight.execute();
             setPhysicalFitness.execute();
         }
         while (true) {
-            System.out.println("\nWhat would you like to do today?");
-            System.out.println("Type 'Help' to view possible commands");
-            System.out.print("$ ");
+            logger.message("\nWhat would you like to do today?");
+            logger.message("Type 'Help' to view possible commands");
+            logger.query();
             String input = scanner.nextLine();
             input = input.toLowerCase();
             if (input.equals("close")) {
                 if (this.existingUser == false){
                     storageController.store(userBuilder, historyController);
-                    System.out.println("User profile stored!");
+                    logger.message("User profile stored!");
                 }
-                System.out.println("Bye!");
+                logger.message("Bye!");
                 break;
             } else {
                 // enables the user to do multiple things within a 24 hr period
                 boolean response;
                 response = parseInput(input);
                 if (response == true) {
-                    System.out.println("");
-                    System.out.println("Sad to see you go!");
+                    logger.gap();
+                    logger.message("Sad to see you go!");
                     break;
                 }
-                System.out.println("");
+                logger.gap();
 
                 logTodaysActivity.execute();
 
-                System.out.println("***A day has passed***");
-                System.out.println("Good Morning!");
+                logger.message("***A day has passed***");
+                logger.message("Good Morning!");
                 weight.execute();
-                System.out.println("");
+                logger.gap();
                 
             }
         }

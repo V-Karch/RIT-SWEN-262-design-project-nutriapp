@@ -1,28 +1,27 @@
 package design.View.User;
 
-import java.util.Scanner;
-
 import design.Controller.User.UserBuilder;
 import design.View.Action;
+import design.View.NALogger;
 
 public class AddName implements Action {
     private UserBuilder userBuilder;
-    private Scanner input;
+    private NALogger logger;
 
-    public AddName(UserBuilder userBuilder, Scanner scanner) {
+    public AddName(UserBuilder userBuilder, NALogger logger) {
         this.userBuilder = userBuilder;
-        this.input = scanner;
+        this.logger = logger;
     }
 
     @Override
     public void execute() {
         //Asks the user their name and passes the information to the userbuilder
-        System.out.print("Enter your name: ");
+        logger.print("Enter your name: ");
         try {
-            String name = input.nextLine();
+            String name = logger.readString();
             this.userBuilder.setName(name);
         } catch (Exception e) {
-            System.out.println("Invalid name");
+            logger.error("Invalid name");
         }
     }
 
