@@ -64,11 +64,13 @@ public class NutriappCLI {
     }
 
     public static void main(String[] args) throws IOException, Exception {
+        //runs the application
         NutriappCLI nutriapp = new NutriappCLI();
         nutriapp.run(args);
     }
 
     public void promptUser() {
+        //prints all possible commands to terminal
         logger.message("Type 'Stock' to add stock to an ingredient");
         logger.message("Type 'Recipe' to create a recipe");
         logger.message("Type 'Create Meal' to create a meal");
@@ -89,6 +91,7 @@ public class NutriappCLI {
     }
 
     public boolean parseInput(String input) throws Exception {
+        //reads user input and calls the correct concrete command, then calls nextAction() (unless skip or close)
         boolean state = false;
         String request = input.toLowerCase();
         logger.gap();
@@ -196,6 +199,7 @@ public class NutriappCLI {
     }
 
     public Boolean nextAction() throws Exception {
+        //asks the user what they would like to do next, then calls parseInput() 
         logger.gap();
         logger.print("What would you like to do next?");
         String input = scanner.nextLine();
@@ -210,7 +214,7 @@ public class NutriappCLI {
             Storage.setupTables(); // setup database tables
         }
 
-        // creating things
+        // creating concrete commands for user setup
         AddName name = new AddName(userBuilder, logger);
         AddHeight height = new AddHeight(userBuilder, logger);
         AddWeight weight = new AddWeight(userBuilder, logger, historyController);
@@ -223,6 +227,7 @@ public class NutriappCLI {
         //check to see if the user exists
         Boolean exists = storageController.checkUser(userBuilder.getName());
         if (exists == true){
+            //sets the existing user to the stored user info epeo
             userBuilder.setUser(storageController.getUser(userBuilder.getName()));
             //sets user through userbuilder which is the primary way the program accesses user?
             this.goalManager = new GoalManager(userBuilder.getUser());
@@ -232,24 +237,26 @@ public class NutriappCLI {
             logger.message("\nHi " + userBuilder.getName() + "!");
             this.existingUser = true;
         } else {
+            //calls the concrete commands for user setup
             height.execute();
             weight.execute();
             birthdate.execute();
             buildUser.execute();
             this.existingUser = false;
 
-            // now that user has been created, goal subsystem can be created bc user is a
-            // dependency
+            // creates the concrete commands for goal subsystem
             this.goalManager = new GoalManager(userBuilder.getUser());
             SetTargetWeight setTargetWeight = new SetTargetWeight(goalManager, scanner);
             SetPhysicalFitness setPhysicalFitness = new SetPhysicalFitness(goalManager, scanner);
 
+            //calls goal concrete commands to get user input
             logger.message("\nHi " + userBuilder.getName() + "!");
             logger.message("Tell us more about your fitness goals!");
             setTargetWeight.execute();
             setPhysicalFitness.execute();
         }
         while (true) {
+            //while loop serves as a day of activities -- asks the user what theyd like to do, stores NEW profiles if they choose to close
             logger.message("\nWhat would you like to do today?");
             logger.message("Type 'Help' to view possible commands");
             logger.query();

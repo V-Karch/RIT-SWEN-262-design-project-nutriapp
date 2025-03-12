@@ -13,6 +13,8 @@ public class UserBuilder {
 
     public UserBuilder() {
     }
+    
+    //most functions are self explanatory
 
     public String getName(){
         return name;

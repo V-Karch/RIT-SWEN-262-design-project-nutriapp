@@ -16,6 +16,7 @@ public class AddBirthdate implements Action {
     @Override
     public void execute() {
         //Asks the user their birthday in mm-dd-yyyy format and passes the information to the userbuilder
+        //while loop for input validation
         
         logger.print("Enter your birthdate (mm-dd-yyyy): ");
 

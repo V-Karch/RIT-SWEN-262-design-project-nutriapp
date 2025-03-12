@@ -16,6 +16,7 @@ public class AddHeight implements Action {
     @Override
     public void execute() {
         //Asks the user their height, parses the string as a float, and passes the information to the userbuilder
+        //while loop for input validation
         logger.print("Enter your height in inches: ");
 
         boolean validInput = false;

@@ -19,6 +19,7 @@ public class AddWeight implements Action {
     @Override
     public void execute() {
         //Asks the user their weight, parses the string as a float, and passes the information to the userbuilder
+        //while loop for input validation
         logger.print("Enter your weight in lbs: ");
         boolean validInput = false;
         while (!validInput) {
