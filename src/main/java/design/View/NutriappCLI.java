@@ -40,7 +40,7 @@ import design.View.Workout.SetName;
 
 public class NutriappCLI {
     static Scanner scanner = new Scanner(System.in);
-    static CurrentDay currentDay;
+    static CurrentDay currentDay = new CurrentDay();
     static HistoryController historyController = new HistoryController(new HistoryManager());
     static WorkoutController workoutController = new WorkoutController(new WorkoutBuilder(), new WorkoutManager());
     static SearchHistory searchHistory = new SearchHistory(scanner, historyController);
@@ -277,7 +277,7 @@ public class NutriappCLI {
                 logTodaysActivity.execute();
 
                 // increment day
-                this.currentDay.nextDay();
+                currentDay.nextDay();
                 System.out.println("Today is Day " + (currentDay.getDay()));
 
                 System.out.println("***A day has passed***");
