@@ -10,6 +10,7 @@ import design.Controller.History.HistoryController;
 import design.Controller.StorageController;
 import design.Controller.User.UserBuilder;
 import design.Controller.Workout.WorkoutController;
+import design.Model.CurrentDay;
 import design.Model.History.HistoryManager;
 import design.Model.Workout.WorkoutBuilder;
 import design.Model.Workout.WorkoutManager;
@@ -53,11 +54,11 @@ public class NutriappCLI {
 
     FoodManager foodManager;
     GoalManager goalManager;
-    private int currentDay;
+    private CurrentDay currentDay;
 
     public NutriappCLI() throws IOException {
         this.foodManager = new FoodManager("src/main/java/design/ingredients.csv");
-        this.currentDay = 1;
+        this.currentDay = new CurrentDay();
         userBuilder = new UserBuilder();
     }
 
@@ -151,7 +152,6 @@ public class NutriappCLI {
             createWorkout.execute();
             state = nextAction();
         }
-        
         if (request.equals("history")) {
             // prompt user for a specific date and display history for that date-time
             // (yyyy-mm-dd HH:mm)
@@ -248,7 +248,7 @@ public class NutriappCLI {
         }
 
         while (true) {
-            System.out.println("\nToday is Day " + this.currentDay);
+            System.out.println("\nToday is Day " + this.currentDay.getDay());
             System.out.println("What would you like to do today?");
             System.out.println("Type 'Help' to view possible commands");
             System.out.print("$ ");
@@ -278,9 +278,8 @@ public class NutriappCLI {
                 logTodaysActivity.execute();
 
                 // increment day
-                this.currentDay++;
-                System.out.println("Today is Day " + this.currentDay);
-
+                this.currentDay.nextDay();
+                System.out.println("Today is Day " + (this.currentDay.getDay()));
 
                 System.out.println("***A day has passed***");
                 System.out.println("Good Morning!");
