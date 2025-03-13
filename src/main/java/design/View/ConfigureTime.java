@@ -1,7 +1,6 @@
 package design.View;
 
 
-import java.util.concurrent.TimeUnit;
 
 import design.Controller.DayScheduler;
 
@@ -18,7 +17,7 @@ public class ConfigureTime implements Action {
         long period = Long.parseLong(System.console().readLine());
         
         System.out.println("A new day will start after every " + period + " seconds.");
-        this.dayScheduler.startScheduler(period, TimeUnit.SECONDS);
+        this.dayScheduler.startScheduler(period);
 
 
     }
