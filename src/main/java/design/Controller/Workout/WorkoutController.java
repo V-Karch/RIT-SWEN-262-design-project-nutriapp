@@ -41,8 +41,4 @@ public class WorkoutController {
         this.workoutBuilder.setName(name); 
     }
 
-    public void setDateTime() {
-        this.workoutBuilder.setDateTime();
-    }
-
 }

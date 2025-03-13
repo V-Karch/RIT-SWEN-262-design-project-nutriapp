@@ -8,6 +8,7 @@ import design.Model.Workout.Workout;
 public class CreateWorkout implements Action {
     private WorkoutController workoutController;
     private HistoryController historyController;
+ 
 
     public CreateWorkout(WorkoutController workoutController,HistoryController historyController) {
         this.workoutController = workoutController;
@@ -21,7 +22,7 @@ public class CreateWorkout implements Action {
         //log the new workout in history
         this.historyController.logWorkout(newWorkout); 
 
-        System.out.println("Workout created! Name: " + newWorkout.getName() + ", Intensity: " + newWorkout.getIntensity() + ", Minutes: " + newWorkout.getMinutes()+ ", Date: " + newWorkout.getDate());
+        System.out.println("Workout created! Name: " + newWorkout.getName() + ", Intensity: " + newWorkout.getIntensity() + ", Minutes: " + newWorkout.getMinutes()+ ", Date: Day " + newWorkout.getDate());
     }
 
 }

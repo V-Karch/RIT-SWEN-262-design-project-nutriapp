@@ -41,14 +41,21 @@ import design.View.Workout.SetName;
 public class NutriappCLI {
     static Scanner scanner = new Scanner(System.in);
     static CurrentDay currentDay = new CurrentDay();
+    
+    //controllers
     static HistoryController historyController = new HistoryController(new HistoryManager());
-    static WorkoutController workoutController = new WorkoutController(new WorkoutBuilder(), new WorkoutManager());
+    static WorkoutController workoutController = new WorkoutController(new WorkoutBuilder(currentDay), new WorkoutManager());
+    
+    //history commands
     static SearchHistory searchHistory = new SearchHistory(scanner, historyController);
     static LogTodaysActivity logTodaysActivity = new LogTodaysActivity(historyController, currentDay);
+    
+    //workout commands
     static SetName setName = new SetName(workoutController, scanner);
     static SetIntensity setIntensity = new SetIntensity(workoutController, scanner);
     static SetMinutes setMinutes = new SetMinutes(workoutController, scanner);
     static CreateWorkout createWorkout = new CreateWorkout(workoutController, historyController);
+
     static UserBuilder userBuilder = new UserBuilder();
     static StorageController storageController = new StorageController();
     Boolean existingUser;
@@ -131,26 +138,28 @@ public class NutriappCLI {
             viewShoppingList.execute();
             state = nextAction();
         }
-        if (request.equals("workout")) { //asks for a workout name, intensity, and duration
-            //DONT TOUCH THIS, IT WORKS FOR DEMO
+        if (request.equals("workout")) { //asks for a workout name, intensity, and duration in minutes
             setName.execute();
-            state = nextAction();
-        }
-        if (request.equals("set workout intensity")) {
-            SetIntensity setIntensity = new SetIntensity(workoutController, scanner);
             setIntensity.execute();
-            state = nextAction();
-        }
-        if (request.equals("set workout minutes")) {
-            SetMinutes setMinutes = new SetMinutes(workoutController, scanner);
             setMinutes.execute();
-            state = nextAction();
-        }
-        if (request.equals("create workout")) {
-            CreateWorkout createWorkout = new CreateWorkout(workoutController, historyController);
             createWorkout.execute();
             state = nextAction();
         }
+        // if (request.equals("set workout intensity")) {
+        //     SetIntensity setIntensity = new SetIntensity(workoutController, scanner);
+            
+        //     state = nextAction();
+        // }
+        // if (request.equals("set workout minutes")) {
+        //     SetMinutes setMinutes = new SetMinutes(workoutController, scanner);
+            
+        //     state = nextAction();
+        // }
+        // if (request.equals("create workout")) {
+        //     CreateWorkout createWorkout = new CreateWorkout(workoutController, historyController);
+            
+        //     state = nextAction();
+        // }
         if (request.equals("history")) {
             // prompt user for a specific day and display history for that day
          
