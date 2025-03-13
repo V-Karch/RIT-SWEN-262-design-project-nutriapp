@@ -40,10 +40,11 @@ import design.View.Workout.SetName;
 
 public class NutriappCLI {
     static Scanner scanner = new Scanner(System.in);
+    static CurrentDay currentDay;
     static HistoryController historyController = new HistoryController(new HistoryManager());
     static WorkoutController workoutController = new WorkoutController(new WorkoutBuilder(), new WorkoutManager());
     static SearchHistory searchHistory = new SearchHistory(scanner, historyController);
-    static LogTodaysActivity logTodaysActivity = new LogTodaysActivity(historyController);
+    static LogTodaysActivity logTodaysActivity = new LogTodaysActivity(historyController, currentDay);
     static SetName setName = new SetName(workoutController, scanner);
     static SetIntensity setIntensity = new SetIntensity(workoutController, scanner);
     static SetMinutes setMinutes = new SetMinutes(workoutController, scanner);
@@ -54,11 +55,9 @@ public class NutriappCLI {
 
     FoodManager foodManager;
     GoalManager goalManager;
-    private CurrentDay currentDay;
-
+   
     public NutriappCLI() throws IOException {
         this.foodManager = new FoodManager("src/main/java/design/ingredients.csv");
-        this.currentDay = new CurrentDay();
         userBuilder = new UserBuilder();
     }
 
@@ -153,8 +152,8 @@ public class NutriappCLI {
             state = nextAction();
         }
         if (request.equals("history")) {
-            // prompt user for a specific date and display history for that date-time
-            // (yyyy-mm-dd HH:mm)
+            // prompt user for a specific day and display history for that day
+         
             searchHistory.execute();
             state = nextAction();
         }
@@ -248,7 +247,7 @@ public class NutriappCLI {
         }
 
         while (true) {
-            System.out.println("\nToday is Day " + this.currentDay.getDay());
+            System.out.println("\nToday is Day " + currentDay.getDay());
             System.out.println("What would you like to do today?");
             System.out.println("Type 'Help' to view possible commands");
             System.out.print("$ ");
@@ -279,7 +278,7 @@ public class NutriappCLI {
 
                 // increment day
                 this.currentDay.nextDay();
-                System.out.println("Today is Day " + (this.currentDay.getDay()));
+                System.out.println("Today is Day " + (currentDay.getDay()));
 
                 System.out.println("***A day has passed***");
                 System.out.println("Good Morning!");
