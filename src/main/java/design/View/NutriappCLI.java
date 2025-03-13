@@ -53,11 +53,11 @@ public class NutriappCLI {
 
     FoodManager foodManager;
     GoalManager goalManager;
+    private int currentDay;
 
     public NutriappCLI() throws IOException {
-        this.foodManager = new
-        FoodManager("src/main/java/design/ingredients.csv");
-
+        this.foodManager = new FoodManager("src/main/java/design/ingredients.csv");
+        this.currentDay = 1;
         userBuilder = new UserBuilder();
     }
 
