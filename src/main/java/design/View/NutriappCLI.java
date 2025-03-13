@@ -227,6 +227,7 @@ public class NutriappCLI {
             //which should address the startup concerns and any functionality should be fine going forward if i understand this right
             System.out.println("\nHi " + userBuilder.getName() + "!");
             this.existingUser = true;
+
         } else {
             height.execute();
             weight.execute();
@@ -245,12 +246,15 @@ public class NutriappCLI {
             setTargetWeight.execute();
             setPhysicalFitness.execute();
         }
+
         while (true) {
-            System.out.println("\nWhat would you like to do today?");
+            System.out.println("\nToday is Day " + this.currentDay);
+            System.out.println("What would you like to do today?");
             System.out.println("Type 'Help' to view possible commands");
             System.out.print("$ ");
             String input = scanner.nextLine();
             input = input.toLowerCase();
+
             if (input.equals("close")) {
                 if (this.existingUser == false){
                     storageController.store(userBuilder, historyController);
@@ -258,6 +262,7 @@ public class NutriappCLI {
                 }
                 System.out.println("Bye!");
                 break;
+
             } else {
                 // enables the user to do multiple things within a 24 hr period
                 boolean response;
@@ -269,7 +274,13 @@ public class NutriappCLI {
                 }
                 System.out.println("");
 
+                //log the days activity
                 logTodaysActivity.execute();
+
+                // increment day
+                this.currentDay++;
+                System.out.println("Today is Day " + this.currentDay);
+
 
                 System.out.println("***A day has passed***");
                 System.out.println("Good Morning!");
