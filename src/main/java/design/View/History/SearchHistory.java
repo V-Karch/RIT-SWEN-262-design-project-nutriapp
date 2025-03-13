@@ -49,6 +49,7 @@ public class SearchHistory implements Action{
             System.out.println("Calories Consumed: " + calories_consumed + " cal");
             System.out.println("Target Calories: " + target_calories + " cal");
             
+            //Meal information
             System.out.println("\n***MEALS*** ");
             if( meals.isEmpty()) {
                 System.out.println("No meals logged for this day.");
@@ -58,6 +59,7 @@ public class SearchHistory implements Action{
                 }
             }
             
+            //Workout information
             System.out.println("\n***WORKOUTS*** ");
             if( workouts.isEmpty()) {
                 System.out.println("No workouts logged for this day.");

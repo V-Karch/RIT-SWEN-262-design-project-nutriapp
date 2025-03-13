@@ -138,28 +138,14 @@ public class NutriappCLI {
             viewShoppingList.execute();
             state = nextAction();
         }
-        if (request.equals("workout")) { //asks for a workout name, intensity, and duration in minutes
-            setName.execute();
-            setIntensity.execute();
-            setMinutes.execute();
-            createWorkout.execute();
+        if (request.equals("workout")) { 
+            setName.execute();//asks for a workout name,
+            setIntensity.execute();//asks for a workout intensity,
+            setMinutes.execute();//asks for a workout duration in minutes,
+            createWorkout.execute();// creates workout
             state = nextAction();
         }
-        // if (request.equals("set workout intensity")) {
-        //     SetIntensity setIntensity = new SetIntensity(workoutController, scanner);
-            
-        //     state = nextAction();
-        // }
-        // if (request.equals("set workout minutes")) {
-        //     SetMinutes setMinutes = new SetMinutes(workoutController, scanner);
-            
-        //     state = nextAction();
-        // }
-        // if (request.equals("create workout")) {
-        //     CreateWorkout createWorkout = new CreateWorkout(workoutController, historyController);
-            
-        //     state = nextAction();
-        // }
+        
         if (request.equals("history")) {
             // prompt user for a specific day and display history for that day
          
