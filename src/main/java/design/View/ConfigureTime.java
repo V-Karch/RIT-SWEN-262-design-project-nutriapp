@@ -3,7 +3,7 @@ package design.View;
 
 import java.util.concurrent.TimeUnit;
 
-import design.Model.DayScheduler;
+import design.Controller.DayScheduler;
 
 public class ConfigureTime implements Action {
     private DayScheduler dayScheduler;

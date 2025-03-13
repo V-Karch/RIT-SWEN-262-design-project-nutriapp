@@ -1,9 +1,10 @@
-package design.Model;
+package design.Controller;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import design.Controller.History.HistoryController;
+import design.Model.CurrentDay;
 public class DayScheduler {
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private CurrentDay currentDay;
