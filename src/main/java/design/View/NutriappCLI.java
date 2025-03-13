@@ -269,11 +269,7 @@ public class NutriappCLI {
                 }
                 System.out.println("");
 
-                //log the days activity
-                logTodaysActivity.execute();
-
-                // increment day
-                currentDay.startDayScheduler(0, 30, TimeUnit.SECONDS);
+                
               
                 System.out.println("***A day has passed***");
                 System.out.println("Good Morning!");
