@@ -7,8 +7,8 @@ public class CurrentDay {
         this.day = 1;
     }
 
-    public int getDay() {
-        return this.day;
+    public String getDay() {
+        return String.valueOf(this.day);
     }
 
     public void nextDay() { // Increment the day by 1
