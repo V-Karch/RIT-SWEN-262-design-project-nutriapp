@@ -3,6 +3,7 @@ package design.View;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 import design.Controller.Food.FoodManager;
 import design.Controller.Goal.GoalManager;
@@ -272,9 +273,8 @@ public class NutriappCLI {
                 logTodaysActivity.execute();
 
                 // increment day
-                currentDay.nextDay();
-                System.out.println("Today is Day " + (currentDay.getDay()));
-
+                currentDay.startDayScheduler(0, 30, TimeUnit.SECONDS);
+              
                 System.out.println("***A day has passed***");
                 System.out.println("Good Morning!");
                 weight.execute();
