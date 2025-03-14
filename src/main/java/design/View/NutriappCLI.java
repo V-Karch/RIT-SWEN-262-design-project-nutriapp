@@ -250,15 +250,13 @@ public class NutriappCLI {
         while (true) {
             // Check if the day is over and take necessary actions
             if (dayScheduler.isDayOver()) {
-                System.out.println("\n[System] Day " + currentDay.getDay() + " is over!");
-               
+                System.out.println("\nDay " + currentDay.getDay() + " is over!");
+                logTodaysActivity.execute();
 
                 // Perform end-of-day actions
                 weight.execute();
                 
-                System.out.println("[System] End-of-day actions completed.");
-                
-                // Ask user when to proceed
+                // Prompt user to start a new day
                 System.out.print("Type 'next' to start a new day: ");
                 while (true) {
                     String userInput = scanner.nextLine().toLowerCase();

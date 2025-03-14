@@ -51,8 +51,6 @@ public class DayScheduler {
                     try {
                         if (!paused) {
                             Thread.sleep(TimeUnit.SECONDS.toMillis(period));
-                            System.out.println("Logging activity for Day " + currentDay.getDay());
-                            historyController.logTodaysActivity(currentDay.getDay());
 
                             dayOver = true;
                             pauseScheduler();
@@ -77,7 +75,7 @@ public class DayScheduler {
 
     public void pauseScheduler() {
         paused = true;
-        System.out.println("Scheduler paused. Please press enter to resume.");
+        System.out.println("Scheduler paused. Please finish your current action then press enter to resume.");
     }
 
     public void resumeScheduler() {
