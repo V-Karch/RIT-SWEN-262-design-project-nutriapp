@@ -193,6 +193,12 @@ public class NutriappCLI {
         return bool;
     }
 
+    public void storeUser() { // stores user profile before closing
+        if (this.existingUser == false){
+            storageController.store(userBuilder, historyController);
+            System.out.println("User profile stored!");
+        }
+    }
 
     public void run(String[] args) throws IOException, Exception {
         if (!(new File("application.db").isFile())) { // Check if database file exists
@@ -251,20 +257,26 @@ public class NutriappCLI {
             // Check if the day is over and take necessary actions
             if (dayScheduler.isDayOver()) {
                 System.out.println("\nDay " + currentDay.getDay() + " is over!");
-                logTodaysActivity.execute();
-
+                
                 // Perform end-of-day actions
+                logTodaysActivity.execute();
                 weight.execute();
                 
                 // Prompt user to start a new day
-                System.out.print("Type 'next' to start a new day: ");
+                System.out.print("Type 'next' to start a new day or 'close' to exit: ");
                 while (true) {
                     String userInput = scanner.nextLine().toLowerCase();
                     if (userInput.equals("next")) {
                         dayScheduler.resumeScheduler();
                         break;
-                    } else {
-                        System.out.println("Invalid input. Please type 'next' to continue.");
+                    } else if(userInput.equals("close")) {
+                        storeUser();
+                        System.out.println("Bye!");
+                        System.exit(0);
+                    }
+                    
+                    else {
+                        System.out.println("Invalid input. Please type 'next' to continue or 'close' to exit.");
                     }
                 }
             }
@@ -278,12 +290,9 @@ public class NutriappCLI {
             input = input.toLowerCase();
 
             if (input.equals("close")) {
-                if (this.existingUser == false){
-                    storageController.store(userBuilder, historyController);
-                    System.out.println("User profile stored!");
-                }
+                storeUser();
                 System.out.println("Bye!");
-                break;
+                System.exit(0);
 
             } else {
                 // enables the user to do multiple things within a 24 hr period
