@@ -56,22 +56,22 @@ public class DayScheduler {
                         }
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
-                        System.out.println("Scheduler thread interrupted");
+                        System.out.println("[System] Scheduler thread interrupted");
                     }
                 }
-                System.out.println("Scheduler stopped.");
+                System.out.println("[System] Scheduler stopped.");
             });
 
             schedulerThread.start();
-            System.out.println("Scheduler started.");
+            System.out.println("[System] Scheduler started.");
         } else {
-            System.out.println("Scheduler is already running.");
+            System.out.println("[System] Scheduler is already running.");
         }
     }
 
     public void pauseScheduler() {
         paused = true;
-        System.out.println("Scheduler paused. Please finish your current action then press enter to resume.");
+        System.out.println("[System] Scheduler paused. Please finish your current action then press enter to resume.");
     }
 
     public void resumeScheduler() {
@@ -79,7 +79,7 @@ public class DayScheduler {
             paused = false;
             dayOver = false;
             currentDay.nextDay();
-            System.out.println("Scheduler resumed.");
+            System.out.println("[System] Scheduler resumed.");
         }
     }
 
@@ -88,7 +88,7 @@ public class DayScheduler {
         if (schedulerThread != null) {
             schedulerThread.interrupt();
         }
-        System.out.println("Scheduler stopped.");
+        System.out.println("[System] Scheduler stopped.");
     }
 
 

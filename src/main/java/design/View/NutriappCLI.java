@@ -263,7 +263,7 @@ public class NutriappCLI {
                 weight.execute();
                 
                 // Prompt user to start a new day
-                System.out.print("Type 'next' to start a new day or 'close' to exit: ");
+                System.out.print("Type 'next' to start a new day,'time' to change the length of a day or 'close' to exit: ");
                 while (true) {
                     String userInput = scanner.nextLine().toLowerCase();
                     if (userInput.equals("next")) {
@@ -273,10 +273,14 @@ public class NutriappCLI {
                         storeUser();
                         System.out.println("Bye!");
                         System.exit(0);
+                    } else if (userInput.equals("time")) {
+                        configureTime.execute();
+                        dayScheduler.resumeScheduler();
+                        break;
                     }
                     
                     else {
-                        System.out.println("Invalid input. Please type 'next' to continue or 'close' to exit.");
+                        System.out.println("Invalid input. Please type 'next' to continue, 'time' or 'close' to exit.");
                     }
                 }
             }
