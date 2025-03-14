@@ -212,7 +212,7 @@ public class NutriappCLI {
         AddWeight weight = new AddWeight(userBuilder, scanner, historyController);
         AddBirthdate birthdate = new AddBirthdate(userBuilder, scanner);
         BuildUser buildUser = new BuildUser(userBuilder);
-        DayScheduler dayScheduler = new DayScheduler(currentDay, historyController, weight);
+        DayScheduler dayScheduler = new DayScheduler(currentDay);
         ConfigureTime configureTime = new ConfigureTime(dayScheduler);
 
         // startup

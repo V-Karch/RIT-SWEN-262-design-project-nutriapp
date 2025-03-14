@@ -2,26 +2,22 @@ package design.Controller;
 
 
 import java.util.concurrent.TimeUnit;
-import design.Controller.History.HistoryController;
 import design.Model.CurrentDay;
-import design.View.User.AddWeight;
+
 import java.lang.Thread;
 
 public class DayScheduler {
     private Thread schedulerThread;
     private CurrentDay currentDay;
-    private HistoryController historyController;
-    private AddWeight weight;
     private long period;
     private volatile boolean paused;
     private volatile boolean running;
     private volatile boolean dayOver;
     
 
-    public DayScheduler(CurrentDay currentDay, HistoryController historyController, AddWeight weight) {
+    public DayScheduler(CurrentDay currentDay) {
         this.currentDay = currentDay;
-        this.historyController = historyController;
-        this.weight = weight;
+        
         this.period = 30;
         this.paused = false;
         this.running = false;
