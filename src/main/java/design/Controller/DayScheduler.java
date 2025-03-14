@@ -1,21 +1,21 @@
 package design.Controller;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
+
 import java.util.concurrent.TimeUnit;
 import design.Controller.History.HistoryController;
 import design.Model.CurrentDay;
 import design.View.User.AddWeight;
+import java.lang.Thread;
 
 public class DayScheduler {
-    private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private Thread schedulerThread;
     private CurrentDay currentDay;
     private HistoryController historyController;
     private AddWeight weight;
     private long period;
-    private ScheduledFuture<?> task;
-    private boolean isPaused;
+    private volatile boolean paused;
+    private volatile boolean running;
+    private volatile boolean dayOver;
     
 
     public DayScheduler(CurrentDay currentDay, HistoryController historyController, AddWeight weight) {
@@ -23,9 +23,10 @@ public class DayScheduler {
         this.historyController = historyController;
         this.weight = weight;
         this.period = 30;
-        this.task = null;
-        this.isPaused = false;
-     
+        this.paused = false;
+        this.running = false;
+        this.dayOver = false;
+        
     }
 
     public void setPeriod(long period) {
@@ -36,40 +37,66 @@ public class DayScheduler {
         return this.period;
     }
 
+    public boolean isDayOver() {
+        return dayOver;
+    }
+
+
 
     public void startScheduler() {
-        
-        if (task == null || task.isCancelled()) { // If the task is not running or cancelled
+        if (schedulerThread == null || !schedulerThread.isAlive()) {
+            running = true;
+            schedulerThread = new Thread(() -> {
+                while (running) {
+                    try {
+                        if (!paused) {
+                            Thread.sleep(TimeUnit.SECONDS.toMillis(period));
+                            System.out.println("Logging activity for Day " + currentDay.getDay());
+                            historyController.logTodaysActivity(currentDay.getDay());
 
-            task = scheduler.scheduleAtFixedRate(() -> {
-                historyController.logTodaysActivity(currentDay.getDay()); // Log the activity of the current day
-                currentDay.nextDay(); // Increment the day by 1
-                
-            }, period, period, TimeUnit.SECONDS);    // Start the scheduler after the given period
-            System.out.println("Scheduler started");
+                            dayOver = true;
+                            pauseScheduler();
+
+                        } else {
+                            Thread.sleep(500); // Sleep briefly while paused
+                        }
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        System.out.println("Scheduler thread interrupted");
+                    }
+                }
+                System.out.println("Scheduler stopped.");
+            });
+
+            schedulerThread.start();
+            System.out.println("Scheduler started.");
         } else {
-            System.out.println("Scheduler is already running");
-        }
-
-    } 
-
-    public void pauseScheduler() {
-        if (!task.isCancelled() && task != null) { 
-            task.cancel(false);
-            isPaused = true;
-            System.out.println("Scheduler paused");
+            System.out.println("Scheduler is already running.");
         }
     }
 
+    public void pauseScheduler() {
+        paused = true;
+        System.out.println("Scheduler paused. Please press enter to resume.");
+    }
+
     public void resumeScheduler() {
-        if (isPaused) {
-            startScheduler();
-            isPaused = false;
-            
+        if (paused) {
+            paused = false;
+            dayOver = false;
+            currentDay.nextDay();
+            System.out.println("Scheduler resumed.");
         }
     }
 
     public void stopScheduler() {
-        scheduler.shutdown();
+        running = false;
+        if (schedulerThread != null) {
+            schedulerThread.interrupt();
+        }
+        System.out.println("Scheduler stopped.");
     }
+
+
 }
+

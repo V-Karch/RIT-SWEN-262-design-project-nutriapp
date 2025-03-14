@@ -181,10 +181,7 @@ public class NutriappCLI {
             }
             state = true;
         }
-        if (request.equals("skip")) {
-            // skip to next day
-            state = false;
-        }
+       
         return state;
     }
 
@@ -249,10 +246,31 @@ public class NutriappCLI {
         configureTime.execute(); // asks for the period of time for a day to pass
 
         dayScheduler.startScheduler(); // starts the scheduler
-        
+
         while (true) {
-            
-            
+            // Check if the day is over and take necessary actions
+            if (dayScheduler.isDayOver()) {
+                System.out.println("\n[System] Day " + currentDay.getDay() + " is over!");
+               
+
+                // Perform end-of-day actions
+                weight.execute();
+                
+                System.out.println("[System] End-of-day actions completed.");
+                
+                // Ask user when to proceed
+                System.out.print("Type 'next' to start a new day: ");
+                while (true) {
+                    String userInput = scanner.nextLine().toLowerCase();
+                    if (userInput.equals("next")) {
+                        dayScheduler.resumeScheduler();
+                        break;
+                    } else {
+                        System.out.println("Invalid input. Please type 'next' to continue.");
+                    }
+                }
+            }
+
             
             System.out.println("\nToday is Day " + currentDay.getDay());
             System.out.println("What would you like to do today?");
@@ -280,7 +298,11 @@ public class NutriappCLI {
                 }
                 System.out.println("");
             }
+
+            
+
         }
+        dayScheduler.stopScheduler();
         scanner.close();
     }
 }
