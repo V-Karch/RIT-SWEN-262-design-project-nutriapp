@@ -17,7 +17,7 @@ public class ConfigureTime implements Action {
         long period = Long.parseLong(System.console().readLine());
         
         System.out.println("A new day will start after every " + period + " seconds.");
-        this.dayScheduler.startScheduler(period);
+        this.dayScheduler.setPeriod(period);
 
 
     }

@@ -7,6 +7,7 @@ import java.util.Scanner;
 import design.Controller.Food.FoodManager;
 import design.Controller.Goal.GoalManager;
 import design.Controller.History.HistoryController;
+import design.Controller.DayScheduler;
 import design.Controller.StorageController;
 import design.Controller.User.UserBuilder;
 import design.Controller.Workout.WorkoutController;
@@ -42,6 +43,8 @@ public class NutriappCLI {
     static Scanner scanner = new Scanner(System.in);
     static CurrentDay currentDay = new CurrentDay();
     
+    
+
     //controllers
     static HistoryController historyController = new HistoryController(new HistoryManager());
     static WorkoutController workoutController = new WorkoutController(new WorkoutBuilder(currentDay), new WorkoutManager());
@@ -206,6 +209,8 @@ public class NutriappCLI {
         AddWeight weight = new AddWeight(userBuilder, scanner, historyController);
         AddBirthdate birthdate = new AddBirthdate(userBuilder, scanner);
         BuildUser buildUser = new BuildUser(userBuilder);
+        DayScheduler dayScheduler = new DayScheduler(currentDay, historyController, weight);
+        ConfigureTime configureTime = new ConfigureTime(dayScheduler);
 
         // startup
         System.out.println("\nWelcome to Nutriapp. Tell us a little more about yourself!");
@@ -241,7 +246,10 @@ public class NutriappCLI {
             setPhysicalFitness.execute();
         }
 
+        configureTime.execute(); // asks for the period of time for a day to pass
+
         while (true) {
+            
             System.out.println("\nToday is Day " + currentDay.getDay());
             System.out.println("What would you like to do today?");
             System.out.println("Type 'Help' to view possible commands");
@@ -269,12 +277,11 @@ public class NutriappCLI {
                 System.out.println("");
 
                 
-              
-                System.out.println("***A day has passed***");
-                System.out.println("Good Morning!");
-                weight.execute();
-                System.out.println("");
-                
+
+                // System.out.println("***A day has passed***");
+                // System.out.println("Good Morning!");
+                // weight.execute();
+                // System.out.println("");
             }
         }
         scanner.close();
