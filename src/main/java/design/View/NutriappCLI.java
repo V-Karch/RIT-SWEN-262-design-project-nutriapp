@@ -248,7 +248,11 @@ public class NutriappCLI {
 
         configureTime.execute(); // asks for the period of time for a day to pass
 
+        dayScheduler.startScheduler(); // starts the scheduler
+        
         while (true) {
+            
+            
             
             System.out.println("\nToday is Day " + currentDay.getDay());
             System.out.println("What would you like to do today?");
@@ -275,13 +279,6 @@ public class NutriappCLI {
                     break;
                 }
                 System.out.println("");
-
-                
-
-                // System.out.println("***A day has passed***");
-                // System.out.println("Good Morning!");
-                // weight.execute();
-                // System.out.println("");
             }
         }
         scanner.close();
