@@ -113,6 +113,10 @@ public class FoodManager {
         return Meals;
     }
 
+    public List<ShoppingList> getAllShoppingLists(){
+        return ShoppingLists;
+    }
+
     public ShoppingList getShoppingList(String name) throws Exception {
         for (ShoppingList s : ShoppingLists) {
             if (s.getName().equals(name)) {

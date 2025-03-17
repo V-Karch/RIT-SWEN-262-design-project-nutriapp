@@ -47,8 +47,7 @@ public class AddRecipe implements Action {
                 System.out.println("Choice is out of bounds.");
                 return;
             }
-        }
-        else{
+        } else {
             System.out.println("No meals to add a recipe to.");
             return;
         }
@@ -80,14 +79,12 @@ public class AddRecipe implements Action {
                 System.out.println("Choice is out of bounds.");
                 return;
             }
-        }
-        else{
+
+            foodManager.addRecipe(meal, recipe);
+            System.out.println("Recipe added!");
+        } else {
             System.out.println("No recipes to add to this meal.");
         }
-
-        foodManager.addRecipe(meal, recipe);
-        System.out.println("Recipe added!");
-
 
     }
 }
