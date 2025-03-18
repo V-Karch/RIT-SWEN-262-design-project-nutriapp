@@ -24,6 +24,7 @@ import design.View.Food.CreateShoppingList;
 import design.View.Food.PrepareMeal;
 import design.View.Food.StockIngredient;
 import design.View.Food.ViewShoppingList;
+import design.View.Food.SearchIngredient;
 import design.View.Goal.GetTargetCalories;
 import design.View.Goal.SetPhysicalFitness;
 import design.View.Goal.SetTargetWeight;
@@ -79,6 +80,7 @@ public class NutriappCLI {
 
     public void promptUser() {
         System.out.println("Type 'Stock' to add stock to an ingredient");
+        System.out.println("Type 'Search' to search for an ingredient");
         System.out.println("Type 'Recipe' to create a recipe");
         System.out.println("Type 'Create Meal' to create a meal");
         System.out.println("Type 'Add Recipe' to add a recipe to a meal");
@@ -101,6 +103,12 @@ public class NutriappCLI {
         boolean state = false;
         String request = input.toLowerCase();
         System.out.println();
+        if(request.equals("search")){
+            SearchIngredient searchIngredient = new SearchIngredient(this.foodManager, scanner);
+
+            searchIngredient.execute();
+            state = nextAction();
+        }
         if (request.equals("stock")) {
             StockIngredient stockIngredient = new StockIngredient(this.foodManager, scanner);
 

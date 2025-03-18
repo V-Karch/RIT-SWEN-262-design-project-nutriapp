@@ -2,12 +2,13 @@ package design.View.Food;
 
 import java.util.List;
 import java.util.Scanner;
+import design.View.Action;
 
 import design.Controller.Food.FoodManager;
 import design.Model.Food.Ingredient;
 import design.Model.Food.Recipe;
 
-public class AddIngredient {
+public class AddIngredient implements Action{
     private FoodManager foodManager;
     private Ingredient ingredient;
     private Recipe recipe;
@@ -17,8 +18,6 @@ public class AddIngredient {
     public AddIngredient(FoodManager foodManager, Scanner input)
     {
         this.foodManager = foodManager;
-        this.ingredient = ingredient;
-        this.quantity = quantity;
         this.input = input;
     }
 

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import design.Controller.Food.FoodManager;
+import design.Model.Food.Recipe;
 import design.Model.Food.ShoppingList;
 import design.View.Action;
 
@@ -19,6 +20,13 @@ public class ViewShoppingList implements Action{
 
     public void execute(){
         System.out.println("Which shopping list would you like to view?");
+
+        List<ShoppingList> ShoppingLists = foodManager.getAllShoppingLists();
+
+        for (ShoppingList s : ShoppingLists) {
+                System.out.println(s.getName());
+            }
+
         String choice = input.nextLine();
         try{
             list = foodManager.getShoppingList(choice);
