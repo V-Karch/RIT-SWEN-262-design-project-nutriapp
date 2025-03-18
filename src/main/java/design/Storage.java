@@ -140,6 +140,15 @@ public class Storage {
     }
 
     /**
+     * Updates an existing user in the database and assigns a goal.
+     * 
+     * @param user The user object to be updated.
+     */
+    public static void updateUser(User user) {
+        // Stub method
+    }
+
+    /**
      * Retrieves a user by name from the database, along with their associated goal.
      * 
      * @param name The name of the user to retrieve.
