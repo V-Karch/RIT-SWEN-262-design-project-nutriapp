@@ -32,6 +32,7 @@ public class GoalManager {
 
   public void setDailyWeight(double weight) {
     user.updateCurrentWeight(weight);
+    goal = user.getGoal();
   }
 
   public int removeDailyCalories(int calories) {

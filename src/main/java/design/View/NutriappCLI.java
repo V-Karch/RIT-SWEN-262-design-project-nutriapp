@@ -27,6 +27,7 @@ import design.View.Food.ViewShoppingList;
 import design.View.Goal.GetTargetCalories;
 import design.View.Goal.SetPhysicalFitness;
 import design.View.Goal.SetTargetWeight;
+import design.View.Goal.UpdateWeight;
 import design.View.History.LogTodaysActivity;
 import design.View.History.SearchHistory;
 import design.View.User.AddBirthdate;
@@ -159,11 +160,13 @@ public class NutriappCLI {
         if (request.equals("set target weight")) {
             SetTargetWeight setTargetWeight = new SetTargetWeight(goalManager, scanner);
             setTargetWeight.execute();
+            state = nextAction();
         }
 
         if (request.equals("get target calories")) {
             GetTargetCalories getTargetCalories = new GetTargetCalories(goalManager);
             getTargetCalories.execute();
+            state = nextAction();
         }
 
         if (request.equals("help")) {
@@ -310,8 +313,13 @@ public class NutriappCLI {
                 System.out.println("");
             }
 
-            
-
+                // Potentially problematic
+                System.out.println("***A day has passed***");
+                System.out.println("Good Morning!");
+                UpdateWeight updateWeight = new UpdateWeight(goalManager, scanner, historyController);
+                updateWeight.execute();
+                System.out.println("");
+            }
         }
         dayScheduler.stopScheduler();
         scanner.close();
