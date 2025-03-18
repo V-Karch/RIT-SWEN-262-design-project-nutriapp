@@ -1,16 +1,16 @@
 package design.Model.Workout;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
+import design.Model.CurrentDay;
 
 public class WorkoutBuilder {
-    private String date;
     private Intensity intensity;
     private int minutes;
     private String name;
+    private CurrentDay currentDay;
 
-    public WorkoutBuilder() {
-        this.setDateTime();
+    public WorkoutBuilder(CurrentDay currentDay) {
+        this.currentDay = currentDay;   
         this.intensity = Intensity.MEDIUM;
         this.minutes = 0;
     }
@@ -23,19 +23,15 @@ public class WorkoutBuilder {
         this.intensity = intensity;
     }
 
-    public void setDateTime() {
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        this.date = now.format(formatter);
-    }
 
     public void setName(String name) {
         this.name = name;
     }
+    
 
     public Workout createWorkout() {
         // Make call to Goal subsystem so workout can be added to daily calories
-        setDateTime();
-        return new Workout(minutes, intensity, date, name);
+        
+        return new Workout(minutes, intensity, this.currentDay.getDay(), name);
     }
 }
