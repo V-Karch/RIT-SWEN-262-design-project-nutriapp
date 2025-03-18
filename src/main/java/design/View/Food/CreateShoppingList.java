@@ -34,8 +34,8 @@ public class CreateShoppingList implements Action {
         String choice = "";
         while (!choice.equals("0")) {
             System.out.println("What ingredient would you like to add? Enter '0' to finish list.");
+            choice = input.nextLine();
             if (!choice.equals("0")) {
-                choice = input.nextLine();
                 try {
                     Ingredient item = foodManager.getIngredient(choice);
                     items.add(item);

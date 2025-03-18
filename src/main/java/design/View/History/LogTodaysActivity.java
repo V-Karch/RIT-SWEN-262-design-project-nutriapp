@@ -1,25 +1,26 @@
 package design.View.History;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import design.Controller.History.HistoryController;
+import design.Model.CurrentDay;
 import design.View.Action;
 
 public class LogTodaysActivity implements Action {
 
     private HistoryController historyController;
+    private CurrentDay currentDay;
     
 
-    public LogTodaysActivity(HistoryController historyController) {
+    public LogTodaysActivity(HistoryController historyController, CurrentDay currentDay) {
         this.historyController = historyController;
+        this.currentDay = currentDay;
 
     }
 
     @Override
     public void execute() {
         //Save the previous day's activity to history and create a new DailyActivity object for today
-        this.historyController.logTodaysActivity(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))); 
+        this.historyController.logTodaysActivity(currentDay.getDay()); 
         System.out.println("Activity logged for the previous day!");
     }
 }

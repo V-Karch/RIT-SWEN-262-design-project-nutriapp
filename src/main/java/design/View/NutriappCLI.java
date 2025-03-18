@@ -7,9 +7,11 @@ import java.util.Scanner;
 import design.Controller.Food.FoodManager;
 import design.Controller.Goal.GoalManager;
 import design.Controller.History.HistoryController;
+import design.Controller.DayScheduler;
 import design.Controller.StorageController;
 import design.Controller.User.UserBuilder;
 import design.Controller.Workout.WorkoutController;
+import design.Model.CurrentDay;
 import design.Model.History.HistoryManager;
 import design.Model.Workout.WorkoutBuilder;
 import design.Model.Workout.WorkoutManager;
@@ -22,9 +24,11 @@ import design.View.Food.CreateShoppingList;
 import design.View.Food.PrepareMeal;
 import design.View.Food.StockIngredient;
 import design.View.Food.ViewShoppingList;
+import design.View.Food.SearchIngredient;
 import design.View.Goal.GetTargetCalories;
 import design.View.Goal.SetPhysicalFitness;
 import design.View.Goal.SetTargetWeight;
+import design.View.Goal.UpdateWeight;
 import design.View.History.LogTodaysActivity;
 import design.View.History.SearchHistory;
 import design.View.User.AddBirthdate;
@@ -41,25 +45,31 @@ public class NutriappCLI {
     
     static Scanner scanner = new Scanner(System.in);
     NALogger logger = new NALogger(scanner);
+    static CurrentDay currentDay = new CurrentDay();
+    
+    //controllers
     static HistoryController historyController = new HistoryController(new HistoryManager());
-    static WorkoutController workoutController = new WorkoutController(new WorkoutBuilder(), new WorkoutManager());
+    static WorkoutController workoutController = new WorkoutController(new WorkoutBuilder(currentDay), new WorkoutManager());
+    
+    //history commands
     static SearchHistory searchHistory = new SearchHistory(scanner, historyController);
-    static LogTodaysActivity logTodaysActivity = new LogTodaysActivity(historyController);
+    static LogTodaysActivity logTodaysActivity = new LogTodaysActivity(historyController, currentDay);
+    
+    //workout commands
     static SetName setName = new SetName(workoutController, scanner);
     static SetIntensity setIntensity = new SetIntensity(workoutController, scanner);
     static SetMinutes setMinutes = new SetMinutes(workoutController, scanner);
     static CreateWorkout createWorkout = new CreateWorkout(workoutController, historyController);
+
     static UserBuilder userBuilder = new UserBuilder();
     static StorageController storageController = new StorageController();
     Boolean existingUser;
 
     FoodManager foodManager;
     GoalManager goalManager;
-
+   
     public NutriappCLI() throws IOException {
-        this.foodManager = new
-        FoodManager("src/main/java/design/ingredients.csv");
-
+        this.foodManager = new FoodManager("src/main/java/design/ingredients.csv");
         userBuilder = new UserBuilder();
     }
 
@@ -72,6 +82,7 @@ public class NutriappCLI {
     public void promptUser() {
         //prints all possible commands to terminal
         logger.message("Type 'Stock' to add stock to an ingredient");
+        logger.message("Type 'Search' to search for an ingredient");
         logger.message("Type 'Recipe' to create a recipe");
         logger.message("Type 'Create Meal' to create a meal");
         logger.message("Type 'Add Recipe' to add a recipe to a meal");
@@ -87,7 +98,6 @@ public class NutriappCLI {
         logger.message("Type 'Close' to exit the application");
         logger.message("Type 'Help' to view all commands");
         logger.gap();
-
     }
 
     public boolean parseInput(String input) throws Exception {
@@ -95,6 +105,12 @@ public class NutriappCLI {
         boolean state = false;
         String request = input.toLowerCase();
         logger.gap();
+        if(request.equals("search")){
+            SearchIngredient searchIngredient = new SearchIngredient(this.foodManager, scanner);
+
+            searchIngredient.execute();
+            state = nextAction();
+        }
         if (request.equals("stock")) {
             StockIngredient stockIngredient = new StockIngredient(this.foodManager, scanner);
 
@@ -136,30 +152,17 @@ public class NutriappCLI {
             viewShoppingList.execute();
             state = nextAction();
         }
-        if (request.equals("workout")) { //asks for a workout name, intensity, and duration
-            //DONT TOUCH THIS, IT WORKS FOR DEMO
-            setName.execute();
-            state = nextAction();
-        }
-        if (request.equals("set workout intensity")) {
-            SetIntensity setIntensity = new SetIntensity(workoutController, scanner);
-            setIntensity.execute();
-            state = nextAction();
-        }
-        if (request.equals("set workout minutes")) {
-            SetMinutes setMinutes = new SetMinutes(workoutController, scanner);
-            setMinutes.execute();
-            state = nextAction();
-        }
-        if (request.equals("create workout")) {
-            CreateWorkout createWorkout = new CreateWorkout(workoutController, historyController);
-            createWorkout.execute();
+        if (request.equals("workout")) { 
+            setName.execute();//asks for a workout name,
+            setIntensity.execute();//asks for a workout intensity,
+            setMinutes.execute();//asks for a workout duration in minutes,
+            createWorkout.execute();// creates workout
             state = nextAction();
         }
         
         if (request.equals("history")) {
-            // prompt user for a specific date and display history for that date-time
-            // (yyyy-mm-dd HH:mm)
+            // prompt user for a specific day and display history for that day
+         
             searchHistory.execute();
             state = nextAction();
         }
@@ -191,10 +194,7 @@ public class NutriappCLI {
             }
             state = true;
         }
-        if (request.equals("skip")) {
-            // skip to next day
-            state = false;
-        }
+       
         return state;
     }
 
@@ -207,6 +207,12 @@ public class NutriappCLI {
         return bool;
     }
 
+    public void storeUser() { // stores user profile before closing
+        if (this.existingUser == false){
+            storageController.store(userBuilder, historyController);
+            System.out.println("User profile stored!");
+        }
+    }
 
     public void run(String[] args) throws IOException, Exception {
         if (!(new File("application.db").isFile())) { // Check if database file exists
@@ -220,6 +226,8 @@ public class NutriappCLI {
         AddWeight weight = new AddWeight(userBuilder, logger, historyController);
         AddBirthdate birthdate = new AddBirthdate(userBuilder, logger);
         BuildUser buildUser = new BuildUser(userBuilder);
+        DayScheduler dayScheduler = new DayScheduler(currentDay);
+        ConfigureTime configureTime = new ConfigureTime(dayScheduler);
 
         // startup
         logger.message("\nWelcome to Nutriapp. Tell us a little more about yourself!");
@@ -236,6 +244,7 @@ public class NutriappCLI {
             //which should address the startup concerns and any functionality should be fine going forward if i understand this right
             logger.message("\nHi " + userBuilder.getName() + "!");
             this.existingUser = true;
+
         } else {
             //calls the concrete commands for user setup
             height.execute();
@@ -255,13 +264,52 @@ public class NutriappCLI {
             setTargetWeight.execute();
             setPhysicalFitness.execute();
         }
+
+        configureTime.execute(); // asks for the period of time for a day to pass
+
+        dayScheduler.startScheduler(); // starts the scheduler
+
         while (true) {
             //while loop serves as a day of activities -- asks the user what theyd like to do, stores NEW profiles if they choose to close
+            // Check if the day is over and take necessary actions
+            if (dayScheduler.isDayOver()) {
+                System.out.println("\nDay " + currentDay.getDay() + " is over!");
+                
+                // Perform end-of-day actions
+                logTodaysActivity.execute();
+                weight.execute();
+                
+                // Prompt user to start a new day
+                System.out.print("Type 'next' to start a new day,'time' to change the length of a day or 'close' to exit: ");
+                while (true) {
+                    String userInput = scanner.nextLine().toLowerCase();
+                    if (userInput.equals("next")) {
+                        dayScheduler.resumeScheduler();
+                        break;
+                    } else if(userInput.equals("close")) {
+                        storeUser();
+                        System.out.println("Bye!");
+                        System.exit(0);
+                    } else if (userInput.equals("time")) {
+                        configureTime.execute();
+                        dayScheduler.resumeScheduler();
+                        break;
+                    }
+                    
+                    else {
+                        System.out.println("Invalid input. Please type 'next' to continue, 'time' or 'close' to exit.");
+                    }
+                }
+            }
+
+            
+            System.out.println("\nToday is Day " + currentDay.getDay());
             logger.message("\nWhat would you like to do today?");
             logger.message("Type 'Help' to view possible commands");
             logger.query();
             String input = scanner.nextLine();
             input = input.toLowerCase();
+
             if (input.equals("close")) {
                 if (this.existingUser == false){
                     storageController.store(userBuilder, historyController);
@@ -269,6 +317,10 @@ public class NutriappCLI {
                 }
                 logger.message("Bye!");
                 break;
+                storeUser();
+                System.out.println("Bye!");
+                System.exit(0);
+
             } else {
                 // enables the user to do multiple things within a 24 hr period
                 boolean response;
@@ -278,17 +330,19 @@ public class NutriappCLI {
                     logger.message("Sad to see you go!");
                     break;
                 }
+            }
+
+                // Potentially problematic
                 logger.gap();
-
                 logTodaysActivity.execute();
-
                 logger.message("***A day has passed***");
                 logger.message("Good Morning!");
-                weight.execute();
+                UpdateWeight updateWeight = new UpdateWeight(goalManager, scanner, historyController);
+                updateWeight.execute();
                 logger.gap();
-                
             }
         }
+        dayScheduler.stopScheduler();
         scanner.close();
     }
 }
