@@ -1,35 +1,35 @@
 package design.View.User;
 
-import java.util.Scanner;
-
 import design.Controller.History.HistoryController;
 import design.Controller.User.UserBuilder;
 import design.View.Action;
+import design.View.NALogger;
 
 public class AddWeight implements Action {
     private UserBuilder userBuilder;
-    private Scanner input;
+    private NALogger logger;
     private HistoryController historyController;
 
-    public AddWeight(UserBuilder userBuilder, Scanner scanner, HistoryController historyController) {
+    public AddWeight(UserBuilder userBuilder, NALogger logger, HistoryController historyController) {
         this.userBuilder = userBuilder;
-        this.input = scanner;
+        this.logger = logger;
         this.historyController = historyController;
     }
 
     @Override
     public void execute() {
         //Asks the user their weight, parses the string as a float, and passes the information to the userbuilder
-        System.out.print("Enter your weight in lbs: ");
-        try {
-            String weight = input.nextLine();
-            float weightNum = Float.parseFloat(weight);
-            this.userBuilder.setWeight(weightNum);
-            //log weight in history
-
-            this.historyController.logWeight(((int)(weightNum))); // cast float to int
-        } catch (Exception e) {
-            System.out.println("Invalid weight");
+        //while loop for input validation
+        logger.print("Enter your weight in lbs: ");
+        boolean validInput = false;
+        while (!validInput) {
+            try {
+                float weightNum = logger.readFloat();
+                validInput = true;
+                this.userBuilder.setWeight(weightNum);
+            } catch (Exception e) {
+                logger.error("Invalid weight. Please enter a number (lbs).");
+            }
         }
     }
 }

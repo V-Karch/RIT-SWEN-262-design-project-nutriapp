@@ -35,6 +35,9 @@ public class User {
         this.currentGoal = new MaintainWeight(this, false, 0);
     }
 
+    //most functions are self explanatory
+
+
     public String getName() {
         return name;
     }

@@ -1,29 +1,34 @@
 package design.View.User;
 
-import java.util.Scanner;
-
 import design.Controller.User.UserBuilder;
 import design.View.Action;
+import design.View.NALogger;
 
 public class AddHeight implements Action {
     private UserBuilder userBuilder;
-    private Scanner input;
+    private NALogger logger;
 
-    public AddHeight(UserBuilder userBuilder, Scanner scanner) {
+    public AddHeight(UserBuilder userBuilder, NALogger logger) {
         this.userBuilder = userBuilder;
-        this.input = scanner;
+        this.logger = logger;
     }
 
     @Override
     public void execute() {
         //Asks the user their height, parses the string as a float, and passes the information to the userbuilder
-        System.out.print("Enter your height in inches: ");
-        try {
-            String height = input.nextLine();
-            float heightNum = Float.parseFloat(height);
-            this.userBuilder.setHeight(heightNum);
-        } catch (Exception e) {
-            System.out.println("Invalid height");
+        //while loop for input validation
+        logger.print("Enter your height in inches: ");
+
+        boolean validInput = false;
+        while (!validInput) {
+            
+            try {
+                float heightNum = logger.readFloat();
+                validInput = true;
+                this.userBuilder.setHeight(heightNum);
+            } catch (Exception e) {
+                logger.error("Invalid height. Please enter a number (in).");
+            }
         }
     }
 

@@ -1,31 +1,35 @@
 package design.View.User;
 
-import java.util.Scanner;
-
 import design.Controller.User.UserBuilder;
 import design.View.Action;
+import design.View.NALogger;
 
 public class AddBirthdate implements Action {
     private UserBuilder userBuilder;
-    private Scanner input;
+    private NALogger logger;
 
-    public AddBirthdate(UserBuilder userBuilder, Scanner scanner) {
+    public AddBirthdate(UserBuilder userBuilder, NALogger logger) {
         this.userBuilder = userBuilder;
-        this.input = scanner;
+        this.logger = logger;
     }
 
     @Override
     public void execute() {
-        //Asks the user their birthday in mm-dd-yyyy format, parses the string as an int array, and passes the information to the userbuilder
+        //Asks the user their birthday in mm-dd-yyyy format and passes the information to the userbuilder
+        //while loop for input validation
         
-        System.out.print("Enter your birthdate (mm-dd-yyyy): ");
-        try {
-            String birthdate = input.nextLine();
-            this.userBuilder.setBirthdate(birthdate);
-        }
-        catch(Exception e)
-        {
-            System.out.println("Invaid birthdate");
+        logger.print("Enter your birthdate (mm-dd-yyyy): ");
+
+        boolean validInput = false;
+        while (!validInput) {
+            try {
+                String birthdate = logger.readBirthday();
+                validInput = true;
+                this.userBuilder.setBirthdate(birthdate);
+            }
+            catch(Exception e){
+                logger.error("Invaid birthdate. Please use mm-dd-yyyy format.");
+            }
         }
     }
 
