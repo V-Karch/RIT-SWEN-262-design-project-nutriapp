@@ -145,7 +145,14 @@ public class Storage {
      * @param user The user object to be updated.
      */
     public static void updateUser(User user) {
-        // Stub method
+        User foundUser = getUserByName(user.getName());
+
+        if (foundUser == null) {
+            addUser(user); // User not found so it was added
+            return;
+        }
+
+        // Update the user with the new data
     }
 
     /**
