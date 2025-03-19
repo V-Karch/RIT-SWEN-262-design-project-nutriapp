@@ -28,7 +28,7 @@ public class HistoryManager {
         this.todaysActivity = todaysActivity;
     }
 
-    public void setTodaysWeight(int weight) {
+    public void setTodaysWeight(double weight) {
         this.todaysActivity.setWeight(weight);
     }
 

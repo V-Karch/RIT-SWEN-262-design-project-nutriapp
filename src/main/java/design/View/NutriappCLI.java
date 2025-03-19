@@ -315,10 +315,8 @@ public class NutriappCLI {
                     storageController.store(userBuilder, historyController);
                     logger.message("User profile stored!");
                 }
-                logger.message("Bye!");
-                break;
                 storeUser();
-                System.out.println("Bye!");
+                logger.message("Bye!");
                 System.exit(0);
 
             } else {
@@ -340,7 +338,7 @@ public class NutriappCLI {
                 UpdateWeight updateWeight = new UpdateWeight(goalManager, scanner, historyController);
                 updateWeight.execute();
                 logger.gap();
-            }
+            
         }
         dayScheduler.stopScheduler();
         scanner.close();

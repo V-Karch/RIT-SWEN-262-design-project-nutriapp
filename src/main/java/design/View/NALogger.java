@@ -60,7 +60,7 @@ public class NALogger {
         String message = scanner.nextLine();
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-            LocalDate birthDate = LocalDate.parse(message, formatter);
+            LocalDate.parse(message, formatter); // Throws exception if not valid
             return message;
         } catch (Exception e) {
             gap();

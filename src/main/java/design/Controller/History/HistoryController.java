@@ -40,7 +40,7 @@ public class HistoryController {
         return this.historyManager.getDailyActivity(date);
     }
 
-    public void logWeight(int weight) {
+    public void logWeight(double weight) {
         this.historyManager.setTodaysWeight(weight);
     }
 }

@@ -8,7 +8,7 @@ import design.Model.Workout.Workout;
 import java.util.ArrayList;
 
 public class DailyActivity {
-    private int weight;
+    private double weight;
     private int calories_consumed;
     private int target_calories;
     private List<Meal> meals;  
@@ -24,11 +24,11 @@ public class DailyActivity {
 
         }
 
-        public int getWeight() {
+        public double getWeight() {
             return weight;
         }
 
-        public void setWeight(int weight) {
+        public void setWeight(double weight) {
             this.weight = weight;
         }
 

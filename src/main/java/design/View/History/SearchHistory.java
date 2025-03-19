@@ -39,7 +39,7 @@ public class SearchHistory implements Action{
 
             System.out.println("\n***ACTIVITY FOR DAY " + date + "***");
 
-            int weight = dailyActivity.getWeight();
+            double weight = dailyActivity.getWeight();
             int calories_consumed = dailyActivity.getCaloriesConsumed();
             int target_calories = dailyActivity.getTargetCalories();
             List<Meal> meals = dailyActivity.getMeals(); 
