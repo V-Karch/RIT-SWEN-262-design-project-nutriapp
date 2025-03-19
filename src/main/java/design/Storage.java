@@ -14,7 +14,8 @@ import design.Model.Goal.MaintainWeight;
 
 /**
  * The Storage class provides methods for interacting with a SQLite database.
- * It handles database creation, table setup, and CRUD operations for users and goals.
+ * It handles database creation, table setup, and CRUD operations for users and
+ * goals.
  * 
  * @Author: V-Karch
  */
@@ -148,11 +149,54 @@ public class Storage {
         User foundUser = getUserByName(user.getName());
 
         if (foundUser == null) {
-            addUser(user); // User not found so it was added
+            addUser(user); // User not found, so add them
             return;
         }
 
-        // Update the user with the new data
+        String sql = "UPDATE users SET height = ?, birth_date = ?, age = ?, current_weight = ?, target_weight = ? " +
+                "WHERE name = ?;";
+
+        try {
+            Connection connection = DriverManager.getConnection(DATABASE_URL);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql); 
+
+            preparedStatement.setDouble(1, user.getHeight());
+            preparedStatement.setString(2, user.getBirthdate());
+            preparedStatement.setInt(3, user.getAge());
+            preparedStatement.setDouble(4, user.getCurrentWeight());
+            preparedStatement.setDouble(5, user.getTargetWeight());
+            preparedStatement.setString(6, user.getName());
+
+            preparedStatement.executeUpdate();
+            updateGoal(user.getGoal());
+        } catch (SQLException e) {
+            System.out.println("Error updating user: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Updates an existing goal in the database.
+     * 
+     * @param goal The goal object to be updated
+     */
+    public static void updateGoal(Goal goal) {
+        String sql = "UPDATE goals SET phyical_fitness = ?, target_calories = ?, daily_calories = ?, type = ? "
+                + "WHERE username = ?;";
+
+        try {
+            Connection connection = DriverManager.getConnection(DATABASE_URL);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setBoolean(1, goal.getPhysicalFitness());
+            preparedStatement.setInt(2, goal.getTargetCalories());
+            preparedStatement.setInt(3, goal.getDailyCalories());
+            preparedStatement.setString(4, goal.getClass().getSimpleName());
+            preparedStatement.setString(5, goal.getUser().getName());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error updating goal: " + e.getMessage());
+        }
     }
 
     /**
