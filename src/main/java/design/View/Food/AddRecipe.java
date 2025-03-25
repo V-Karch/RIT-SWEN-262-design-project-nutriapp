@@ -24,7 +24,7 @@ public class AddRecipe implements Action {
 
         if (Meals.size() > 0) {
             System.out.println("Choose a meal to add a recipe to:");
-            int i = 1;
+            int i = 0;
             for (Meal m : Meals) {
                 System.out.print(i + ": ");
                 System.out.println(m.getName());
@@ -40,7 +40,6 @@ public class AddRecipe implements Action {
                 return;
             }
 
-            mealChoice--;
             if (mealChoice >= 0 && mealChoice < Meals.size()) {
                 meal = Meals.get(mealChoice);
             } else {
@@ -55,8 +54,8 @@ public class AddRecipe implements Action {
         List<Recipe> Recipes = foodManager.getAllRecipes();
 
         if (Recipes.size() > 0) {
-            System.out.println("Choose a recipe to add an ingredient to:");
-            int i = 1;
+            System.out.println("Choose a recipe to add to this meal:");
+            int i = 0;
             for (Recipe r : Recipes) {
                 System.out.print(i + ": ");
                 System.out.println(r.getName());
@@ -72,13 +71,12 @@ public class AddRecipe implements Action {
                 return;
             }
 
-            recipeChoice--;
             if (recipeChoice >= 0 && recipeChoice < Recipes.size()) {
                 recipe = Recipes.get(recipeChoice);
             } else {
                 System.out.println("Choice is out of bounds.");
                 return;
-            }
+            }  
 
             foodManager.addRecipe(meal, recipe);
             System.out.println("Recipe added!");

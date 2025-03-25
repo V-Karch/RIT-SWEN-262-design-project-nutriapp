@@ -49,12 +49,14 @@ public class FoodManager {
         meal.addRecipe(recipe);
     }
 
-    public void createRecipe(String name, String[] Instructions) {
+    public Recipe createRecipe(String name, String[] Instructions) {
         Recipes.add(new Recipe(name, Instructions));
+        return Recipes.get(Recipes.size()-1);
     }
 
-    public void createMeal(String name) {
+    public Meal createMeal(String name) {
         Meals.add(new Meal(name));
+        return Meals.get(Meals.size()-1);
     }
 
     public ShoppingList createShoppingList(List<Ingredient> FoodList, String name) {
