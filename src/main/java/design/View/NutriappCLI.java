@@ -92,7 +92,7 @@ public class NutriappCLI {
         logger.message("Type 'View Shopping List' to get a list of your commonly used ingredients");
         logger.message("Type 'Workout' to log a completed workout");
         logger.message("Type 'History' to view your history");
-        logger.message("Type 'Get Target Calories' to see your remaining allottedli calories for the day");
+        logger.message("Type 'Get Target Calories' to see your remaining allotted calories for the day");
         logger.message("Type 'Set Target Weight' to change your target weight");
         logger.message("Type 'Close' to exit the application");
         logger.message("Type 'Help' to view all commands");
