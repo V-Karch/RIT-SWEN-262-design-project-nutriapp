@@ -25,6 +25,9 @@ public class AddWeight implements Action {
         while (!validInput) {
             try {
                 float weightNum = logger.readFloat();
+                if (weightNum <= 0){
+                    throw new Exception();
+                }
                 validInput = true;
                 this.userBuilder.setWeight(weightNum);
                 this.historyController.logWeight(weightNum);

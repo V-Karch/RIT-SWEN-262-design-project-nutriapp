@@ -24,6 +24,9 @@ public class AddHeight implements Action {
             
             try {
                 float heightNum = logger.readFloat();
+                if (heightNum <= 0){
+                    throw new Exception();
+                }
                 validInput = true;
                 this.userBuilder.setHeight(heightNum);
             } catch (Exception e) {

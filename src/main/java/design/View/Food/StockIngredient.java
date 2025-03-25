@@ -24,6 +24,7 @@ public class StockIngredient implements Action{
         List<String> ingredients = foodManager.getIngredients();
         System.out.println(ingredients.toString());
         System.out.println("Which ingredient would you like to stock?");
+        System.out.print("$ ");
         String choice = input.nextLine();
             try{
                 ingredient = foodManager.getIngredient(choice);
@@ -34,6 +35,7 @@ public class StockIngredient implements Action{
             }
 
             System.out.println("How many grams would you like to stock?");
+            System.out.print("$ ");
             choice = input.nextLine();
             try{
                 amount = Integer.parseInt(choice);

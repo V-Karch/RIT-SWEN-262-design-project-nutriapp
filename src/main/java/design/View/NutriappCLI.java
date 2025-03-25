@@ -4,10 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
+import design.Controller.DayScheduler;
 import design.Controller.Food.FoodManager;
 import design.Controller.Goal.GoalManager;
 import design.Controller.History.HistoryController;
-import design.Controller.DayScheduler;
 import design.Controller.StorageController;
 import design.Controller.User.UserBuilder;
 import design.Controller.Workout.WorkoutController;
@@ -22,9 +22,9 @@ import design.View.Food.CreateMeal;
 import design.View.Food.CreateRecipe;
 import design.View.Food.CreateShoppingList;
 import design.View.Food.PrepareMeal;
+import design.View.Food.SearchIngredient;
 import design.View.Food.StockIngredient;
 import design.View.Food.ViewShoppingList;
-import design.View.Food.SearchIngredient;
 import design.View.Goal.GetTargetCalories;
 import design.View.Goal.SetPhysicalFitness;
 import design.View.Goal.SetTargetWeight;
@@ -92,18 +92,19 @@ public class NutriappCLI {
         logger.message("Type 'View Shopping List' to get a list of your commonly used ingredients");
         logger.message("Type 'Workout' to log a completed workout");
         logger.message("Type 'History' to view your history");
-        logger.message("Type 'Get Target Calories' to see your remaining allotted calories for the day");
+        logger.message("Type 'Get Target Calories' to see your remaining allottedli calories for the day");
         logger.message("Type 'Set Target Weight' to change your target weight");
-        logger.message("Type 'Skip' to skip to the next day");
         logger.message("Type 'Close' to exit the application");
         logger.message("Type 'Help' to view all commands");
         logger.gap();
+        logger.query();
     }
 
     public boolean parseInput(String input) throws Exception {
         //reads user input and calls the correct concrete command, then calls nextAction() (unless skip or close)
         boolean state = false;
         String request = input.toLowerCase();
+        System.out.println("INPUT: " + request);
         logger.gap();
         if(request.equals("search")){
             SearchIngredient searchIngredient = new SearchIngredient(this.foodManager, scanner);
@@ -193,6 +194,12 @@ public class NutriappCLI {
                 logger.message("User profile stored!");
             }
             state = true;
+            return state;
+        } else {
+            logger.message("Command not recognized. Try again!");
+            logger.query();
+            input = scanner.nextLine();
+            parseInput(input);
         }
        
         return state;
@@ -201,7 +208,8 @@ public class NutriappCLI {
     public Boolean nextAction() throws Exception {
         //asks the user what they would like to do next, then calls parseInput() 
         logger.gap();
-        logger.print("What would you like to do next?");
+        logger.message("What would you like to do next?");
+        logger.query();
         String input = scanner.nextLine();
         Boolean bool = parseInput(input);
         return bool;
@@ -227,7 +235,7 @@ public class NutriappCLI {
         AddBirthdate birthdate = new AddBirthdate(userBuilder, logger);
         BuildUser buildUser = new BuildUser(userBuilder);
         DayScheduler dayScheduler = new DayScheduler(currentDay);
-        ConfigureTime configureTime = new ConfigureTime(dayScheduler);
+        ConfigureTime configureTime = new ConfigureTime(dayScheduler, scanner);
 
         // startup
         logger.message("\nWelcome to Nutriapp. Tell us a little more about yourself!");
@@ -244,6 +252,7 @@ public class NutriappCLI {
             //which should address the startup concerns and any functionality should be fine going forward if i understand this right
             logger.message("\nHi " + userBuilder.getName() + "!");
             this.existingUser = true;
+            weight.execute();
 
         } else {
             //calls the concrete commands for user setup
@@ -266,6 +275,7 @@ public class NutriappCLI {
         }
 
         configureTime.execute(); // asks for the period of time for a day to pass
+        
 
         dayScheduler.startScheduler(); // starts the scheduler
 
@@ -289,6 +299,7 @@ public class NutriappCLI {
                     } else if(userInput.equals("close")) {
                         storeUser();
                         System.out.println("Bye!");
+                        scanner.close();
                         System.exit(0);
                     } else if (userInput.equals("time")) {
                         configureTime.execute();
