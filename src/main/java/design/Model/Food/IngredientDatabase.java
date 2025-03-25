@@ -52,5 +52,16 @@ public class IngredientDatabase {
         }
         return new Ingredient();
     }
+    
+    public List<Ingredient> searchForIngredients(String searchTerm){
+        ArrayList<Ingredient> result = new ArrayList<Ingredient>();
+        searchTerm = searchTerm.toUpperCase();
+        for (Ingredient ingredient : ingredients) {
+            if (ingredient.getName().contains(searchTerm)) {
+                result.add(ingredient);
+            }
+        }
+        return result;
+    }
 
 }
