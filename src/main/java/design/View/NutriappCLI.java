@@ -106,100 +106,95 @@ public class NutriappCLI {
         String request = input.toLowerCase();
         System.out.println("INPUT: " + request);
         logger.gap();
-        if(request.equals("search")){
-            SearchIngredient searchIngredient = new SearchIngredient(this.foodManager, scanner);
-
-            searchIngredient.execute();
-            state = nextAction();
-        }
-        if (request.equals("stock")) {
-            StockIngredient stockIngredient = new StockIngredient(this.foodManager, scanner);
-
-            stockIngredient.execute();
-            state = nextAction();
-        }
-        if (request.equals("recipe")) {
-            CreateRecipe createRecipe = new CreateRecipe(this.foodManager, scanner);
-            createRecipe.execute();
-            state = nextAction();
-        }
-        if (request.equals("create meal")) {
-            CreateMeal createMeal = new CreateMeal(foodManager, "", scanner);
-            createMeal.execute();
-            state = nextAction();
-        }
-        if (request.equals("add recipe")){
-            AddRecipe addRecipe = new AddRecipe(foodManager, scanner);
-            addRecipe.execute();
-            state = nextAction();
-        }
-        if (request.equals("add ingredient")){
-            AddIngredient addIngredient = new AddIngredient(foodManager, scanner);
-            addIngredient.execute();
-            state = nextAction();
-        }
-        if (request.equals("prepare meal")) {
-            PrepareMeal prepareMeal = new PrepareMeal(foodManager, userBuilder.getUser().getGoal(), scanner, historyController);
-            prepareMeal.execute();
-            state = nextAction();
-        }
-        if (request.equals("shopping list")) {
-            CreateShoppingList createShoppingList = new CreateShoppingList(foodManager, scanner);
-            createShoppingList.execute();
-            state = nextAction();
-        }
-        if(request.equals("view shopping list")){
-            ViewShoppingList viewShoppingList = new ViewShoppingList(foodManager, scanner);
-            viewShoppingList.execute();
-            state = nextAction();
-        }
-        if (request.equals("workout")) { 
-            setName.execute();//asks for a workout name,
-            setIntensity.execute();//asks for a workout intensity,
-            setMinutes.execute();//asks for a workout duration in minutes,
-            createWorkout.execute();// creates workout
-            state = nextAction();
-        }
-        
-        if (request.equals("history")) {
-            // prompt user for a specific day and display history for that day
-         
-            searchHistory.execute();
-            state = nextAction();
-        }
-        // Goal requests
-        if (request.equals("set target weight")) {
-            SetTargetWeight setTargetWeight = new SetTargetWeight(goalManager, scanner);
-            setTargetWeight.execute();
-            state = nextAction();
-        }
-
-        if (request.equals("get target calories")) {
-            GetTargetCalories getTargetCalories = new GetTargetCalories(goalManager);
-            getTargetCalories.execute();
-            state = nextAction();
-        }
-
-        if (request.equals("help")) {
-            logger.gap();
-            promptUser();
-            input = scanner.nextLine();
-            boolean response =parseInput(input);
-            state = response;
-            return state;
-        }
-        if (request.equals("close")) {
-            if (this.existingUser == false){
-                storageController.store(userBuilder, historyController);
-                logger.message("User profile stored!");
-            }
-            state = true;
-            return state;
-        } else {
-            logger.message("Command not recognized. Try again!");
-            logger.query();
-            input = scanner.nextLine();
-            parseInput(input);
+        switch (request) {
+            case "search":
+                SearchIngredient searchIngredient = new SearchIngredient(this.foodManager, scanner);
+                searchIngredient.execute();
+                state = nextAction();
+                break;
+            case "stock":
+                StockIngredient stockIngredient = new StockIngredient(this.foodManager, scanner);
+                stockIngredient.execute();
+                state = nextAction();
+                break;
+            case "recipe":
+                CreateRecipe createRecipe = new CreateRecipe(this.foodManager, scanner);
+                createRecipe.execute();
+                state = nextAction();
+                break;
+            case "create meal":
+                CreateMeal createMeal = new CreateMeal(foodManager, "", scanner);
+                createMeal.execute();
+                state = nextAction();
+                break;
+            case "add recipe":
+                AddRecipe addRecipe = new AddRecipe(foodManager, scanner);
+                addRecipe.execute();
+                state = nextAction();
+                break;
+            case "add ingredient":
+                AddIngredient addIngredient = new AddIngredient(foodManager, scanner);
+                addIngredient.execute();
+                state = nextAction();
+                break;
+            case "prepare meal":
+                PrepareMeal prepareMeal = new PrepareMeal(foodManager, userBuilder.getUser().getGoal(), scanner, historyController);
+                prepareMeal.execute();
+                state = nextAction();
+                break;
+            case "shopping list":
+                CreateShoppingList createShoppingList = new CreateShoppingList(foodManager, scanner);
+                createShoppingList.execute();
+                state = nextAction();
+                break;
+            case "view shopping list":
+                ViewShoppingList viewShoppingList = new ViewShoppingList(foodManager, scanner);
+                viewShoppingList.execute();
+                state = nextAction();
+                break;
+            case "workout":
+                setName.execute();//asks for a workout name,
+                setIntensity.execute();//asks for a workout intensity,
+                setMinutes.execute();//asks for a workout duration in minutes,
+                createWorkout.execute();// creates workout
+                state = nextAction();
+                break;
+            case "history":
+                // prompt user for a specific day and display history for that day
+                
+                searchHistory.execute();
+                state = nextAction();
+                break;
+            case "set target weight":
+                SetTargetWeight setTargetWeight = new SetTargetWeight(goalManager, scanner);
+                setTargetWeight.execute();
+                state = nextAction();
+                break;
+            case "get target calories":
+                GetTargetCalories getTargetCalories = new GetTargetCalories(goalManager);
+                getTargetCalories.execute();
+                state = nextAction();
+                break;
+            case "help":
+                logger.gap();
+                promptUser();
+                input = scanner.nextLine();
+                boolean response =parseInput(input);
+                state = response;
+                return state;
+            case "close":
+                if (this.existingUser == false){
+                    storageController.store(userBuilder, historyController);
+                    logger.message("User profile stored!");
+                }
+                state = true;
+                return state;
+            default:
+                logger.message("Command not recognized. Try again!");
+                logger.query();
+                input = scanner.nextLine();
+                state = parseInput(input);
+                break;
         }
        
         return state;
