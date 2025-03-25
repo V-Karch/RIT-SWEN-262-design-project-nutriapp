@@ -17,6 +17,7 @@ public class SetPhysicalFitness implements Action {
   @Override
   public void execute() {
     System.out.println("Would you like to include physical fitness? (true or false)");
+    System.out.print("$ ");
     try {
       String doesFitness_S = scanner.nextLine();
       Boolean doesFitness = Boolean.getBoolean(doesFitness_S);
