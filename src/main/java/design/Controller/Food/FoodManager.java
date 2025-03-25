@@ -3,12 +3,15 @@ package design.Controller.Food;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import design.Controller.History.HistoryController;
 import design.Model.Food.Food;
 import design.Model.Food.Ingredient;
 import design.Model.Food.IngredientDatabase;
 import design.Model.Food.Meal;
 import design.Model.Food.Recipe;
 import design.Model.Food.ShoppingList;
+import design.Model.Goal.Goal;
 
 public class FoodManager {
     private List<Ingredient> Stock;
@@ -111,6 +114,36 @@ public class FoodManager {
 
     public List<Meal> getAllMeals(){
         return Meals;
+    }
+
+    public List<String> getMealList(){
+        List<String> mealList = new ArrayList();
+        for(Meal m : Meals){
+            mealList.add(m.getName());
+        }
+
+        return mealList;
+    }
+
+    public List<String> getMealInstructions(int index){
+        return Meals.get(index).getInstructions();
+    }
+
+    public void prepareMeal(int index, Goal goal, HistoryController hc){
+        Meal meal = Meals.get(index);
+        meal.prepareMeal();
+        goal.addDailyCalories(meal.getCalories());
+        hc.logMeal(meal);
+    }
+
+    public List<String> getMealIngredients(int index){
+        List<String> ingredientStrings = new ArrayList();
+        List<Ingredient> ingredients = Meals.get(index).getIngredients();
+        for(Ingredient i: ingredients){
+            ingredientStrings.add(i.getName());
+        }
+
+        return ingredientStrings;
     }
 
     public List<ShoppingList> getAllShoppingLists(){

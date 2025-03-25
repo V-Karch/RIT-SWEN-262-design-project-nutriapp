@@ -78,6 +78,14 @@ public class Meal implements Food{
         return instructions;
     }
 
+    public List<Ingredient> getIngredients(){
+        List<Ingredient> ingredients = new ArrayList<Ingredient>();
+        for(Recipe r : recipes){
+            ingredients.addAll(r.getIngredients());
+        }
+        return ingredients;
+    }
+
     public void prepareMeal(){
         for(Recipe r : recipes){
             r.useIngredients();
