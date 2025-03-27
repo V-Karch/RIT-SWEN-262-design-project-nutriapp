@@ -314,37 +314,24 @@ public class NutriappCLI {
             String input = scanner.nextLine();
             input = input.toLowerCase();
 
-            if (input.equals("close")) {
-                if (this.existingUser == false) {
-                    storageController.store(userBuilder, historyController);
-                    logger.message("User profile stored!");
-                }
-                storeUser();
-                logger.message("Bye!");
-                System.exit(0);
-
-            } else {
-                // enables the user to do multiple things within a 24 hr period
-                boolean response;
-                response = parseInput(input);
-                if (response == true) {
-                    logger.gap();
-                    logger.message("Sad to see you go!");
-                    break;
-                }
+            
+            boolean response;
+            response = parseInput(input);
+            if (response == true) {
+                logger.gap();
+                logger.message("Sad to see you go!");
+                break;
             }
 
-            // Potentially problematic
-            logger.gap();
-            logTodaysActivity.execute();
-            logger.message("***A day has passed***");
-            logger.message("Good Morning!");
-            UpdateWeight updateWeight = new UpdateWeight(goalManager, scanner, historyController);
-            updateWeight.execute();
-            GetTargetCalories getTargetCalories = new GetTargetCalories(goalManager);
-            getTargetCalories.execute();
-            logger.gap();
-
+                // Potentially problematic
+                //logger.gap();
+                //logTodaysActivity.execute();
+                //logger.message("***A day has passed***");
+                //logger.message("Good Morning!");
+                //UpdateWeight updateWeight = new UpdateWeight(goalManager, scanner, historyController);
+                //updateWeight.execute();
+                //logger.gap();
+            
         }
         dayScheduler.stopScheduler();
         scanner.close();
