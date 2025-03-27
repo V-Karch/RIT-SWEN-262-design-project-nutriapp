@@ -44,9 +44,8 @@ public class Storage {
      */
     public static void executeSQL(String sql) {
         try (
-            Connection connection = DriverManager.getConnection(DATABASE_URL);
-            Statement statement = connection.createStatement();
-        ) {
+                Connection connection = DriverManager.getConnection(DATABASE_URL);
+                Statement statement = connection.createStatement();) {
             statement.execute(sql);
         } catch (SQLException e) {
             System.out.println("Error executing SQL: " + e.getMessage());
@@ -95,10 +94,9 @@ public class Storage {
         String sql = "INSERT INTO goals (username, physical_fitness, target_calories, daily_calories, type) " +
                 "VALUES (?, ?, ?, ?, ?);";
 
-        try {
-            Connection connection = DriverManager.getConnection(DATABASE_URL);
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
+        try (
+                Connection connection = DriverManager.getConnection(DATABASE_URL);
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
             preparedStatement.setString(1, goal.getUser().getName());
             preparedStatement.setBoolean(2, goal.getPhysicalFitness());
             preparedStatement.setInt(3, goal.getTargetCalories());
@@ -121,10 +119,10 @@ public class Storage {
                 +
                 "VALUES (?, ?, ?, ?, ?, ?);";
 
-        try {
-            Connection connection = DriverManager.getConnection(DATABASE_URL);
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
+        try (
+                Connection connection = DriverManager.getConnection(DATABASE_URL);
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);) { // Please SonarQube Like This
+                                                                                           // :pleading_face:
             preparedStatement.setString(1, user.getName());
             preparedStatement.setDouble(2, user.getHeight());
             preparedStatement.setString(3, user.getBirthdate()); // Must be in MM-dd-yyyy format
@@ -156,10 +154,9 @@ public class Storage {
         String sql = "UPDATE users SET height = ?, birth_date = ?, age = ?, current_weight = ?, target_weight = ? " +
                 "WHERE name = ?;";
 
-        try {
-            Connection connection = DriverManager.getConnection(DATABASE_URL);
-            PreparedStatement preparedStatement = connection.prepareStatement(sql); 
-
+        try (
+                Connection connection = DriverManager.getConnection(DATABASE_URL);
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
             preparedStatement.setDouble(1, user.getHeight());
             preparedStatement.setString(2, user.getBirthdate());
             preparedStatement.setInt(3, user.getAge());
@@ -183,10 +180,9 @@ public class Storage {
         String sql = "UPDATE goals SET phyical_fitness = ?, target_calories = ?, daily_calories = ?, type = ? "
                 + "WHERE username = ?;";
 
-        try {
-            Connection connection = DriverManager.getConnection(DATABASE_URL);
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
+        try (
+                Connection connection = DriverManager.getConnection(DATABASE_URL);
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
             preparedStatement.setBoolean(1, goal.getPhysicalFitness());
             preparedStatement.setInt(2, goal.getTargetCalories());
             preparedStatement.setInt(3, goal.getDailyCalories());
@@ -209,11 +205,10 @@ public class Storage {
         String userSql = "SELECT name, height, birth_date, age, current_weight, target_weight FROM users WHERE name = ?";
         String goalSql = "SELECT physical_fitness, target_calories, daily_calories, type FROM goals WHERE username = ?";
 
-        try {
-            Connection connection = DriverManager.getConnection(DATABASE_URL);
-            PreparedStatement userStatement = connection.prepareStatement(userSql);
-            PreparedStatement goalStatement = connection.prepareStatement(goalSql);
-
+        try (
+                Connection connection = DriverManager.getConnection(DATABASE_URL);
+                PreparedStatement userStatement = connection.prepareStatement(userSql);
+                PreparedStatement goalStatement = connection.prepareStatement(goalSql);) {
             userStatement.setString(1, name);
             ResultSet userResult = userStatement.executeQuery();
 
