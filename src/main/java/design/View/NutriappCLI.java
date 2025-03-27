@@ -343,6 +343,8 @@ public class NutriappCLI {
                 logger.message("Good Morning!");
                 UpdateWeight updateWeight = new UpdateWeight(goalManager, scanner, historyController);
                 updateWeight.execute();
+                GetTargetCalories getTargetCalories = new GetTargetCalories(goalManager);
+                getTargetCalories.execute();
                 logger.gap();
             
         }
