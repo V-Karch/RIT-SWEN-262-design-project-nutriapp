@@ -26,8 +26,8 @@ public class SetPhysicalFitness implements Action {
                 }
                 validInput = true;
                 boolean doesFitness = Boolean.parseBoolean(bool);
-                System.out.println(doesFitness);
-                this.goalManager.setPhysicalFitness(doesFitness); //issue is here, maybe goal manager doesn't exist?
+                System.out.println(doesFitness); //for testing
+                this.goalManager.setPhysicalFitness(doesFitness); //issue is here, maybe goal manager doesn't exist in the CLI?
                 logger.print("Physical fitness updated.\n");
             } catch(Exception e) {
                 logger.error("Invalid input, please enter true or false");
