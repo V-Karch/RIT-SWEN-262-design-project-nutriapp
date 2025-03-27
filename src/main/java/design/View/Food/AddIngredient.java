@@ -52,6 +52,24 @@ public class AddIngredient implements Action{
                 return;
             }
 
+
+
+
+            System.out.println("Search for ingredients to add to this recipe:");
+            choice = input.nextLine();
+
+            try{
+                ingredient = foodManager.getIngredient(choice);
+                System.out.println("This ingredient was found in the database!");
+            }
+            catch(Exception e){
+                System.out.println(e.getMessage());
+                return;
+            }
+
+
+
+
             
             System.out.println("What ingredient would you like to add?");
             choice = input.nextLine();
@@ -80,6 +98,9 @@ public class AddIngredient implements Action{
 
             recipe.addIngredient(ingredient, quantity);
             System.out.println("Ingredient added!");
+
+            
+            
 
         }
         else{
