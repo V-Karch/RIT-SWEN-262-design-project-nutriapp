@@ -43,10 +43,10 @@ public class Storage {
      * @param sql The SQL statement to be executed.
      */
     public static void executeSQL(String sql) {
-        try {
+        try (
             Connection connection = DriverManager.getConnection(DATABASE_URL);
             Statement statement = connection.createStatement();
-
+        ) {
             statement.execute(sql);
         } catch (SQLException e) {
             System.out.println("Error executing SQL: " + e.getMessage());
