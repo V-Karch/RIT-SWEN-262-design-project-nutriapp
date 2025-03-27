@@ -22,14 +22,14 @@ public class PrepareMeal implements Action{
         this.input = input;
         this.historyController = historyController;
 
-        Meals = foodManager.getAllMeals();
+        Meals = foodManager.getMealList();
     }
 
     public void execute(){
         if (Meals.size() > 0) {
             System.out.println("Which meal would you like to prepare?");
-            int i = 1;
-            for (Meal m : Meals) {
+            int i = 0;
+            for (String s : Meals) {
                 System.out.print(i + ": ");
                 System.out.println(s);
                 i++;

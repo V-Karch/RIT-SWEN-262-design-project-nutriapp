@@ -41,12 +41,11 @@ public class CreateMeal implements Action {
                     i++;
                 }
 
+                choice = input.nextLine();
                 if(choice.equals("f")){
                     break;
                 }
 
-    
-                choice = input.nextLine();
                 int recipeChoice;
                 Recipe recipe;
                 try {
