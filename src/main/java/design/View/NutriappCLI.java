@@ -25,6 +25,7 @@ import design.View.Food.PrepareMeal;
 import design.View.Food.SearchIngredient;
 import design.View.Food.StockIngredient;
 import design.View.Food.ViewShoppingList;
+import design.View.Goal.GetRemainingCalories;
 import design.View.Goal.GetTargetCalories;
 import design.View.Goal.SetPhysicalFitness;
 import design.View.Goal.SetTargetWeight;
@@ -92,7 +93,8 @@ public class NutriappCLI {
         logger.message("Type 'View Shopping List' to get a list of your commonly used ingredients");
         logger.message("Type 'Workout' to log a completed workout");
         logger.message("Type 'History' to view your history");
-        logger.message("Type 'Get Target Calories' to see your remaining allotted calories for the day");
+        logger.message("Type 'Get Target Calories' to see your calorie goal for the day");
+        logger.message("Type 'Get Remaining Calories' to see your remaining allotted calories for the day");
         logger.message("Type 'Set Target Weight' to change your target weight");
         logger.message("Type 'Close' to exit the application");
         logger.message("Type 'Help' to view all commands");
@@ -173,6 +175,11 @@ public class NutriappCLI {
             case "get target calories":
                 GetTargetCalories getTargetCalories = new GetTargetCalories(goalManager);
                 getTargetCalories.execute();
+                state = nextAction();
+                break;
+            case "get remaining calories":
+                GetRemainingCalories getRemainingCalories = new GetRemainingCalories(goalManager, logger);
+                getRemainingCalories.execute();
                 state = nextAction();
                 break;
             case "help":
@@ -260,7 +267,7 @@ public class NutriappCLI {
             // creates the concrete commands for goal subsystem
             this.goalManager = new GoalManager(userBuilder.getUser());
             SetTargetWeight setTargetWeight = new SetTargetWeight(goalManager, scanner);
-            SetPhysicalFitness setPhysicalFitness = new SetPhysicalFitness(goalManager, scanner);
+            SetPhysicalFitness setPhysicalFitness = new SetPhysicalFitness(goalManager, logger);
 
             //calls goal concrete commands to get user input
             logger.message("\nHi " + userBuilder.getName() + "!");
