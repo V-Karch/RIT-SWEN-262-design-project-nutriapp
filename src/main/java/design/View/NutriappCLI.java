@@ -177,6 +177,10 @@ public class NutriappCLI {
                 if (this.existingUser == false) {
                     storageController.store(userBuilder, historyController);
                     logger.message("User profile stored!");
+                } else {
+                    //hypothetically this works
+                    storageController.updateUser(userBuilder.getName());
+                    logger.message("User profile updated!");
                 }
                 state = true;
                 return state;
