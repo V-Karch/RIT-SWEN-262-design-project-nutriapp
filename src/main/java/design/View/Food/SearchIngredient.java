@@ -1,16 +1,15 @@
 
 package design.View.Food;
 
+import java.util.List;
 import java.util.Scanner;
 import design.View.Action;
 
 import design.Controller.Food.FoodManager;
-import design.Model.Food.Ingredient;
 
 
 public class SearchIngredient implements Action{
     private FoodManager foodManager;
-    private Ingredient ingredient;
     private Scanner input;
 
     public SearchIngredient(FoodManager foodManager, Scanner input)
@@ -23,8 +22,11 @@ public class SearchIngredient implements Action{
         System.out.println("Type an ingredient to search.");
         String choice = input.nextLine();
             try{
-                ingredient = foodManager.getIngredient(choice);
-                System.out.println("This ingredient was found in the database!");
+                List<String> searched = foodManager.searchForIngredients(choice);
+                System.out.println("Results found:");
+                for(String s : searched){
+                    System.out.println(s);
+                }
             }
             catch(Exception e){
                 System.out.println(e.getMessage());

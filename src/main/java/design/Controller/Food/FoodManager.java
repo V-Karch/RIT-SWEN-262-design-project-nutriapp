@@ -125,4 +125,15 @@ public class FoodManager {
         }
         throw new Exception("Could not find shopping list.");
     }
+
+    public List<String> searchForIngredients(String searchTerm){
+        List<Ingredient> searchedIngredients = Ingredients.searchForIngredients(searchTerm);
+        List<String> ingredientStrings = new ArrayList<String>();
+        for(Ingredient i : searchedIngredients){
+            ingredientStrings.add(i.getName());
+        }
+
+        return ingredientStrings;
+    }
+
 }
