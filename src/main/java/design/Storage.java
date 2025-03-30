@@ -2,21 +2,31 @@ package design;
 
 import java.sql.Statement;
 import java.sql.ResultSet;
-import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.DriverManager;
-
-import design.Model.Goal.GainWeight;
 import design.Model.Goal.Goal;
-import design.Model.Goal.LoseWeight;
-import design.Model.Goal.MaintainWeight;
 import design.Model.UserSS.User;
 import java.sql.PreparedStatement;
+import design.Model.Goal.LoseWeight;
+import design.Model.Goal.GainWeight;
+import design.Model.Goal.MaintainWeight;
 
+/**
+ * The Storage class provides methods for interacting with a SQLite database.
+ * It handles database creation, table setup, and CRUD operations for users and
+ * goals.
+ * 
+ * @Author: V-Karch
+ */
 public class Storage {
     private static final String DATABASE_URL = "jdbc:sqlite:application.db";
 
+    /**
+     * Creates a new SQLite database file.
+     * 
+     * @param fileName The name of the database file to be created.
+     */
     public static void createNewDatabase(String fileName) {
         String url = "jdbc:sqlite:" + fileName;
 
@@ -27,17 +37,24 @@ public class Storage {
         }
     }
 
+    /**
+     * Executes a given SQL statement.
+     * 
+     * @param sql The SQL statement to be executed.
+     */
     public static void executeSQL(String sql) {
-        try {
-            Connection connection = DriverManager.getConnection(DATABASE_URL);
-            Statement statement = connection.createStatement();
-
+        try (
+                Connection connection = DriverManager.getConnection(DATABASE_URL);
+                Statement statement = connection.createStatement();) {
             statement.execute(sql);
         } catch (SQLException e) {
             System.out.println("Error executing SQL: " + e.getMessage());
         }
     }
 
+    /**
+     * Creates the 'users' table if it does not already exist.
+     */
     private static void createUsersTable() {
         String sql = "CREATE TABLE IF NOT EXISTS users (\n" +
                 "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
@@ -52,6 +69,9 @@ public class Storage {
         Storage.executeSQL(sql);
     }
 
+    /**
+     * Creates the 'goals' table if it does not already exist.
+     */
     private static void createGoalsTable() {
         String sql = "CREATE TABLE IF NOT EXISTS goals (\n" +
                 "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
@@ -65,14 +85,18 @@ public class Storage {
         Storage.executeSQL(sql);
     }
 
+    /**
+     * Inserts a new goal into the database.
+     * 
+     * @param goal The goal object to be added.
+     */
     public static void addGoal(Goal goal) {
         String sql = "INSERT INTO goals (username, physical_fitness, target_calories, daily_calories, type) " +
                 "VALUES (?, ?, ?, ?, ?);";
 
-        try {
-            Connection connection = DriverManager.getConnection(DATABASE_URL);
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
+        try (
+                Connection connection = DriverManager.getConnection(DATABASE_URL);
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
             preparedStatement.setString(1, goal.getUser().getName());
             preparedStatement.setBoolean(2, goal.getPhysicalFitness());
             preparedStatement.setInt(3, goal.getTargetCalories());
@@ -85,15 +109,20 @@ public class Storage {
         }
     }
 
+    /**
+     * Inserts a new user into the database and assigns a goal.
+     * 
+     * @param user The user object to be added.
+     */
     public static void addUser(User user) {
         String sql = "INSERT INTO users (name, height, birth_date, age, current_weight, target_weight) "
                 +
                 "VALUES (?, ?, ?, ?, ?, ?);";
 
-        try {
-            Connection connection = DriverManager.getConnection(DATABASE_URL);
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
+        try (
+                Connection connection = DriverManager.getConnection(DATABASE_URL);
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);) { // Please SonarQube Like This
+                                                                                           // :pleading_face:
             preparedStatement.setString(1, user.getName());
             preparedStatement.setDouble(2, user.getHeight());
             preparedStatement.setString(3, user.getBirthdate()); // Must be in MM-dd-yyyy format
@@ -109,15 +138,77 @@ public class Storage {
         }
     }
 
+    /**
+     * Updates an existing user in the database and assigns a goal.
+     * 
+     * @param user The user object to be updated.
+     */
+    public static void updateUser(User user) {
+        User foundUser = getUserByName(user.getName());
+
+        if (foundUser == null) {
+            addUser(user); // User not found, so add them
+            return;
+        }
+
+        String sql = "UPDATE users SET height = ?, birth_date = ?, age = ?, current_weight = ?, target_weight = ? " +
+                "WHERE name = ?;";
+
+        try (
+                Connection connection = DriverManager.getConnection(DATABASE_URL);
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+            preparedStatement.setDouble(1, user.getHeight());
+            preparedStatement.setString(2, user.getBirthdate());
+            preparedStatement.setInt(3, user.getAge());
+            preparedStatement.setDouble(4, user.getCurrentWeight());
+            preparedStatement.setDouble(5, user.getTargetWeight());
+            preparedStatement.setString(6, user.getName());
+
+            preparedStatement.executeUpdate();
+            updateGoal(user.getGoal());
+        } catch (SQLException e) {
+            System.out.println("Error updating user: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Updates an existing goal in the database.
+     * 
+     * @param goal The goal object to be updated
+     */
+    public static void updateGoal(Goal goal) {
+        String sql = "UPDATE goals SET phyical_fitness = ?, target_calories = ?, daily_calories = ?, type = ? "
+                + "WHERE username = ?;";
+
+        try (
+                Connection connection = DriverManager.getConnection(DATABASE_URL);
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+            preparedStatement.setBoolean(1, goal.getPhysicalFitness());
+            preparedStatement.setInt(2, goal.getTargetCalories());
+            preparedStatement.setInt(3, goal.getDailyCalories());
+            preparedStatement.setString(4, goal.getClass().getSimpleName());
+            preparedStatement.setString(5, goal.getUser().getName());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error updating goal: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Retrieves a user by name from the database, along with their associated goal.
+     * 
+     * @param name The name of the user to retrieve.
+     * @return The User object, or null if not found.
+     */
     public static User getUserByName(String name) {
         String userSql = "SELECT name, height, birth_date, age, current_weight, target_weight FROM users WHERE name = ?";
         String goalSql = "SELECT physical_fitness, target_calories, daily_calories, type FROM goals WHERE username = ?";
 
-        try {
-            Connection connection = DriverManager.getConnection(DATABASE_URL);
-            PreparedStatement userStatement = connection.prepareStatement(userSql);
-            PreparedStatement goalStatement = connection.prepareStatement(goalSql);
-
+        try (
+                Connection connection = DriverManager.getConnection(DATABASE_URL);
+                PreparedStatement userStatement = connection.prepareStatement(userSql);
+                PreparedStatement goalStatement = connection.prepareStatement(goalSql);) {
             userStatement.setString(1, name);
             ResultSet userResult = userStatement.executeQuery();
 
@@ -179,29 +270,5 @@ public class Storage {
     public static void setupTables() {
         createUsersTable();
         createGoalsTable();
-    }
-
-    public static void main(String args[]) {
-        if (!(new File("application.db").isFile())) { // Check if database file exists
-            createNewDatabase("application.db"); // make database file
-            setupTables(); // setup database tables
-
-            User input = new User("Luna", 160, 200, "02-14-2005");
-            LoseWeight goal = new LoseWeight(input, true, 2000);
-            input.setGoal(goal);
-            input.updateTargetWeight(160);
-
-            // Sample data with user and goal + target weight set ^^
-
-            addUser(input); // add user to database
-        }
-
-        User output = Storage.getUserByName("Luna"); // get user by name
-        System.out.println(output.getName()); // display user data
-        System.out.println(output.getAge());
-        System.out.println(output.getHeight());
-        System.out.println(output.getBirthdate());
-        System.out.println(output.getCurrentWeight());
-        System.out.println(output.getTargetWeight());
     }
 }

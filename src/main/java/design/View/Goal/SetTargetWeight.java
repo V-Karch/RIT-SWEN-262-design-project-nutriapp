@@ -17,6 +17,7 @@ public class SetTargetWeight implements Action {
   @Override
   public void execute() {
     System.out.println("Enter target weight:");
+    System.out.print("$ ");
     try {
       String weight_S = scanner.nextLine();
       Double weight = Double.parseDouble(weight_S);

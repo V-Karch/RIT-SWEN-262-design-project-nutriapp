@@ -24,6 +24,7 @@ public class StockIngredient implements Action{
         List<String> ingredients = foodManager.getIngredients();
         System.out.println(ingredients.toString());
         System.out.println("Which ingredient would you like to stock?");
+        System.out.print("$ ");
         String choice = input.nextLine();
 
         boolean searchFinished = false;

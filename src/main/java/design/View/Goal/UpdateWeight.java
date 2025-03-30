@@ -22,14 +22,9 @@ public class UpdateWeight implements Action {
     System.out.println("Enter your weight in lbs: ");
     try {
         String weight_S = scanner.nextLine().trim();
-        System.out.println(weight_S);
         double weight = Double.parseDouble(weight_S);
-        System.out.println(weight);
-        System.out.println(goalManager.getUser().getName());
         this.goalManager.setDailyWeight(weight);
-        System.out.println("got here");
         this.historyController.logWeight(((int)(weight))); // cast float to int
-        System.out.println("also got here");
         System.out.println("Weight updated.");
     }
         catch(Exception e) {

@@ -12,7 +12,7 @@ public class GetDailyCalories implements Action {
 
   @Override
   public void execute() {
-    int dailyCalories = goalManager.getTargetCalories();
+    int dailyCalories = goalManager.getDailyCalories();
     System.out.println("Daily calories: " + dailyCalories);
   }
 }
