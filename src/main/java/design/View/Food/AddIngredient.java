@@ -52,35 +52,91 @@ public class AddIngredient implements Action{
                 return;
             }
 
+
+            boolean searchFinished = false;
+            while(!searchFinished){
+                System.out.println("Search for ingredients to add to this recipe:");
+                choice = input.nextLine();
+    
+                try{
+                    List<String> searched = foodManager.searchForIngredients(choice);
+
+                    if(searched.size() > 0){
+                        System.out.println("Results found:");
+                        int index = 0;
+                        for(String s : searched){
+                            System.out.println(index++ + ": " + s);
+                        }
+
+                        boolean addingFinished = false;
+                        while(!addingFinished){
+                            System.out.println("Which of these ingredients would you like to add? Enter 's' to search again.");
+                            choice = input.nextLine();
+                            if(choice.equals("s")){
+                                break;
+                            }
+                            else{
+                                try{
+                                    ingredient = foodManager.getIngredient(searched.get(Integer.parseInt(choice)));
+    
+                                    boolean amountFinished = false;
+                                    
+                                    while(!amountFinished){
+                                        System.out.println("How many grams would you like to add?");
+                                        choice = input.nextLine();
+                                        try{
+                                            quantity = Integer.parseInt(choice);
+                                        }
+                                        catch(Exception e){
+                                            System.out.println("Invalid amount.");
+                                            continue;
+                                        }
+                            
+                                        if(quantity <= 0){
+                                            System.out.println("Amount out of range.");
+                                            continue;
+                                        }
+                            
+                                        recipe.addIngredient(ingredient, quantity);
+                                        System.out.println("Ingredient added!");
+                                        amountFinished = true;
+                                    }
+                                    addingFinished = true;
+                                }
+                                catch(Exception e){
+                                    System.out.println("Error: " + e.getMessage());
+                                    continue;
+                                }
+                            }
+    
+                            boolean addMoreFinished = false;
+                            while(!addMoreFinished){
+                                System.out.println("Would you like to add any more ingredients? y/n");
+                                choice = input.nextLine();
             
-            System.out.println("What ingredient would you like to add?");
-            choice = input.nextLine();
-            try{
-                ingredient = foodManager.getIngredient(choice);
+                                if(choice.equals("y")){
+                                    break;
+                                }
+                                else if(choice.equals("n")){
+                                    searchFinished = true;
+                                    break;
+                                }
+                                else{
+                                    System.out.println("Invalid response.");
+                                }
+                            }
+    
+                        }
+                    }
+                    else{
+                        System.out.println("No results found.");
+                        break;
+                    }
+                }
+                catch(Exception e){
+                    System.out.println(e.getMessage());
+                }
             }
-            catch(Exception e){
-                System.out.println(e.getMessage());
-                return;
-            }
-
-            System.out.println("How many grams would you like to add?");
-            choice = input.nextLine();
-            try{
-                quantity = Integer.parseInt(choice);
-            }
-            catch(Exception e){
-                System.out.println("Invalid amount.");
-                return;
-            }
-
-            if(quantity <= 0){
-                System.out.println("Amount out of range.");
-                return;
-            }
-
-            recipe.addIngredient(ingredient, quantity);
-            System.out.println("Ingredient added!");
-
         }
         else{
             System.out.println("No recipes to add an ingredient to.");

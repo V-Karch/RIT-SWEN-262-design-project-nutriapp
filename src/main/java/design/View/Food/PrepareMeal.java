@@ -12,10 +12,8 @@ import design.View.Action;
 public class PrepareMeal implements Action{
     private FoodManager foodManager;
     private Scanner input;
-    private List<Meal> Meals;
-    private Meal meal;
+    private List<String> Meals;
     private Goal goal;
-    private List<String> instructions;
     private HistoryController historyController;
 
     public PrepareMeal(FoodManager foodManager, Goal goal, Scanner input, HistoryController historyController) {
@@ -24,16 +22,16 @@ public class PrepareMeal implements Action{
         this.input = input;
         this.historyController = historyController;
 
-        Meals = foodManager.getAllMeals();
+        Meals = foodManager.getMealList();
     }
 
     public void execute(){
         if (Meals.size() > 0) {
             System.out.println("Which meal would you like to prepare?");
-            int i = 1;
-            for (Meal m : Meals) {
+            int i = 0;
+            for (String s : Meals) {
                 System.out.print(i + ": ");
-                System.out.println(m.getName());
+                System.out.println(s);
                 i++;
             }
 
@@ -46,17 +44,25 @@ public class PrepareMeal implements Action{
                 return;
             }
 
-            mealChoice--;
+            List<String> mealInstructions;
+            List<String> mealIngredients;
             if (mealChoice >= 0 && mealChoice < Meals.size()) {
-                meal = Meals.get(mealChoice);
+                mealInstructions = foodManager.getMealInstructions(mealChoice);
+                mealIngredients = foodManager.getMealIngredients(mealChoice);
             } else {
                 System.out.println("Choice is out of bounds.");
                 return;
             }
 
+            //Ingredients
+            System.out.println("Ingredients:");
+            for(String s : mealIngredients){
+                System.out.println(s);
+            }
+            System.out.println();
+
             System.out.println("Instructions:");
-            instructions = meal.getInstructions();
-            for(String s : instructions)
+            for(String s : mealInstructions)
             {
                 System.out.println(s);
             }
@@ -64,9 +70,7 @@ public class PrepareMeal implements Action{
             System.out.println("Enter 1 to prepare meal.");
             choice = input.nextLine();
             if(choice.equals("1")){
-                meal.prepareMeal();
-                goal.addDailyCalories(meal.getCalories());
-                historyController.logMeal(meal);
+                foodManager.prepareMeal(mealChoice, goal, historyController);
             }
 
         }

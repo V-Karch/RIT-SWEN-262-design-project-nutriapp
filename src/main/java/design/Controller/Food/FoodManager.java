@@ -3,12 +3,15 @@ package design.Controller.Food;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import design.Controller.History.HistoryController;
 import design.Model.Food.Food;
 import design.Model.Food.Ingredient;
 import design.Model.Food.IngredientDatabase;
 import design.Model.Food.Meal;
 import design.Model.Food.Recipe;
 import design.Model.Food.ShoppingList;
+import design.Model.Goal.Goal;
 
 public class FoodManager {
     private List<Ingredient> Stock;
@@ -46,12 +49,14 @@ public class FoodManager {
         meal.addRecipe(recipe);
     }
 
-    public void createRecipe(String name, String[] Instructions) {
+    public Recipe createRecipe(String name, String[] Instructions) {
         Recipes.add(new Recipe(name, Instructions));
+        return Recipes.get(Recipes.size()-1);
     }
 
-    public void createMeal(String name) {
+    public Meal createMeal(String name) {
         Meals.add(new Meal(name));
+        return Meals.get(Meals.size()-1);
     }
 
     public ShoppingList createShoppingList(List<Ingredient> FoodList, String name) {
@@ -113,6 +118,36 @@ public class FoodManager {
         return Meals;
     }
 
+    public List<String> getMealList(){
+        List<String> mealList = new ArrayList();
+        for(Meal m : Meals){
+            mealList.add(m.getName());
+        }
+
+        return mealList;
+    }
+
+    public List<String> getMealInstructions(int index){
+        return Meals.get(index).getInstructions();
+    }
+
+    public void prepareMeal(int index, Goal goal, HistoryController hc){
+        Meal meal = Meals.get(index);
+        meal.prepareMeal();
+        goal.addDailyCalories(meal.getCalories());
+        hc.logMeal(meal);
+    }
+
+    public List<String> getMealIngredients(int index){
+        List<String> ingredientStrings = new ArrayList();
+        List<Ingredient> ingredients = Meals.get(index).getIngredients();
+        for(Ingredient i: ingredients){
+            ingredientStrings.add(i.getName());
+        }
+
+        return ingredientStrings;
+    }
+
     public List<ShoppingList> getAllShoppingLists(){
         return ShoppingLists;
     }
@@ -125,4 +160,15 @@ public class FoodManager {
         }
         throw new Exception("Could not find shopping list.");
     }
+
+    public List<String> searchForIngredients(String searchTerm){
+        List<Ingredient> searchedIngredients = Ingredients.searchForIngredients(searchTerm);
+        List<String> ingredientStrings = new ArrayList<String>();
+        for(Ingredient i : searchedIngredients){
+            ingredientStrings.add(i.getName());
+        }
+
+        return ingredientStrings;
+    }
+
 }
