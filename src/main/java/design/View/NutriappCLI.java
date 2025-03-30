@@ -25,31 +25,31 @@ import design.Controller.History.HistoryController;
 
 public class NutriappCLI {
 
-    static Scanner scanner = new Scanner(System.in);
-    NALogger logger = new NALogger(scanner);
-    static CurrentDay currentDay = new CurrentDay();
+    private static Scanner scanner = new Scanner(System.in);
+    private NALogger logger = new NALogger(scanner);
+    private static CurrentDay currentDay = new CurrentDay();
 
     // controllers
-    static HistoryController historyController = new HistoryController(new HistoryManager());
-    static WorkoutController workoutController = new WorkoutController(new WorkoutBuilder(currentDay),
+    private static HistoryController historyController = new HistoryController(new HistoryManager());
+    private static WorkoutController workoutController = new WorkoutController(new WorkoutBuilder(currentDay),
             new WorkoutManager());
 
     // history commands
-    static SearchHistory searchHistory = new SearchHistory(scanner, historyController);
-    static LogTodaysActivity logTodaysActivity = new LogTodaysActivity(historyController, currentDay);
+    private static SearchHistory searchHistory = new SearchHistory(scanner, historyController);
+    private static LogTodaysActivity logTodaysActivity = new LogTodaysActivity(historyController, currentDay);
 
     // workout commands
-    static SetName setName = new SetName(workoutController, scanner);
-    static SetIntensity setIntensity = new SetIntensity(workoutController, scanner);
-    static SetMinutes setMinutes = new SetMinutes(workoutController, scanner);
-    static CreateWorkout createWorkout = new CreateWorkout(workoutController, historyController);
+    private static SetName setName = new SetName(workoutController, scanner);
+    private static SetIntensity setIntensity = new SetIntensity(workoutController, scanner);
+    private static SetMinutes setMinutes = new SetMinutes(workoutController, scanner);
+    private static CreateWorkout createWorkout = new CreateWorkout(workoutController, historyController);
 
-    static UserBuilder userBuilder = new UserBuilder();
-    static StorageController storageController = new StorageController();
-    Boolean existingUser;
+    private static UserBuilder userBuilder = new UserBuilder();
+    private static StorageController storageController = new StorageController();
+    private Boolean existingUser;
 
-    FoodManager foodManager;
-    GoalManager goalManager;
+    private FoodManager foodManager;
+    private GoalManager goalManager;
 
     public NutriappCLI() throws IOException {
         this.foodManager = new FoodManager("src/main/java/design/ingredients.csv");
