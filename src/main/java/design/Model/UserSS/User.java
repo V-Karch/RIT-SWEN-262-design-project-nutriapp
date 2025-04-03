@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 import design.Model.Goal.Goal;
 import design.Model.Goal.MaintainWeight;
+import design.Model.Undo.UserSave;
 
 public class User {
     // user attributes
@@ -79,5 +80,20 @@ public class User {
     public void updateTargetWeight(double weight) {
         this.targetWeight = weight;
         currentGoal.handleWeightChange();
+    }
+
+    public UserSave createUserSave() {
+        UserSave save = new UserSave(name, height, birthdate, age, currentWeight, targetWeight, currentGoal);
+        return save;
+    }
+
+    public void restoreUserSave(UserSave save) {
+        this.name = save.getName();
+        this.height = save.getHeight();
+        this.birthdate = save.getBirthdate();
+        this.age = save.getAge();
+        this.currentWeight = save.getCurrentWeight();
+        this.targetWeight = save.getTargetWeight();
+        this.currentGoal = save.getCurrentGoal();
     }
 }
