@@ -66,4 +66,8 @@ public class GoalManager {
   public User getUser() {
     return goal.getUser();
   }
+
+  public void updateGoal() {
+    goal = user.getGoal();
+  }
 }
