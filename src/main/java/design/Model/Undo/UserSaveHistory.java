@@ -10,15 +10,16 @@ public class UserSaveHistory {
 
     public UserSaveHistory(User user) {
         this.user = user;
+        this.history = new ArrayDeque<UserSave>();
     }
 
     public void storeUserSave() {
         UserSave newSave = user.createUserSave();
-        history.push(newSave);
+        history.add(newSave);
     }
 
     public void restoreUserSave() {
-        UserSave save = history.pop();
+        UserSave save = history.remove();
         user.restoreUserSave(save);
     }
 
