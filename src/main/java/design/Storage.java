@@ -20,14 +20,24 @@ import design.Model.Goal.MaintainWeight;
  * @Author: V-Karch
  */
 public class Storage {
-    private static final String DATABASE_URL = "jdbc:sqlite:application.db";
+    private static Storage storageInstance;
+
+    private Storage() {};
+
+    public static synchronized Storage getInstance() {
+        if (storageInstance == null) {
+            storageInstance = new Storage();
+        }
+
+        return storageInstance;
+    }
 
     /**
      * Creates a new SQLite database file.
      * 
      * @param fileName The name of the database file to be created.
      */
-    public static void createNewDatabase(String fileName) {
+    public void createNewDatabase(String fileName) {
         String url = "jdbc:sqlite:" + fileName;
 
         try {
@@ -42,9 +52,9 @@ public class Storage {
      * 
      * @param sql The SQL statement to be executed.
      */
-    public static void executeSQL(String sql) {
+    public void executeSQL(String sql) {
         try (
-                Connection connection = DriverManager.getConnection(DATABASE_URL);
+                Connection connection = DriverManager.getConnection("jdbc:sqlite:application.db");
                 Statement statement = connection.createStatement();) {
             statement.execute(sql);
         } catch (SQLException e) {
@@ -55,7 +65,7 @@ public class Storage {
     /**
      * Creates the 'users' table if it does not already exist.
      */
-    private static void createUsersTable() {
+    private void createUsersTable() {
         String sql = "CREATE TABLE IF NOT EXISTS users (\n" +
                 "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "    name TEXT NOT NULL,\n" +
@@ -66,13 +76,13 @@ public class Storage {
                 "    target_weight REAL NOT NULL\n" +
                 ");";
 
-        Storage.executeSQL(sql);
+        executeSQL(sql);
     }
 
     /**
      * Creates the 'goals' table if it does not already exist.
      */
-    private static void createGoalsTable() {
+    private void createGoalsTable() {
         String sql = "CREATE TABLE IF NOT EXISTS goals (\n" +
                 "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "    username TEXT NOT NULL,\n" +
@@ -82,7 +92,7 @@ public class Storage {
                 "    type TEXT NOT NULL\n" +
                 ");";
 
-        Storage.executeSQL(sql);
+        executeSQL(sql);
     }
 
     /**
@@ -90,12 +100,12 @@ public class Storage {
      * 
      * @param goal The goal object to be added.
      */
-    public static void addGoal(Goal goal) {
+    public void addGoal(Goal goal) {
         String sql = "INSERT INTO goals (username, physical_fitness, target_calories, daily_calories, type) " +
                 "VALUES (?, ?, ?, ?, ?);";
 
         try (
-                Connection connection = DriverManager.getConnection(DATABASE_URL);
+                Connection connection = DriverManager.getConnection("jdbc:sqlite:application.db");
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
             preparedStatement.setString(1, goal.getUser().getName());
             preparedStatement.setBoolean(2, goal.getPhysicalFitness());
@@ -114,13 +124,13 @@ public class Storage {
      * 
      * @param user The user object to be added.
      */
-    public static void addUser(User user) {
+    public void addUser(User user) {
         String sql = "INSERT INTO users (name, height, birth_date, age, current_weight, target_weight) "
                 +
                 "VALUES (?, ?, ?, ?, ?, ?);";
 
         try (
-                Connection connection = DriverManager.getConnection(DATABASE_URL);
+                Connection connection = DriverManager.getConnection("jdbc:sqlite:application.db");
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);) { // Please SonarQube Like This
                                                                                            // :pleading_face:
             preparedStatement.setString(1, user.getName());
@@ -143,7 +153,7 @@ public class Storage {
      * 
      * @param user The user object to be updated.
      */
-    public static void updateUser(User user) {
+    public void updateUser(User user) {
         User foundUser = getUserByName(user.getName());
 
         if (foundUser == null) {
@@ -155,7 +165,7 @@ public class Storage {
                 "WHERE name = ?;";
 
         try (
-                Connection connection = DriverManager.getConnection(DATABASE_URL);
+                Connection connection = DriverManager.getConnection("jdbc:sqlite:application.db");
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
             preparedStatement.setDouble(1, user.getHeight());
             preparedStatement.setString(2, user.getBirthdate());
@@ -176,12 +186,12 @@ public class Storage {
      * 
      * @param goal The goal object to be updated
      */
-    public static void updateGoal(Goal goal) {
+    public void updateGoal(Goal goal) {
         String sql = "UPDATE goals SET physical_fitness = ?, target_calories = ?, daily_calories = ?, type = ? "
                 + "WHERE username = ?;";
 
         try (
-                Connection connection = DriverManager.getConnection(DATABASE_URL);
+                Connection connection = DriverManager.getConnection("jdbc:sqlite:application.db");
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
             preparedStatement.setBoolean(1, goal.getPhysicalFitness());
             preparedStatement.setInt(2, goal.getTargetCalories());
@@ -201,12 +211,12 @@ public class Storage {
      * @param name The name of the user to retrieve.
      * @return The User object, or null if not found.
      */
-    public static User getUserByName(String name) {
+    public User getUserByName(String name) {
         String userSql = "SELECT name, height, birth_date, age, current_weight, target_weight FROM users WHERE name = ?";
         String goalSql = "SELECT physical_fitness, target_calories, daily_calories, type FROM goals WHERE username = ?";
 
         try (
-                Connection connection = DriverManager.getConnection(DATABASE_URL);
+                Connection connection = DriverManager.getConnection("jdbc:sqlite:application.db");
                 PreparedStatement userStatement = connection.prepareStatement(userSql);
                 PreparedStatement goalStatement = connection.prepareStatement(goalSql);) {
             userStatement.setString(1, name);
@@ -267,7 +277,7 @@ public class Storage {
         return null; // Return null if there was an error
     }
 
-    public static void setupTables() {
+    public void setupTables() {
         createUsersTable();
         createGoalsTable();
     }
