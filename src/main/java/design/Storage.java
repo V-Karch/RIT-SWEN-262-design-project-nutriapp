@@ -74,6 +74,7 @@ public class Storage {
                 "    age INTEGER NOT NULL,\n" +
                 "    current_weight REAL NOT NULL,\n" +
                 "    target_weight REAL NOT NULL\n" +
+                "    password_hash TEXT NOT NULL,\n" + 
                 ");";
 
         executeSQL(sql);
@@ -124,10 +125,10 @@ public class Storage {
      * 
      * @param user The user object to be added.
      */
-    public void addUser(User user) {
-        String sql = "INSERT INTO users (name, height, birth_date, age, current_weight, target_weight) "
+    public static void addUser(User user) {
+        String sql = "INSERT INTO users (name, height, birth_date, age, current_weight, target_weight, password_hash) "
                 +
-                "VALUES (?, ?, ?, ?, ?, ?);";
+                "VALUES (?, ?, ?, ?, ?, ?, ?);";
 
         try (
                 Connection connection = DriverManager.getConnection("jdbc:sqlite:application.db");
@@ -139,6 +140,7 @@ public class Storage {
             preparedStatement.setInt(4, user.getAge());
             preparedStatement.setDouble(5, user.getCurrentWeight());
             preparedStatement.setDouble(6, user.getTargetWeight());
+            preparedStatement.setString(7, user.getHash());
 
             preparedStatement.executeUpdate();
 
@@ -161,7 +163,7 @@ public class Storage {
             return;
         }
 
-        String sql = "UPDATE users SET height = ?, birth_date = ?, age = ?, current_weight = ?, target_weight = ? " +
+        String sql = "UPDATE users SET height = ?, birth_date = ?, age = ?, current_weight = ?, target_weight = ?, password_hash = ? " +
                 "WHERE name = ?;";
 
         try (
@@ -173,6 +175,7 @@ public class Storage {
             preparedStatement.setDouble(4, user.getCurrentWeight());
             preparedStatement.setDouble(5, user.getTargetWeight());
             preparedStatement.setString(6, user.getName());
+            preparedStatement.setString(7, user.getHash());
 
             preparedStatement.executeUpdate();
             updateGoal(user.getGoal());
@@ -205,14 +208,82 @@ public class Storage {
         }
     }
 
+    public static User getUserByNameAndPassword(String name, String hash) {
+        String userSql = "SELECT name, height, birth_date, age, current_weight, target_weight FROM users WHERE name = ? AND password_hash = ?";
+        String goalSql = "SELECT physical_fitness, target_calories, daily_calories, type FROM goals WHERE username = ? ";
+
+        try (
+                Connection connection = DriverManager.getConnection(DATABASE_URL);
+                PreparedStatement userStatement = connection.prepareStatement(userSql);
+                PreparedStatement goalStatement = connection.prepareStatement(goalSql);) {
+            userStatement.setString(1, name);
+            userStatement.setString(2, hash);
+            ResultSet userResult = userStatement.executeQuery();
+
+            if (!userResult.next()) {
+                System.out.println("User not found.");
+                return null; // Return null if user does not exist
+            }
+
+            // Create User object
+            String retrievedName = userResult.getString("name");
+            float height = userResult.getFloat("height");
+            String birthDate = userResult.getString("birth_date");
+            double currentWeight = userResult.getDouble("current_weight");
+            double targetWeight = userResult.getDouble("target_weight");
+
+            User user = new User(retrievedName, height, (float) currentWeight, birthDate, hash);
+            user.updateTargetWeight(targetWeight); // Ensures target weight is set
+
+            // Fetch goal data
+            goalStatement.setString(1, name);
+            ResultSet goalResult = goalStatement.executeQuery();
+
+            if (goalResult.next()) {
+                boolean physicalFitness = goalResult.getBoolean("physical_fitness");
+                int targetCalories = goalResult.getInt("target_calories");
+                int dailyCalories = goalResult.getInt("daily_calories");
+                String type = goalResult.getString("type");
+
+                Goal goal;
+                switch (type) {
+                    case "GainWeight":
+                        goal = new GainWeight(user, physicalFitness, targetCalories);
+                        break;
+                    case "LoseWeight":
+                        goal = new LoseWeight(user, physicalFitness, targetCalories);
+                        break;
+                    case "MaintainWeight":
+                        goal = new MaintainWeight(user, physicalFitness, dailyCalories);
+                        break;
+                    default:
+                        System.out.println("Unknown goal type: " + type);
+                        return user; // Return user without a goal if the type is unknown
+                }
+
+                user.setGoal(goal); // Attach the goal to the user
+            } else {
+                System.out.println("No goal found for user: " + name);
+            }
+
+            return user;
+
+        } catch (SQLException e) {
+            System.out.println("Error retrieving user and goal: " + e.getMessage());
+        }
+
+        return null; // Return null if there was an error
+    }
+
+
     /**
      * Retrieves a user by name from the database, along with their associated goal.
      * 
      * @param name The name of the user to retrieve.
      * @return The User object, or null if not found.
      */
-    public User getUserByName(String name) {
-        String userSql = "SELECT name, height, birth_date, age, current_weight, target_weight FROM users WHERE name = ?";
+    public static User getUserByName(String name) {
+        String userSql = "SELECT name, height, birth_date, age, current_weight, target_weight, password_hash FROM users WHERE name = ?";
         String goalSql = "SELECT physical_fitness, target_calories, daily_calories, type FROM goals WHERE username = ?";
 
         try (
@@ -233,8 +304,9 @@ public class Storage {
             String birthDate = userResult.getString("birth_date");
             double currentWeight = userResult.getDouble("current_weight");
             double targetWeight = userResult.getDouble("target_weight");
+            String hash = userResult.getString("password_hash");
 
-            User user = new User(retrievedName, height, (float) currentWeight, birthDate);
+            User user = new User(retrievedName, height, (float) currentWeight, birthDate, hash);
             user.updateTargetWeight(targetWeight); // Ensures target weight is set
 
             // Fetch goal data
