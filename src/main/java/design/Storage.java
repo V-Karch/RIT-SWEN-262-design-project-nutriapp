@@ -14,6 +14,13 @@ import design.Model.Goal.LoseWeight;
 import design.Model.Goal.GainWeight;
 import design.Model.Goal.MaintainWeight;
 
+// Food -> Store Stock from FoodManager (ingredient | count | user name)
+// FoodManager.getStock() -> List<Ingredient>
+// for (Ingredient i: FoodManager.getStock()) { i.getStock() -> int }
+
+// Figure Recipe and Meal the heck out
+// Figure out personal history too
+
 /**
  * The Storage class provides methods for interacting with a SQLite database.
  * It handles database creation, table setup, and CRUD operations for users and
