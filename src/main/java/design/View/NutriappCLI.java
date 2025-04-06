@@ -213,9 +213,11 @@ public class NutriappCLI {
     }
 
     public void run(String[] args) throws IOException, Exception {
+        Storage storage = Storage.getInstance();
+
         if (!(new File("application.db").isFile())) { // Check if database file exists
-            Storage.createNewDatabase("application.db"); // make database file
-            Storage.setupTables(); // setup database tables
+            storage.createNewDatabase("application.db"); // make database file
+            storage.setupTables(); // setup database tables
         }
 
         // creating concrete commands for user setup
