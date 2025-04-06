@@ -1,18 +1,12 @@
 package design.Controller;
 
-import design.Storage;
 import design.Controller.History.HistoryController;
 import design.Controller.User.UserBuilder;
-import design.Model.Goal.Goal;
-import design.Model.History.HistoryManager;
 import design.Model.UserSS.User;
 import design.Storage;
 
 
 public class StorageController {
-    User user;
-    Goal goal;
-    HistoryManager historyManager;
 
     public StorageController() {}
 
@@ -28,5 +22,10 @@ public class StorageController {
     public User getUser(String name) {
         //true if user exists, false if user doesn't
         return Storage.getUserByName(name);
+    }
+
+    public void updateUser (String name){
+        User user = this.getUser(name);
+        Storage.updateUser(user);
     }
 }
