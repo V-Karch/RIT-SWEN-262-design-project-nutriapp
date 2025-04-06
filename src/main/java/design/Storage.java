@@ -213,7 +213,7 @@ public class Storage {
         String goalSql = "SELECT physical_fitness, target_calories, daily_calories, type FROM goals WHERE username = ? ";
 
         try (
-                Connection connection = DriverManager.getConnection(DATABASE_URL);
+                Connection connection = DriverManager.getConnection("jdbc:sqlite:application.db");
                 PreparedStatement userStatement = connection.prepareStatement(userSql);
                 PreparedStatement goalStatement = connection.prepareStatement(goalSql);) {
             userStatement.setString(1, name);
