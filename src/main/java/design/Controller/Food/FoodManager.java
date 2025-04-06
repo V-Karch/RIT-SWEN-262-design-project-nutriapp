@@ -171,4 +171,8 @@ public class FoodManager {
         return ingredientStrings;
     }
 
+    public String getMeal(int index){
+        return Meals.get(index).toString();
+    }
+
 }

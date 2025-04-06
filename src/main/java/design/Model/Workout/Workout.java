@@ -19,6 +19,7 @@ public class Workout implements Colleague{
         this.dailyA = dailyA;
 
         this.calories = (int)(minutes * intensity.getValue());
+        this.sendMessage();
     }
 
     public int getMinutes() { return this.minutes; }
@@ -36,6 +37,6 @@ public class Workout implements Colleague{
 
     @Override
     public void sendMessage() {
-        dailyA.logWorkout(this.toString());;
+        dailyA.logWorkout(this.toString());
     }
 }

@@ -71,4 +71,9 @@ public class LoseWeight implements Goal {
 	public User getUser() {
     return user;
   }
+
+  @Override
+	public void resetDailyCalories() {
+    this.dailyCalories = 0;
+  }
 }

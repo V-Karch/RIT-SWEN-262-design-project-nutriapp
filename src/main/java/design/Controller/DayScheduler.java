@@ -36,6 +36,10 @@ public class DayScheduler {
         return dayOver;
     }
 
+    public boolean isPaused(){
+        return paused;
+    }
+
 
 
     public void startScheduler() {

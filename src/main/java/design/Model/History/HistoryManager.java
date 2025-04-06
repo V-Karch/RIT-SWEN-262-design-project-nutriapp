@@ -33,7 +33,8 @@ public class HistoryManager implements Colleague{
     public void sendMessage() {
 
         String activity = todaysActivity.logDayActivities();
-        history.put(date, activity);
+        history.put(this.date, activity);
+        System.out.println(history.toString());
     }
 
     

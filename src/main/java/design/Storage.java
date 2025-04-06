@@ -1,16 +1,18 @@
 package design;
 
-import java.sql.Statement;
-import java.sql.ResultSet;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.sql.DriverManager;
-import design.Model.Goal.Goal;
-import design.Model.UserSS.User;
 import java.sql.PreparedStatement;
-import design.Model.Goal.LoseWeight;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import design.Model.Goal.GainWeight;
+import design.Model.Goal.Goal;
+import design.Model.Goal.LoseWeight;
 import design.Model.Goal.MaintainWeight;
+import design.Model.History.Mediator;
+import design.Model.UserSS.User;
 
 /**
  * The Storage class provides methods for interacting with a SQLite database.
@@ -143,8 +145,8 @@ public class Storage {
      * 
      * @param user The user object to be updated.
      */
-    public static void updateUser(User user) {
-        User foundUser = getUserByName(user.getName());
+    public static void updateUser(User user, Mediator dailyA) {
+        User foundUser = getUserByName(user.getName(), dailyA);
 
         if (foundUser == null) {
             addUser(user); // User not found, so add them
@@ -201,7 +203,7 @@ public class Storage {
      * @param name The name of the user to retrieve.
      * @return The User object, or null if not found.
      */
-    public static User getUserByName(String name) {
+    public static User getUserByName(String name, Mediator dailyA) {
         String userSql = "SELECT name, height, birth_date, age, current_weight, target_weight FROM users WHERE name = ?";
         String goalSql = "SELECT physical_fitness, target_calories, daily_calories, type FROM goals WHERE username = ?";
 
@@ -224,7 +226,7 @@ public class Storage {
             double currentWeight = userResult.getDouble("current_weight");
             double targetWeight = userResult.getDouble("target_weight");
 
-            User user = new User(retrievedName, height, (float) currentWeight, birthDate);
+            User user = new User(retrievedName, height, (float) currentWeight, birthDate, dailyA);
             user.updateTargetWeight(targetWeight); // Ensures target weight is set
 
             // Fetch goal data
