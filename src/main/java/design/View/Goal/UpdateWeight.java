@@ -24,7 +24,7 @@ public class UpdateWeight implements Action {
         String weight_S = scanner.nextLine().trim();
         double weight = Double.parseDouble(weight_S);
         this.goalManager.setDailyWeight(weight);
-        this.historyController.logWeight(((int)(weight))); // cast float to int
+        // this.historyController.logWeight(((int)(weight))); // cast float to int
         System.out.println("Weight updated.");
     }
         catch(Exception e) {
