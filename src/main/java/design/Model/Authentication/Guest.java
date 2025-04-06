@@ -1,5 +1,8 @@
 package design.Model.Authentication;
 
+import design.Storage;
+import design.Model.UserSS.User;
+
 public class Guest implements Authenticator{
     private Boolean authenticated;
     private String name;
@@ -16,5 +19,12 @@ public class Guest implements Authenticator{
     public String getName(){
         return this.name;
     }
-    
+    public User register(String name, String password){
+        User newUser = new User(name, 0, 0, password);
+        return newUser;
+    }
+    public User logIn(String name, String password){
+        User currentUser = Storage.getUser(name, password);
+        return currentUser;
+    }
 }
