@@ -1,12 +1,11 @@
-package design.Controller.Teams;
+package design.Model.Teams;
 
 import java.util.Map;
 
-import design.Model.Teams.TeamInterface;
 import design.Model.Workout.Workout;
 
-public interface TeamControllerInterface {
-    public void newWorkout(Workout workout);
+public interface TeamUserInterface {
+public void newWorkout(Workout workout);
     public void notifyOfWorkout(String username);
     public void createTeam();
     public void joinTeam();
