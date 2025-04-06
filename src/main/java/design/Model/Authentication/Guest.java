@@ -8,21 +8,13 @@ public class Guest implements Authenticator{
         this.authenticated = false;
         this.name = "Guest";
     }
-    
+
     @Override
     public Boolean isAuthenticated() {
-        return authenticated;
+        return this.authenticated;
     }
-
-    @Override
-    public String read() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'read'");
-    }
-
-    @Override
-    public String write() {
-        return "Guests are not authorized to do this!";
+    public String getName(){
+        return this.name;
     }
     
 }
