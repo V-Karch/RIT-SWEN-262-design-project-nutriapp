@@ -4,15 +4,17 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
+import design.Model.Authentication.Authenticator;
 import design.Model.Goal.Goal;
 import design.Model.Goal.MaintainWeight;
 
-public class User {
+public class User implements Authenticator {
     // user attributes
     private String name;
     private float height;
     private String birthdate;
     private int age;
+    private Boolean authenticated;
 
     // goal attributes
     private double currentWeight;
@@ -24,6 +26,7 @@ public class User {
         this.height = height;
         this.currentWeight = weight;
         this.birthdate = birthdate;
+        this.authenticated = true;
 
         // getting age from birthdate based on current date
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
@@ -80,4 +83,10 @@ public class User {
         this.targetWeight = weight;
         currentGoal.handleWeightChange();
     }
+
+    @Override
+    public Boolean isAuthenticated() {
+        return this.authenticated;
+    }
+
 }
