@@ -125,7 +125,7 @@ public class Storage {
      * 
      * @param user The user object to be added.
      */
-    public static void addUser(User user) {
+    public void addUser(User user) {
         String sql = "INSERT INTO users (name, height, birth_date, age, current_weight, target_weight, password_hash) "
                 +
                 "VALUES (?, ?, ?, ?, ?, ?, ?);";
@@ -208,7 +208,7 @@ public class Storage {
         }
     }
 
-    public static User getUserByNameAndPassword(String name, String hash) {
+    public User getUserByNameAndPassword(String name, String hash) {
         String userSql = "SELECT name, height, birth_date, age, current_weight, target_weight FROM users WHERE name = ? AND password_hash = ?";
         String goalSql = "SELECT physical_fitness, target_calories, daily_calories, type FROM goals WHERE username = ? ";
 
@@ -282,7 +282,7 @@ public class Storage {
      * @param name The name of the user to retrieve.
      * @return The User object, or null if not found.
      */
-    public static User getUserByName(String name) {
+    public User getUserByName(String name) {
         String userSql = "SELECT name, height, birth_date, age, current_weight, target_weight, password_hash FROM users WHERE name = ?";
         String goalSql = "SELECT physical_fitness, target_calories, daily_calories, type FROM goals WHERE username = ?";
 

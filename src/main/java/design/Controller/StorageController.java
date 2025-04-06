@@ -7,25 +7,30 @@ import design.Storage;
 
 
 public class StorageController {
+    private Storage storage = Storage.getInstance();
 
     public StorageController() {}
 
     public void store(UserBuilder userBuilder, HistoryController historyController) {
-        Storage.addUser(userBuilder.getUser());
+        storage.addUser(userBuilder.getUser());
     }
 
     public Boolean checkUser(String name) {
         //true if user exists, false if user doesn't
-        return Storage.getUserByName(name) != null;
+        return storage.getUserByName(name) != null;
     }
 
     public User getUser(String name) {
         //true if user exists, false if user doesn't
-        return Storage.getUserByName(name);
+        return storage.getUserByName(name);
+    }
+
+    public User getUserWithPassword(String name, String hash) {
+        return storage.getUserByNameAndPassword(name, hash);
     }
 
     public void updateUser (String name){
         User user = this.getUser(name);
-        Storage.updateUser(user);
+        storage.updateUser(user);
     }
 }
