@@ -5,6 +5,7 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 import design.Model.Authentication.Authenticator;
+import design.Model.Authentication.Guest;
 import design.Model.Goal.Goal;
 import design.Model.Goal.MaintainWeight;
 
@@ -15,18 +16,20 @@ public class User implements Authenticator {
     private String birthdate;
     private int age;
     private Boolean authenticated;
+    private String password;
 
     // goal attributes
     private double currentWeight;
     private double targetWeight;
     public Goal currentGoal;
 
-    public User(String name, float height, float weight, String birthdate) {
+    public User(String name, float height, float weight, String birthdate, String password) {
         this.name = name;
         this.height = height;
         this.currentWeight = weight;
         this.birthdate = birthdate;
         this.authenticated = true;
+        this.password = ((Integer)password.hashCode()).toString();
 
         // getting age from birthdate based on current date
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
@@ -87,6 +90,11 @@ public class User implements Authenticator {
     @Override
     public Boolean isAuthenticated() {
         return this.authenticated;
+    }
+
+    public Guest logOut(){
+        Guest guest = new Guest();
+        return guest;
     }
 
 }
