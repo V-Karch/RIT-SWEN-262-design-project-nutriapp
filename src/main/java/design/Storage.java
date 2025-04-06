@@ -1,6 +1,8 @@
 package design;
 
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -22,7 +24,8 @@ import design.Model.Goal.MaintainWeight;
 public class Storage {
     private static Storage storageInstance;
 
-    private Storage() {};
+    private Storage() {
+    };
 
     public static synchronized Storage getInstance() {
         if (storageInstance == null) {
@@ -74,7 +77,7 @@ public class Storage {
                 "    age INTEGER NOT NULL,\n" +
                 "    current_weight REAL NOT NULL,\n" +
                 "    target_weight REAL NOT NULL\n" +
-                "    password_hash TEXT NOT NULL,\n" + 
+                "    password_hash TEXT NOT NULL,\n" +
                 ");";
 
         executeSQL(sql);
@@ -163,7 +166,8 @@ public class Storage {
             return;
         }
 
-        String sql = "UPDATE users SET height = ?, birth_date = ?, age = ?, current_weight = ?, target_weight = ?, password_hash = ? " +
+        String sql = "UPDATE users SET height = ?, birth_date = ?, age = ?, current_weight = ?, target_weight = ?, password_hash = ? "
+                +
                 "WHERE name = ?;";
 
         try (
@@ -275,6 +279,23 @@ public class Storage {
         return null; // Return null if there was an error
     }
 
+    public List<String> getUserNames() {
+        String sql = "SELECT name FROM users";
+        List<String> userNames = new ArrayList<>();
+
+        try (
+                Connection connection = DriverManager.getConnection("jdbc:sqlite:application.db");
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                userNames.add(resultSet.getString("name"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving user names: " + e.getMessage());
+        }
+
+        return userNames;
+    }
 
     /**
      * Retrieves a user by name from the database, along with their associated goal.
