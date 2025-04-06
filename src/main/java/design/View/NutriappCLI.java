@@ -30,7 +30,6 @@ import design.View.Goal.GetRemainingCalories;
 import design.View.Goal.GetTargetCalories;
 import design.View.Goal.SetPhysicalFitness;
 import design.View.Goal.SetTargetWeight;
-import design.View.Goal.UpdateWeight;
 import design.View.History.LogTodaysActivity;
 import design.View.History.SearchHistory;
 import design.View.User.AddBirthdate;
@@ -292,6 +291,7 @@ public class NutriappCLI {
             // while loop serves as a day of activities -- asks the user what theyd like to
             // do, stores NEW profiles if they choose to close
             // Check if the day is over and take necessary actions
+            System.out.println("DAY WHILE LOOP");
             if (dayScheduler.isDayOver()) {
                 System.out.println("\nDay " + currentDay.getDay() + " is over!");
 
@@ -331,37 +331,15 @@ public class NutriappCLI {
             String input = scanner.nextLine();
             input = input.toLowerCase();
 
-            if (input.equals("close")) {
-                if (this.existingUser == false) {
-                    storageController.store(userBuilder, historyController);
-                    logger.message("User profile stored!");
-                }
-                storeUser();
-                logger.message("Bye!");
-                System.exit(0);
-
-            } else {
-                // enables the user to do multiple things within a 24 hr period
-                boolean response;
-                response = parseInput(input);
-                if (response == true) {
-                    logger.gap();
-                    logger.message("Sad to see you go!");
-                    break;
-                }
+            
+            
+            boolean response;
+            response = parseInput(input);
+            if (response == true) {
+                logger.gap();
+                logger.message("Sad to see you go!");
+                break;
             }
-
-            // Potentially problematic
-            logger.gap();
-            logTodaysActivity.execute();
-            logger.message("***A day has passed***");
-            logger.message("Good Morning!");
-            UpdateWeight updateWeight = new UpdateWeight(goalManager, scanner, historyController);
-            updateWeight.execute();
-            GetTargetCalories getTargetCalories = new GetTargetCalories(goalManager);
-            getTargetCalories.execute();
-            logger.gap();
-
         }
         dayScheduler.stopScheduler();
         scanner.close();

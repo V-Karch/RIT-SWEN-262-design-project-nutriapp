@@ -135,7 +135,7 @@ public class FoodManager {
         Meal meal = Meals.get(index);
         meal.prepareMeal();
         goal.addDailyCalories(meal.getCalories());
-        hc.logMeal(meal);
+        // hc.logMeal(meal);
     }
 
     public List<String> getMealIngredients(int index){
