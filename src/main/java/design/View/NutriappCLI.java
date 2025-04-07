@@ -1,27 +1,47 @@
 package design.View;
 
 import java.io.File;
-import java.util.Scanner;
 import java.io.IOException;
+import java.util.Scanner;
 
-import design.Storage;
-
-import design.View.Food.*;
-import design.View.Goal.*;
-import design.View.User.*;
-import design.View.History.*;
-import design.View.Workout.*;
-import design.Model.Workout.*;
-
-import design.Model.CurrentDay;
 import design.Controller.DayScheduler;
 import design.Controller.Food.FoodManager;
 import design.Controller.Goal.GoalManager;
-import design.Controller.User.UserBuilder;
-import design.Model.History.HistoryManager;
-import design.Controller.StorageController;
-import design.Controller.Workout.WorkoutController;
 import design.Controller.History.HistoryController;
+import design.Controller.StorageController;
+import design.Controller.User.UserBuilder;
+import design.Controller.Workout.WorkoutController;
+import design.Model.CurrentDay;
+import design.Model.History.DailyActivity;
+import design.Model.History.HistoryManager;
+import design.Model.Workout.WorkoutBuilder;
+import design.Model.Workout.WorkoutManager;
+import design.Storage;
+import design.View.Food.AddIngredient;
+import design.View.Food.AddRecipe;
+import design.View.Food.CreateMeal;
+import design.View.Food.CreateRecipe;
+import design.View.Food.CreateShoppingList;
+import design.View.Food.PrepareMeal;
+import design.View.Food.SearchIngredient;
+import design.View.Food.StockIngredient;
+import design.View.Food.ViewShoppingList;
+import design.View.Goal.GetRemainingCalories;
+import design.View.Goal.GetTargetCalories;
+import design.View.Goal.SetPhysicalFitness;
+import design.View.Goal.SetTargetWeight;
+import design.View.Goal.UpdateWeight;
+import design.View.History.LogTodaysActivity;
+import design.View.History.SearchHistory;
+import design.View.User.AddBirthdate;
+import design.View.User.AddHeight;
+import design.View.User.AddName;
+import design.View.User.AddWeight;
+import design.View.User.BuildUser;
+import design.View.Workout.CreateWorkout;
+import design.View.Workout.SetIntensity;
+import design.View.Workout.SetMinutes;
+import design.View.Workout.SetName;
 
 public class NutriappCLI {
 
@@ -30,9 +50,10 @@ public class NutriappCLI {
     static CurrentDay currentDay = new CurrentDay();
 
     // controllers
-    static HistoryController historyController = new HistoryController(new HistoryManager());
-    static WorkoutController workoutController = new WorkoutController(new WorkoutBuilder(currentDay),
-            new WorkoutManager());
+    static DailyActivity dailyActivity = new DailyActivity();
+    static HistoryController historyController = new HistoryController(new HistoryManager(dailyActivity));
+    static WorkoutController workoutController = new WorkoutController(new WorkoutBuilder(currentDay, dailyActivity),
+            new WorkoutManager(dailyActivity));
 
     // history commands
     static SearchHistory searchHistory = new SearchHistory(scanner, historyController);

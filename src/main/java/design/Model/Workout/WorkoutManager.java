@@ -1,16 +1,20 @@
 package design.Model.Workout;
 
-import java.util.Map;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.Map;
+
+import design.Model.History.Mediator;
 
 public class WorkoutManager {
     private Map<String, Workout> workouts;
+    private Mediator dailyA;
     
 
-    public WorkoutManager() {
+    public WorkoutManager(Mediator dailyA) {
         this.workouts = new HashMap<>();
+        this.dailyA = dailyA;
         
     }
 
@@ -49,6 +53,6 @@ public class WorkoutManager {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String date = now.format(formatter);
 
-        return new Workout((int) (calories / 7.5), mostCommonIntensity, date, "Recommended Workout");
+        return new Workout((int) (calories / 7.5), mostCommonIntensity, date, "Recommended Workout", dailyA);
     }
 }

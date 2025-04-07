@@ -30,7 +30,7 @@ public class AddWeight implements Action {
                 }
                 validInput = true;
                 this.userBuilder.setWeight(weightNum);
-                this.historyController.logWeight(weightNum);
+                // this.historyController.logWeight(weightNum);
             } catch (Exception e) {
                 logger.error("Invalid weight. Please enter a number (lbs).");
             }
