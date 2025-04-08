@@ -3,7 +3,6 @@ package design.Model.Undo;
 import java.util.ArrayDeque;
 
 import design.Controller.Food.FoodManager;
-import design.Controller.Goal.GoalManager;
 
 public class FoodSaveHistory {
     private ArrayDeque<FoodSave> history;
@@ -14,14 +13,14 @@ public class FoodSaveHistory {
         this.history = new ArrayDeque<FoodSave>();
     }
 
-    public void storeFoodSave() {
-        FoodSave newSave = foodManager.createFoodSave();
+    public void storeSave() {
+        FoodSave newSave = foodManager.createSave();
         history.add(newSave);
     }
 
-    public void restoreSave(GoalManager goalManager) {
+    public void restoreSave() {
         FoodSave save = history.remove();
-        foodManager.restoreSave(save, goalManager);
+        foodManager.restoreSave(save);
     }
 
     public ArrayDeque<FoodSave> getHistory() {

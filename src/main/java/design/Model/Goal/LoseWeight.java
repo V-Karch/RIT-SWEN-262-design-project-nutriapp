@@ -74,7 +74,7 @@ public class LoseWeight implements Goal {
   }
 
    @Override
-  public GoalSave creatGoalSave() {
+  public GoalSave createSave() {
     GoalSave save = new GoalSave(user, physicalFitness, targetCalories, dailyCalories);
     return save;
   }

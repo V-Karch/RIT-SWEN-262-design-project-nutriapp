@@ -14,11 +14,11 @@ public class UserUndo {
     }
 
     public void storeSave() {
-        userHistory.storeUserSave();
+        userHistory.storeSave();
     }
 
     public void restoreSave(GoalManager goalManager) {
-        userHistory.restoreUserSave();
+        userHistory.restoreSave();
         goalManager.updateGoal();
     }
 

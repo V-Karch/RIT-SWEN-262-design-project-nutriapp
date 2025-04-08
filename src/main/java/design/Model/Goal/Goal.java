@@ -13,6 +13,6 @@ public interface Goal {
   public boolean getPhysicalFitness();
   public void setPhysicalFitness(boolean doesFitness);
   public User getUser();
-  public GoalSave creatGoalSave();
+  public GoalSave createSave();
   public void restoreSave(GoalSave save);
 }

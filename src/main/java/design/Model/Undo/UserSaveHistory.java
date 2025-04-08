@@ -13,14 +13,14 @@ public class UserSaveHistory {
         this.history = new ArrayDeque<UserSave>();
     }
 
-    public void storeUserSave() {
-        UserSave newSave = user.createUserSave();
+    public void storeSave() {
+        UserSave newSave = user.createSave();
         history.add(newSave);
     }
 
-    public void restoreUserSave() {
+    public void restoreSave() {
         UserSave save = history.remove();
-        user.restoreUserSave(save);
+        user.restoreSave(save);
     }
 
     public ArrayDeque<UserSave> getHistory() {

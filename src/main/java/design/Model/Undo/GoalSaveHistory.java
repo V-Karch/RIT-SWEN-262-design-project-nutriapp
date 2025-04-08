@@ -13,8 +13,8 @@ public class GoalSaveHistory {
         this.history = new ArrayDeque<GoalSave>();
     }
 
-    public void storeGoalSave() {
-        GoalSave save = goal.creatGoalSave();
+    public void storeSave() {
+        GoalSave save = goal.createSave();
         history.add(save);
     }
 

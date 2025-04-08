@@ -82,12 +82,12 @@ public class User {
         currentGoal.handleWeightChange();
     }
 
-    public UserSave createUserSave() {
+    public UserSave createSave() {
         UserSave save = new UserSave(name, height, birthdate, age, currentWeight, targetWeight, currentGoal);
         return save;
     }
 
-    public void restoreUserSave(UserSave save) {
+    public void restoreSave(UserSave save) {
         this.name = save.getName();
         this.height = save.getHeight();
         this.birthdate = save.getBirthdate();
