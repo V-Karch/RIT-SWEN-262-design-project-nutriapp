@@ -198,6 +198,10 @@ public class NutriappCLI {
                 if (this.existingUser == false) {
                     storageController.store(userBuilder, historyController, dailyActivity);
                     logger.message("User profile stored!");
+                } else {
+                    //hypothetically this works
+                    storageController.updateUser(userBuilder.getName());
+                    logger.message("User profile updated!");
                 }
                 state = true;
                 return state;
@@ -233,9 +237,11 @@ public class NutriappCLI {
     }
 
     public void run(String[] args) throws IOException, Exception {
+        Storage storage = Storage.getInstance();
+
         if (!(new File("application.db").isFile())) { // Check if database file exists
-            Storage.createNewDatabase("application.db"); // make database file
-            Storage.setupTables(); // setup database tables
+            storage.createNewDatabase("application.db"); // make database file
+            storage.setupTables(); // setup database tables
         }
 
         // creating concrete commands for user setup
@@ -345,6 +351,7 @@ public class NutriappCLI {
             
             boolean response;
             response = parseInput(input, dayScheduler);
+
             if (response == true) {
                 logger.gap();
                 logger.message("Sad to see you go!");

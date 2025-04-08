@@ -10,10 +10,12 @@ import design.Storage;
 
 
 public class StorageController {
-    User user;
-    Goal goal;
-    HistoryManager historyManager;
-    Mediator dailyA;
+
+    private User user;
+    private Goal goal;
+    private HistoryManager historyManager;
+    private Mediator dailyA;
+    private Storage storage = Storage.getInstance();
 
     public StorageController() {}
 
@@ -21,15 +23,27 @@ public class StorageController {
         Storage.addUser(userBuilder.getUser());
         this.dailyA = dailyA;
 
+
     }
 
     public Boolean checkUser(String name, Mediator dailyA) {
         //true if user exists, false if user doesn't
         return Storage.getUserByName(name, dailyA) != null;
+
     }
 
     public User getUser(String name, Mediator dailyA) {
         //true if user exists, false if user doesn't
-        return Storage.getUserByName(name, dailyA);
+        return storage.getUserByName(name, dailyA);
+    }
+
+    public User getUserWithPassword(String name, String hash) {
+        return storage.getUserByNameAndPassword(name, hash);
+    }
+
+    public void updateUser (String name){
+        User user = this.getUser(name);
+        storage.updateUser(user);
+
     }
 }
