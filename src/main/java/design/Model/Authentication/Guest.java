@@ -19,8 +19,8 @@ public class Guest implements Authenticator{
     public String getName(){
         return this.name;
     }
-    public User register(String name, String password){
-        User newUser = new User(name, 0, 0, password);
+    public User register(String name, String birthdate, String password){
+        User newUser = new User(name, 0, 0, birthdate, password);
         return newUser;
     }
     public User logIn(String name, String password){
