@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import design.Controller.History.HistoryController;
-import design.Model.Food.Food;
 import design.Model.Food.Ingredient;
 import design.Model.Food.IngredientDatabase;
 import design.Model.Food.Meal;
@@ -119,7 +118,7 @@ public class FoodManager {
     }
 
     public List<String> getMealList(){
-        List<String> mealList = new ArrayList();
+        List<String> mealList = new ArrayList<String>();
         for(Meal m : Meals){
             mealList.add(m.getName());
         }
@@ -139,7 +138,7 @@ public class FoodManager {
     }
 
     public List<String> getMealIngredients(int index){
-        List<String> ingredientStrings = new ArrayList();
+        List<String> ingredientStrings = new ArrayList<String>();
         List<Ingredient> ingredients = Meals.get(index).getIngredients();
         for(Ingredient i: ingredients){
             ingredientStrings.add(i.getName());
