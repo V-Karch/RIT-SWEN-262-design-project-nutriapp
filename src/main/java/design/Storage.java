@@ -106,6 +106,17 @@ public class Storage {
         executeSQL(sql);
     }
 
+    private void createStockTable() {
+        String sql = "CREATE TABLE IF NOT EXISTS stock (\n" +
+            "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+            "    ingredient TEXT NOT NULL,\n" +
+            "    amount INTEGER NOT NULL,\n" +
+            "    username TEXT NOT NULL\n"+
+            ");";
+
+            executeSQL(sql);
+    }
+
     /**
      * Inserts a new goal into the database.
      * 
@@ -380,5 +391,6 @@ public class Storage {
     public void setupTables() {
         createUsersTable();
         createGoalsTable();
+        createStockTable();
     }
 }
