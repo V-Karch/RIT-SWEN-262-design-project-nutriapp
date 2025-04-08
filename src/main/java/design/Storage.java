@@ -261,7 +261,7 @@ public class Storage {
                 String recipeName = recipe.getName();
 
                 // Join instructions with "|"
-                String cookInstructionsStr = String.join("|", recipe.getCookInstructions());
+                String cookInstructions = String.join("|", recipe.getCookInstructions());
 
                 // Format ingredients as raw concatenation:
                 // "ingredient|amount@ingredient|amount@..."
@@ -284,7 +284,7 @@ public class Storage {
                 if (rs.next()) {
                     // Update existing recipe
                     updatestatement.setString(1, ingredientData);
-                    updatestatement.setString(2, cookInstructionsStr);
+                    updatestatement.setString(2, cookInstructions);
                     updatestatement.setString(3, username);
                     updatestatement.setString(4, recipeName);
                     updatestatement.executeUpdate();
