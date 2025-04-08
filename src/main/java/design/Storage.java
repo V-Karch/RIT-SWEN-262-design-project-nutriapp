@@ -11,8 +11,10 @@ import design.Model.Goal.Goal;
 import design.Model.UserSS.User;
 import java.sql.PreparedStatement;
 import design.Model.Goal.LoseWeight;
+import design.Model.Food.Ingredient;
 import design.Model.Goal.GainWeight;
 import design.Model.Goal.MaintainWeight;
+import design.Controller.Food.FoodManager;
 
 // Food -> Store Stock from FoodManager (ingredient | count | user name)
 // FoodManager.getStock() -> List<Ingredient>
@@ -20,6 +22,11 @@ import design.Model.Goal.MaintainWeight;
 
 // Figure Recipe and Meal the heck out
 // Figure out personal history too
+
+// public void updateStock(FoodManager foodManager, String username) { // Implement }
+// This is a function i have to make if you want stock stored, i also need to get the username from somewhere
+// so maybe take foodmanager and user args but idk
+// depends what you want
 
 /**
  * The Storage class provides methods for interacting with a SQLite database.
@@ -108,13 +115,13 @@ public class Storage {
 
     private void createStockTable() {
         String sql = "CREATE TABLE IF NOT EXISTS stock (\n" +
-            "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-            "    ingredient TEXT NOT NULL,\n" +
-            "    amount INTEGER NOT NULL,\n" +
-            "    username TEXT NOT NULL\n"+
-            ");";
+                "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                "    ingredient TEXT NOT NULL,\n" +
+                "    amount INTEGER NOT NULL,\n" +
+                "    username TEXT NOT NULL\n" +
+                ");";
 
-            executeSQL(sql);
+        executeSQL(sql);
     }
 
     /**
@@ -227,6 +234,44 @@ public class Storage {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error updating goal: " + e.getMessage());
+        }
+    }
+
+    public void updateStock(FoodManager foodManager, String username) {
+        String selectSQl = "SELECT id FROM stock WHERE ingredient = ? AND username = ?";
+        String insertSQl = "INSERT INTO stock (ingredient, amount, username) VALUES (?, ?, ?)";
+        String updateSQl = "UPDATE stock SET amount = ? WHERE ingredient = ? AND username = ?";
+
+        try (
+                Connection connection = DriverManager.getConnection("jdbc:sqlite:application.db");
+                PreparedStatement selectStatement = connection.prepareStatement(selectSQl);
+                PreparedStatement insertStatement = connection.prepareStatement(insertSQl);
+                PreparedStatement updateStatement = connection.prepareStatement(updateSQl);) {
+            for (Ingredient i : foodManager.getStock()) {
+                String ingredient = i.getName();
+                int amount = i.getStock();
+
+                // Check if the ingredient already exists
+                selectStatement.setString(1, ingredient);
+                selectStatement.setString(2, username);
+                ResultSet resultSet = selectStatement.executeQuery();
+
+                if (resultSet.next()) {
+                    // Update existing entry
+                    updateStatement.setInt(1, amount);
+                    updateStatement.setString(2, ingredient);
+                    updateStatement.setString(3, username);
+                    updateStatement.executeUpdate();
+                } else {
+                    // Insert new entry
+                    insertStatement.setString(1, ingredient);
+                    insertStatement.setInt(2, amount);
+                    insertStatement.setString(3, username);
+                    insertStatement.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating stock: " + e.getMessage());
         }
     }
 
