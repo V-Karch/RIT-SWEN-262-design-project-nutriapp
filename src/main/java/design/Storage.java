@@ -16,17 +16,8 @@ import design.Model.Goal.GainWeight;
 import design.Model.Goal.MaintainWeight;
 import design.Controller.Food.FoodManager;
 
-// Food -> Store Stock from FoodManager (ingredient | count | user name)
-// FoodManager.getStock() -> List<Ingredient>
-// for (Ingredient i: FoodManager.getStock()) { i.getStock() -> int }
-
 // Figure Recipe and Meal the heck out
 // Figure out personal history too
-
-// public void updateStock(FoodManager foodManager, String username) { // Implement }
-// This is a function i have to make if you want stock stored, i also need to get the username from somewhere
-// so maybe take foodmanager and user args but idk
-// depends what you want
 
 /**
  * The Storage class provides methods for interacting with a SQLite database.
