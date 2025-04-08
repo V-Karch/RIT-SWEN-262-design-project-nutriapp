@@ -1,9 +1,9 @@
 package design.View.Workout;
 
-import design.View.Action;
 import design.Controller.History.HistoryController;
 import design.Controller.Workout.WorkoutController;
 import design.Model.Workout.Workout;
+import design.View.Action;
 
 public class CreateWorkout implements Action {
     private WorkoutController workoutController;
@@ -17,10 +17,7 @@ public class CreateWorkout implements Action {
 
     @Override
     public void execute() {
-        Workout newWorkout = this.workoutController.createWorkout(); 
-        
-        //log the new workout in history
-        this.historyController.logWorkout(newWorkout); 
+        Workout newWorkout = this.workoutController.createWorkout();
 
         System.out.println("Workout created! Name: " + newWorkout.getName() + ", Intensity: " + newWorkout.getIntensity() + ", Minutes: " + newWorkout.getMinutes()+ ", Date: Day " + newWorkout.getDate());
     }

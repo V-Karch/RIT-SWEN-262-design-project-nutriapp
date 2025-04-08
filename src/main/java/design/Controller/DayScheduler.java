@@ -2,9 +2,8 @@ package design.Controller;
 
 
 import java.util.concurrent.TimeUnit;
-import design.Model.CurrentDay;
 
-import java.lang.Thread;
+import design.Model.CurrentDay;
 
 public class DayScheduler {
     private Thread schedulerThread;
@@ -35,6 +34,10 @@ public class DayScheduler {
 
     public boolean isDayOver() {
         return dayOver;
+    }
+
+    public boolean isPaused(){
+        return paused;
     }
 
 

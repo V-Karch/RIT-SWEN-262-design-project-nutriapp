@@ -1,27 +1,47 @@
 package design.View;
 
 import java.io.File;
-import java.util.Scanner;
 import java.io.IOException;
+import java.util.Scanner;
 
-import design.Storage;
-
-import design.View.Food.*;
-import design.View.Goal.*;
-import design.View.User.*;
-import design.View.History.*;
-import design.View.Workout.*;
-import design.Model.Workout.*;
-
-import design.Model.CurrentDay;
 import design.Controller.DayScheduler;
 import design.Controller.Food.FoodManager;
 import design.Controller.Goal.GoalManager;
-import design.Controller.User.UserBuilder;
-import design.Model.History.HistoryManager;
-import design.Controller.StorageController;
-import design.Controller.Workout.WorkoutController;
 import design.Controller.History.HistoryController;
+import design.Controller.StorageController;
+import design.Controller.User.UserBuilder;
+import design.Controller.Workout.WorkoutController;
+import design.Model.CurrentDay;
+import design.Model.History.DailyActivity;
+import design.Model.History.HistoryManager;
+import design.Model.Workout.WorkoutBuilder;
+import design.Model.Workout.WorkoutManager;
+import design.Storage;
+import design.View.Food.AddIngredient;
+import design.View.Food.AddRecipe;
+import design.View.Food.CreateMeal;
+import design.View.Food.CreateRecipe;
+import design.View.Food.CreateShoppingList;
+import design.View.Food.PrepareMeal;
+import design.View.Food.SearchIngredient;
+import design.View.Food.StockIngredient;
+import design.View.Food.ViewShoppingList;
+import design.View.Goal.GetRemainingCalories;
+import design.View.Goal.GetTargetCalories;
+import design.View.Goal.SetPhysicalFitness;
+import design.View.Goal.SetTargetWeight;
+import design.View.Goal.UpdateWeight;
+import design.View.History.LogTodaysActivity;
+import design.View.History.SearchHistory;
+import design.View.User.AddBirthdate;
+import design.View.User.AddHeight;
+import design.View.User.AddName;
+import design.View.User.AddWeight;
+import design.View.User.BuildUser;
+import design.View.Workout.CreateWorkout;
+import design.View.Workout.SetIntensity;
+import design.View.Workout.SetMinutes;
+import design.View.Workout.SetName;
 
 public class NutriappCLI {
 
@@ -30,9 +50,10 @@ public class NutriappCLI {
     static CurrentDay currentDay = new CurrentDay();
 
     // controllers
-    static HistoryController historyController = new HistoryController(new HistoryManager());
-    static WorkoutController workoutController = new WorkoutController(new WorkoutBuilder(currentDay),
-            new WorkoutManager());
+    static DailyActivity dailyActivity = new DailyActivity();
+    static HistoryController historyController = new HistoryController(new HistoryManager(dailyActivity));
+    static WorkoutController workoutController = new WorkoutController(new WorkoutBuilder(currentDay, dailyActivity),
+            new WorkoutManager(dailyActivity));
 
     // history commands
     static SearchHistory searchHistory = new SearchHistory(scanner, historyController);
@@ -44,7 +65,7 @@ public class NutriappCLI {
     static SetMinutes setMinutes = new SetMinutes(workoutController, scanner);
     static CreateWorkout createWorkout = new CreateWorkout(workoutController, historyController);
 
-    static UserBuilder userBuilder = new UserBuilder();
+    static UserBuilder userBuilder = new UserBuilder(dailyActivity);
     static StorageController storageController = new StorageController();
     Boolean existingUser;
 
@@ -53,7 +74,7 @@ public class NutriappCLI {
 
     public NutriappCLI() throws IOException {
         this.foodManager = new FoodManager("src/main/java/design/ingredients.csv");
-        userBuilder = new UserBuilder();
+        userBuilder = new UserBuilder(dailyActivity);
     }
 
     public static void main(String[] args) throws IOException, Exception {
@@ -84,7 +105,7 @@ public class NutriappCLI {
         logger.query();
     }
 
-    public boolean parseInput(String input) throws Exception {
+    public boolean parseInput(String input, DayScheduler dayScheduler) throws Exception {
         // reads user input and calls the correct concrete command, then calls
         // nextAction() (unless skip or close)
         boolean state = false;
@@ -95,91 +116,91 @@ public class NutriappCLI {
             case "search":
                 SearchIngredient searchIngredient = new SearchIngredient(this.foodManager, scanner);
                 searchIngredient.execute();
-                state = nextAction();
+                state = nextAction(dayScheduler);
                 break;
             case "stock":
                 StockIngredient stockIngredient = new StockIngredient(this.foodManager, scanner);
                 stockIngredient.execute();
-                state = nextAction();
+                state = nextAction(dayScheduler);
                 break;
             case "recipe":
                 CreateRecipe createRecipe = new CreateRecipe(this.foodManager, scanner);
                 createRecipe.execute();
-                state = nextAction();
+                state = nextAction(dayScheduler);
                 break;
             case "create meal":
                 CreateMeal createMeal = new CreateMeal(foodManager, "", scanner);
                 createMeal.execute();
-                state = nextAction();
+                state = nextAction(dayScheduler);
                 break;
             case "add recipe":
                 AddRecipe addRecipe = new AddRecipe(foodManager, scanner);
                 addRecipe.execute();
-                state = nextAction();
+                state = nextAction(dayScheduler);
                 break;
             case "add ingredient":
                 AddIngredient addIngredient = new AddIngredient(foodManager, scanner);
                 addIngredient.execute();
-                state = nextAction();
+                state = nextAction(dayScheduler);
                 break;
             case "prepare meal":
                 PrepareMeal prepareMeal = new PrepareMeal(foodManager, userBuilder.getUser().getGoal(), scanner,
-                        historyController);
+                        historyController, dailyActivity);
                 prepareMeal.execute();
-                state = nextAction();
+                state = nextAction(dayScheduler);
                 break;
             case "shopping list":
                 CreateShoppingList createShoppingList = new CreateShoppingList(foodManager, scanner);
                 createShoppingList.execute();
-                state = nextAction();
+                state = nextAction(dayScheduler);
                 break;
             case "view shopping list":
                 ViewShoppingList viewShoppingList = new ViewShoppingList(foodManager, scanner);
                 viewShoppingList.execute();
-                state = nextAction();
+                state = nextAction(dayScheduler);
                 break;
             case "workout":
                 setName.execute();// asks for a workout name,
                 setIntensity.execute();// asks for a workout intensity,
                 setMinutes.execute();// asks for a workout duration in minutes,
                 createWorkout.execute();// creates workout
-                state = nextAction();
+                state = nextAction(dayScheduler);
                 break;
             case "history":
                 // prompt user for a specific day and display history for that day
 
                 searchHistory.execute();
-                state = nextAction();
+                state = nextAction(dayScheduler);
                 break;
             case "set target weight":
                 SetTargetWeight setTargetWeight = new SetTargetWeight(goalManager, scanner);
                 setTargetWeight.execute();
-                state = nextAction();
+                state = nextAction(dayScheduler);
                 break;
             case "get target calories":
                 GetTargetCalories getTargetCalories = new GetTargetCalories(goalManager);
                 getTargetCalories.execute();
-                state = nextAction();
+                state = nextAction(dayScheduler);
                 break;
             case "get remaining calories":
                 GetRemainingCalories getRemainingCalories = new GetRemainingCalories(goalManager, logger);
                 getRemainingCalories.execute();
-                state = nextAction();
+                state = nextAction(dayScheduler);
                 break;
             case "help":
                 logger.gap();
                 promptUser();
                 input = scanner.nextLine();
-                boolean response = parseInput(input);
+                boolean response = parseInput(input, dayScheduler);
                 state = response;
                 return state;
             case "close":
                 if (this.existingUser == false) {
-                    storageController.store(userBuilder, historyController);
+                    storageController.store(userBuilder, historyController, dailyActivity);
                     logger.message("User profile stored!");
                 } else {
                     //hypothetically this works
-                    storageController.updateUser(userBuilder.getName());
+                    storageController.updateUser(userBuilder.getName(), dailyActivity);
                     logger.message("User profile updated!");
                 }
                 state = true;
@@ -188,26 +209,29 @@ public class NutriappCLI {
                 logger.message("Command not recognized. Try again!");
                 logger.query();
                 input = scanner.nextLine();
-                state = parseInput(input);
+                state = parseInput(input, dayScheduler);
                 break;
         }
 
         return state;
     }
 
-    public Boolean nextAction() throws Exception {
+    public Boolean nextAction(DayScheduler dayScheduler) throws Exception {
         // asks the user what they would like to do next, then calls parseInput()
+        if (dayScheduler.isPaused() ){
+            return false;
+        }
         logger.gap();
         logger.message("What would you like to do next?");
         logger.query();
         String input = scanner.nextLine();
-        Boolean bool = parseInput(input);
+        Boolean bool = parseInput(input, dayScheduler);
         return bool;
     }
 
     public void storeUser() { // stores user profile before closing
         if (this.existingUser == false) {
-            storageController.store(userBuilder, historyController);
+            storageController.store(userBuilder, historyController, dailyActivity);
             System.out.println("User profile stored!");
         }
     }
@@ -228,18 +252,20 @@ public class NutriappCLI {
         BuildUser buildUser = new BuildUser(userBuilder);
         DayScheduler dayScheduler = new DayScheduler(currentDay);
         ConfigureTime configureTime = new ConfigureTime(dayScheduler, scanner);
+        UpdateWeight updateWeight;
 
         // startup
         logger.message("\nWelcome to Nutriapp. Tell us a little more about yourself!");
         name.execute();
         // check to see if the user exists
-        Boolean exists = storageController.checkUser(userBuilder.getName());
+        Boolean exists = storageController.checkUser(userBuilder.getName(), dailyActivity);
         if (exists == true) {
             // sets the existing user to the stored user info epeo
-            userBuilder.setUser(storageController.getUser(userBuilder.getName()));
+            userBuilder.setUser(storageController.getUser(userBuilder.getName(), dailyActivity));
             // sets user through userbuilder which is the primary way the program accesses
             // user?
-            this.goalManager = new GoalManager(userBuilder.getUser());
+            this.goalManager = new GoalManager(userBuilder.getUser(), dailyActivity);
+            updateWeight = new UpdateWeight(goalManager, scanner, historyController);
             // creates the goal manager based of the existing user profile, accesses goal
             // through user
             // goal itself should have target weight and physical fitness boolean
@@ -258,9 +284,10 @@ public class NutriappCLI {
             this.existingUser = false;
 
             // creates the concrete commands for goal subsystem
-            this.goalManager = new GoalManager(userBuilder.getUser());
+            this.goalManager = new GoalManager(userBuilder.getUser(), dailyActivity);
             SetTargetWeight setTargetWeight = new SetTargetWeight(goalManager, scanner);
             SetPhysicalFitness setPhysicalFitness = new SetPhysicalFitness(goalManager, logger);
+            updateWeight = new UpdateWeight(goalManager, scanner, historyController);
 
             // calls goal concrete commands to get user input
             logger.message("\nHi " + userBuilder.getName() + "!");
@@ -281,8 +308,12 @@ public class NutriappCLI {
                 System.out.println("\nDay " + currentDay.getDay() + " is over!");
 
                 // Perform end-of-day actions
+                goalManager.sendMessage();
+                userBuilder.getUser().sendMessage();
                 logTodaysActivity.execute();
-                weight.execute();
+                //ELEPHANT
+
+                updateWeight.execute();
 
                 // Prompt user to start a new day
                 System.out.print(
@@ -317,23 +348,15 @@ public class NutriappCLI {
             input = input.toLowerCase();
 
             
+            
             boolean response;
-            response = parseInput(input);
+            response = parseInput(input, dayScheduler);
+
             if (response == true) {
                 logger.gap();
                 logger.message("Sad to see you go!");
                 break;
             }
-
-                // Potentially problematic
-                //logger.gap();
-                //logTodaysActivity.execute();
-                //logger.message("***A day has passed***");
-                //logger.message("Good Morning!");
-                //UpdateWeight updateWeight = new UpdateWeight(goalManager, scanner, historyController);
-                //updateWeight.execute();
-                //logger.gap();
-            
         }
         dayScheduler.stopScheduler();
         scanner.close();

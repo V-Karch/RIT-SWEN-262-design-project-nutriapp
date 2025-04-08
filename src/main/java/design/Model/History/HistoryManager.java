@@ -1,40 +1,40 @@
 package design.Model.History;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
-public class HistoryManager {
-    private HashMap<String, DailyActivity> history; // date is a string 
-    private DailyActivity todaysActivity;
+public class HistoryManager implements Colleague{
+    private HashMap<String, String> history; // date is a string 
+    private Mediator todaysActivity;
+    private String date;
    
 
-    public HistoryManager() {
-        this.history = new HashMap<String, DailyActivity>();
-        setTodaysActivity(new DailyActivity()); // create a new DailyActivity object for today 
+    public HistoryManager(Mediator dailyA) {
+        this.history = new HashMap<String, String>();
+        this.todaysActivity = dailyA; // create a new DailyActivity object for today 
     }
 
-    public HashMap<String, DailyActivity> getHistory() {
+    public HashMap<String, String> getHistory() {
         return history;
     }
 
-    public DailyActivity getDailyActivity(String date) { 
+    public String getDailyActivity(String date) { 
         return history.get(date);
     }
 
-    public DailyActivity getTodaysActivity() {
-        return todaysActivity;
+    public void logTodaysActivity(String date) { 
+        this.date = date;
+        this.sendMessage();
     }
 
-    public void setTodaysActivity(DailyActivity todaysActivity) {
-        this.todaysActivity = todaysActivity;
-    }
 
-    public void setTodaysWeight(double weight) {
-        this.todaysActivity.setWeight(weight);
-    }
+    @Override
+    public void sendMessage() {
 
-    public void saveTodaysActivityToHistory(String date) {
-        history.put(date, this.todaysActivity); // save the current day's activity to the history 
-        setTodaysActivity(new DailyActivity()); // create a new DailyActivity object for the next day 
+        String activity = todaysActivity.logDayActivities();
+        history.put(this.date, activity);
+        System.out.println(history.toString());
     }
 
     

@@ -1,67 +1,74 @@
 package design.Model.History;
 
-import java.util.List;
-
-import design.Model.Food.Meal;
-import design.Model.Workout.Workout;
-
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class DailyActivity {
+public class DailyActivity implements Mediator{
+    private List<String> meals;
+    private List<String> workouts;
+    private int targetCalories;
+    private int dailyCalories;
     private double weight;
-    private int calories_consumed;
-    private int target_calories;
-    private List<Meal> meals;  
-    private List<Workout> workouts; 
+    
+    
+      
+     
 
     
     public DailyActivity() {
         this.weight = 0;
-        this.calories_consumed = 0;
-        this.target_calories = 0;
-        this.meals = new ArrayList<Meal>(); 
-        this.workouts = new ArrayList<Workout>(); 
+        this.dailyCalories = 0;
+        this.targetCalories = 0;
+        this.meals = new ArrayList<>(); 
+        this.workouts = new ArrayList<>(); 
 
         }
 
-        public double getWeight() {
-            return weight;
-        }
-
-        public void setWeight(double weight) {
-            this.weight = weight;
-        }
-
-        public int getCaloriesConsumed() {
-            return calories_consumed;
-        }
-
-        public void setCaloriesConsumed(int calories_consumed) {
-            this.calories_consumed = calories_consumed;
-        }
-
-        public int getTargetCalories() {
-            return target_calories;
-        }
-
-        public void setTargetCalories(int target_calories) {
-            this.target_calories = target_calories;
-        }
-
-        public List<Meal> getMeals() { 
-            return meals;
-        }
-
-        public void addMeal(Meal new_meal) { 
-            this.meals.add(new_meal);
-        }
-
-        public List<Workout> getWorkouts() { 
-            return workouts;
-        }
-
-        public void addWorkout(Workout new_workout) { 
-            this.workouts.add(new_workout);
-        }
+    @Override
+    public void logWeight(double weight) {
+        this.weight= weight;
     }
+
+    @Override
+    public void logWorkout(String workout) {
+        this.workouts.add(workout);
+    }
+
+    @Override
+    public void logMeal(String meal) {
+        this.meals.add(meal);
+    }
+
+    @Override
+    public void logDailyCalories( int cal) {
+        this.dailyCalories = cal;
+    }
+
+    @Override
+    public void logTargetCalories(int cal) {
+        this.targetCalories = cal;
+    }
+
+    @Override
+    public String logDayActivities() {
+    
+        Map<String, String> activity = new HashMap<>();
+        activity.put("Weight", String.valueOf(this.weight));
+        activity.put("Daily Calories", String.valueOf(this.dailyCalories));
+        activity.put("Target Calories", String.valueOf(this.targetCalories));
+        activity.put("Meals", this.meals.toString());
+        activity.put("Workouts", this.workouts.toString());
+
+        this.weight = 0;
+        this.dailyCalories = 0;
+        this.targetCalories = 0;
+        this.meals = new ArrayList<>(); 
+        this.workouts = new ArrayList<>(); 
+
+        return activity.toString();
+    }    
+    
+}    
 

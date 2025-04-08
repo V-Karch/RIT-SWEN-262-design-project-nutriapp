@@ -5,22 +5,26 @@ import java.util.Scanner;
 
 import design.Controller.Food.FoodManager;
 import design.Controller.History.HistoryController;
-import design.Model.Food.Meal;
 import design.Model.Goal.Goal;
+import design.Model.History.Colleague;
+import design.Model.History.Mediator;
 import design.View.Action;
 
-public class PrepareMeal implements Action{
+public class PrepareMeal implements Action, Colleague{
     private FoodManager foodManager;
     private Scanner input;
     private List<String> Meals;
     private Goal goal;
     private HistoryController historyController;
+    private Mediator dailyA;
+    private int index;
 
-    public PrepareMeal(FoodManager foodManager, Goal goal, Scanner input, HistoryController historyController) {
+    public PrepareMeal(FoodManager foodManager, Goal goal, Scanner input, HistoryController historyController, Mediator dailyA) {
         this.foodManager = foodManager;
         this.goal = goal;
         this.input = input;
         this.historyController = historyController;
+        this.dailyA = dailyA;
 
         Meals = foodManager.getMealList();
     }
@@ -39,6 +43,7 @@ public class PrepareMeal implements Action{
             int mealChoice;
             try {
                 mealChoice = Integer.parseInt(choice);
+                this.index = mealChoice;
             } catch (Exception e) {
                 System.out.println("Invalid choice.");
                 return;
@@ -71,6 +76,7 @@ public class PrepareMeal implements Action{
             choice = input.nextLine();
             if(choice.equals("1")){
                 foodManager.prepareMeal(mealChoice, goal, historyController);
+                sendMessage();
             }
 
         }
@@ -79,5 +85,10 @@ public class PrepareMeal implements Action{
             return;
         }
         
+    }
+
+    @Override
+    public void sendMessage() {
+        dailyA.logMeal(foodManager.getMeal(index));
     }
 }
