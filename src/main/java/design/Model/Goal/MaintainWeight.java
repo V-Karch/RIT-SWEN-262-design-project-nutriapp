@@ -83,9 +83,6 @@ public class MaintainWeight implements Goal {
 
   @Override
   public void restoreSave(GoalSave save) {
-    this.user = save.getUser();
-    this.physicalFitness = save.getPhysicalFitness();
-    this.targetCalories = save.getTargetCalories();
     this.dailyCalories = save.getDailyCalories();
   }
 }
