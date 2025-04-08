@@ -177,7 +177,7 @@ public class Storage {
      * @param goal The goal object to be updated
      */
     public static void updateGoal(Goal goal) {
-        String sql = "UPDATE goals SET phyical_fitness = ?, target_calories = ?, daily_calories = ?, type = ? "
+        String sql = "UPDATE goals SET physical_fitness = ?, target_calories = ?, daily_calories = ?, type = ? "
                 + "WHERE username = ?;";
 
         try (
