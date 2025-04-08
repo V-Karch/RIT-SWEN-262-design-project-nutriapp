@@ -18,6 +18,11 @@ import design.Controller.Food.FoodManager;
 
 // Figure Recipe and Meal the heck out
 // Figure out personal history too
+// Recipe -> { name | cookInstructions as String with bars | { ingredientname|amount@ingredientname|amount} | username }
+// Name -> String text not null
+// username -> String text not null
+// cookInstructions String[] concatenated from 
+// ingredientname|amount@ingredientname|amount for however many entries, giant string not null concatenated
 
 /**
  * The Storage class provides methods for interacting with a SQLite database.
@@ -111,6 +116,17 @@ public class Storage {
                 "    amount INTEGER NOT NULL,\n" +
                 "    username TEXT NOT NULL\n" +
                 ");";
+
+        executeSQL(sql);
+    }
+
+    private void createRecipesTable() {
+        String sql = "CREATE TABLE IF NOT EXISTS recipes (\n" +
+            "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+            "    username TEXT NOT NULL,\n" +
+            "    cookIngredients TEXT NOT NULL,\n" +
+            "    ingredientData TEXT NOT NULL\n" +
+            ");";
 
         executeSQL(sql);
     }
@@ -428,5 +444,6 @@ public class Storage {
         createUsersTable();
         createGoalsTable();
         createStockTable();
+        createRecipesTable();
     }
 }
