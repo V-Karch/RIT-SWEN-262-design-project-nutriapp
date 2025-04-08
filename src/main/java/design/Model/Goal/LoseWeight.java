@@ -83,4 +83,9 @@ public class LoseWeight implements Goal {
   public void restoreSave(GoalSave save) {
     this.dailyCalories = save.getDailyCalories();
   }
+  
+  @Override
+	public void resetDailyCalories() {
+    this.dailyCalories = 0;
+  }
 }

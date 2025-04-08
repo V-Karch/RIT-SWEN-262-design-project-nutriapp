@@ -7,8 +7,10 @@ import java.time.format.DateTimeFormatter;
 import design.Model.Goal.Goal;
 import design.Model.Goal.MaintainWeight;
 import design.Model.Undo.UserSave;
+import design.Model.History.Colleague;
+import design.Model.History.Mediator;
 
-public class User {
+public class User implements Colleague{
     // user attributes
     private String name;
     private float height;
@@ -19,12 +21,14 @@ public class User {
     private double currentWeight;
     private double targetWeight;
     public Goal currentGoal;
+    public Mediator dailyA;
 
-    public User(String name, float height, float weight, String birthdate) {
+    public User(String name, float height, float weight, String birthdate, Mediator dailyA, String hash) {
         this.name = name;
         this.height = height;
         this.currentWeight = weight;
         this.birthdate = birthdate;
+        this.dailyA = dailyA;
 
         // getting age from birthdate based on current date
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
@@ -71,10 +75,16 @@ public class User {
         return this.currentGoal;
     }
 
+    public String getHash(){
+        return null;
+    }
+
+
     public void updateCurrentWeight(double weight) {
         // should also send a call to history
         this.currentWeight = weight;
         currentGoal.handleWeightChange();
+        sendMessage();
     }
 
     public void updateTargetWeight(double weight) {
@@ -95,5 +105,10 @@ public class User {
         this.currentWeight = save.getCurrentWeight();
         this.targetWeight = save.getTargetWeight();
         this.currentGoal = save.getCurrentGoal();
+    }
+    
+    @Override
+    public void sendMessage() {
+        dailyA.logWeight(currentWeight);
     }
 }

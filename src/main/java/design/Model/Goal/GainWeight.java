@@ -83,4 +83,8 @@ public class GainWeight implements Goal{
   public void restoreSave(GoalSave save) {
     this.dailyCalories = save.getDailyCalories();
   }
+	
+    public void resetDailyCalories() {
+        this.dailyCalories = 0;
+    }
 }

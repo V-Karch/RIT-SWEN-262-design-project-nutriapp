@@ -1,19 +1,22 @@
 package design.Controller.Goal;
 
 import design.Model.Goal.Goal;
+import design.Model.History.Colleague;
+import design.Model.History.Mediator;
 import design.Model.UserSS.User;
 import design.Model.Workout.Workout;
 import design.Model.Workout.WorkoutManager;
-
 import static design.View.Goal.AddCalories.displayWorkout;
 
-public class GoalManager {
+public class GoalManager implements Colleague{
   private User user;
   private Goal goal;
+  private Mediator dailyA;
 
-  public GoalManager(User user) {
+  public GoalManager(User user, Mediator dailyA) {
     this.user = user;
     this.goal = user.getGoal();
+    this.dailyA = dailyA;
   }
 
   public void setGoal(Goal goal) {
@@ -23,7 +26,7 @@ public class GoalManager {
 
   public void setTargetWeight(double weight) {
     user.updateTargetWeight(weight);
-    goal = user.getGoal();
+    this.goal = user.getGoal();
   }
 
   public int getTargetCalories() {
@@ -70,4 +73,10 @@ public class GoalManager {
   public void updateGoal() {
     goal = user.getGoal();
   }
+    @Override
+    public void sendMessage() {
+      dailyA.logDailyCalories(goal.getDailyCalories());
+      dailyA.logTargetCalories(goal.getTargetCalories());
+      goal.resetDailyCalories();
+    }
 }

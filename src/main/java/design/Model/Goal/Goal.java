@@ -15,4 +15,5 @@ public interface Goal {
   public User getUser();
   public GoalSave createSave();
   public void restoreSave(GoalSave save);
+  public void resetDailyCalories();
 }
