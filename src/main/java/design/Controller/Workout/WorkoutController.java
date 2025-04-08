@@ -1,5 +1,6 @@
 package design.Controller.Workout;
 
+import design.Model.Teams.TeamUserInterface;
 import design.Model.Workout.Intensity;
 import design.Model.Workout.Workout;
 import design.Model.Workout.WorkoutBuilder;

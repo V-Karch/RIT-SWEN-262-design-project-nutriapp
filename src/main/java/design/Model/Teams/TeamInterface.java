@@ -7,10 +7,14 @@ import design.Model.Teams.TeamUserInterface;
 import design.Model.Workout.Workout;
 
 public interface TeamInterface {
-    public void newWorkout(TeamUserInterface teamUser, Workout workout);
+    public void newWorkout(TeamUserInterface teamUser);
     public Map<String, Map<String,Workout>> getWorkoutHistory(TeamUserInterface user);
     public List<TeamUserInterface> getAllUsers();
-    public void setChallenge();
+    public void setChallenge(Challenge challenge);
     public void recalculateRanking();
     public void addUser(TeamUserInterface teamUser);
+    public void removeUser(TeamUserInterface teamUser);
+    public List<String> getRankings();
+    public boolean inChallenge();
+    
 }

@@ -1,22 +1,26 @@
 package design.Model.Workout;
 
 import java.util.Map;
+
+import design.Model.Teams.TeamUserInterface;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 public class WorkoutManager {
     private Map<String, Workout> workouts;
+    private TeamUserInterface teamUser;
     
 
-    public WorkoutManager() {
+    public WorkoutManager(TeamUserInterface teamUser) {
         this.workouts = new HashMap<>();
-        
+        this.teamUser = teamUser;
     }
 
     public void addWorkout(Workout workout) {
         this.workouts.put(workout.getName(), workout);
-        
+        teamUser.newWorkout(workout);
     }
 
     public Workout getWorkout(String date) {

@@ -3,6 +3,7 @@ package design.View.Teams;
 import java.util.Scanner;
 
 import design.Controller.Teams.TeamController;
+import design.View.Action;
 
 public class InviteUser implements Action {
     private TeamController teamController;
@@ -18,7 +19,17 @@ public class InviteUser implements Action {
         System.out.println("Which user would you like to invite?");
         String choice = input.nextLine();
 
-        teamController.inviteUser(choice);
+
+        if(!teamController.teamExists()){
+            System.out.println("Your new team was created!");
+        }
+
+        if(teamController.inviteUser(choice)){
+            System.out.println(choice + " was invited to your team!");
+        }
+        else{
+            System.out.println(choice + " was not found.");
+        }
 
     }
 }
