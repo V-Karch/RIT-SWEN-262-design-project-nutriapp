@@ -22,7 +22,7 @@ public class User implements Colleague{
     public Goal currentGoal;
     public Mediator dailyA;
 
-    public User(String name, float height, float weight, String birthdate, Mediator dailyA) {
+    public User(String name, float height, float weight, String birthdate, Mediator dailyA, String hash) {
         this.name = name;
         this.height = height;
         this.currentWeight = weight;
@@ -73,6 +73,11 @@ public class User implements Colleague{
     public Goal getGoal(){
         return this.currentGoal;
     }
+
+    public String getHash(){
+        return null;
+    }
+
 
     public void updateCurrentWeight(double weight) {
         // should also send a call to history

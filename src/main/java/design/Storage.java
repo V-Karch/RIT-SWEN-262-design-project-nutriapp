@@ -1,15 +1,13 @@
 package design;
 
-import java.util.List;
-import java.sql.Statement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import design.Model.Goal.GainWeight;
 import design.Model.Goal.Goal;
@@ -139,7 +137,7 @@ public class Storage {
      * 
      * @param user The user object to be added.
      */
-    public void addUser(User user) {
+    public void addUser(User user, Mediator dailyA) {
         String sql = "INSERT INTO users (name, height, birth_date, age, current_weight, target_weight, password_hash) "
                 +
                 "VALUES (?, ?, ?, ?, ?, ?, ?);";
@@ -170,12 +168,12 @@ public class Storage {
      * @param user The user object to be updated.
      */
 
-    public static void updateUser(User user, Mediator dailyA) {
+    public void updateUser(User user, Mediator dailyA) {
         User foundUser = getUserByName(user.getName(), dailyA);
 
 
         if (foundUser == null) {
-            addUser(user); // User not found, so add them
+            addUser(user, dailyA); // User not found, so add them
             return;
         }
 
@@ -225,7 +223,7 @@ public class Storage {
         }
     }
 
-    public User getUserByNameAndPassword(String name, String hash) {
+    public User getUserByNameAndPassword(String name, String hash, Mediator dailyA) {
         String userSql = "SELECT name, height, birth_date, age, current_weight, target_weight FROM users WHERE name = ? AND password_hash = ?";
         String goalSql = "SELECT physical_fitness, target_calories, daily_calories, type FROM goals WHERE username = ? ";
 
@@ -249,7 +247,7 @@ public class Storage {
             double currentWeight = userResult.getDouble("current_weight");
             double targetWeight = userResult.getDouble("target_weight");
 
-            User user = new User(retrievedName, height, (float) currentWeight, birthDate, hash);
+            User user = new User(retrievedName, height, (float) currentWeight, birthDate, dailyA, hash);
             user.updateTargetWeight(targetWeight); // Ensures target weight is set
 
             // Fetch goal data

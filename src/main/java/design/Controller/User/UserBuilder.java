@@ -11,6 +11,7 @@ public class UserBuilder {
     private String birthdate;
     private User user;
     public Mediator dailyA;
+    public String hash;
     
 
     public UserBuilder(Mediator dailyA) {
@@ -39,8 +40,12 @@ public class UserBuilder {
         this.birthdate  = birthdate;
     }
 
+    public void setPassword(String hash) {
+        this.hash  = hash;
+    }
+
     public User buildUser() {
-        this.user = new User(name, height, weight, birthdate, dailyA);
+        this.user = new User(name, height, weight, birthdate, dailyA, hash);
         return this.user;
     }
 

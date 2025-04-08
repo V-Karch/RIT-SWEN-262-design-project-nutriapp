@@ -200,7 +200,7 @@ public class NutriappCLI {
                     logger.message("User profile stored!");
                 } else {
                     //hypothetically this works
-                    storageController.updateUser(userBuilder.getName());
+                    storageController.updateUser(userBuilder.getName(), dailyActivity);
                     logger.message("User profile updated!");
                 }
                 state = true;

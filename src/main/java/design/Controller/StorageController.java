@@ -20,7 +20,7 @@ public class StorageController {
     public StorageController() {}
 
     public void store(UserBuilder userBuilder, HistoryController historyController, Mediator dailyA) {
-        Storage.addUser(userBuilder.getUser());
+        storage.addUser(userBuilder.getUser(), dailyA);
         this.dailyA = dailyA;
 
 
@@ -28,7 +28,7 @@ public class StorageController {
 
     public Boolean checkUser(String name, Mediator dailyA) {
         //true if user exists, false if user doesn't
-        return Storage.getUserByName(name, dailyA) != null;
+        return storage.getUserByName(name, dailyA) != null;
 
     }
 
@@ -37,13 +37,13 @@ public class StorageController {
         return storage.getUserByName(name, dailyA);
     }
 
-    public User getUserWithPassword(String name, String hash) {
-        return storage.getUserByNameAndPassword(name, hash);
+    public User getUserWithPassword(String name, String hash, Mediator dailyA) {
+        return storage.getUserByNameAndPassword(name, hash, dailyA);
     }
 
-    public void updateUser (String name){
-        User user = this.getUser(name);
-        storage.updateUser(user);
+    public void updateUser (String name,  Mediator dailyA){
+        User user = this.getUser(name, dailyA);
+        storage.updateUser(user, dailyA);
 
     }
 }
