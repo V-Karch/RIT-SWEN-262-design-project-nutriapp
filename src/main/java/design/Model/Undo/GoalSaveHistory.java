@@ -2,25 +2,25 @@ package design.Model.Undo;
 
 import java.util.ArrayDeque;
 
-import design.Model.Goal.Goal;
+import design.Model.UserSS.User;
 
 public class GoalSaveHistory {
     private ArrayDeque<GoalSave> history;
-    private Goal goal;
+    private User user;
 
-    public GoalSaveHistory(Goal goal) {
-        this.goal = goal;
+    public GoalSaveHistory(User user) {
+        this.user = user;
         this.history = new ArrayDeque<GoalSave>();
     }
 
     public void storeSave() {
-        GoalSave save = goal.createSave();
+        GoalSave save = user.getGoal().createSave();
         history.add(save);
     }
 
     public void restoreSave() {
         GoalSave save = history.remove();
-        goal.restoreSave(save);
+        user.getGoal().restoreSave(save);
     }
 
     public ArrayDeque<GoalSave> getHistory() {
