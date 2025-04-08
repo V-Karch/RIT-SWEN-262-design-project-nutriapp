@@ -18,11 +18,7 @@ import design.Controller.Food.FoodManager;
 
 // Figure Recipe and Meal the heck out
 // Figure out personal history too
-// Recipe -> { name | cookInstructions as String with bars | { ingredientname|amount@ingredientname|amount} | username }
-// Name -> String text not null
-// username -> String text not null
-// cookInstructions String[] concatenated from 
-// ingredientname|amount@ingredientname|amount for however many entries, giant string not null concatenated
+
 
 /**
  * The Storage class provides methods for interacting with a SQLite database.
@@ -242,6 +238,15 @@ public class Storage {
         } catch (SQLException e) {
             System.out.println("Error updating goal: " + e.getMessage());
         }
+    }
+
+    // Recipe -> { name | cookInstructions as String with bars | { ingredientname|amount@ingredientname|amount} | username }
+    // Name -> String text not null
+    // username -> String text not null
+    // cookInstructions String[] concatenated from 
+    // ingredientname|amount@ingredientname|amount for however many entries, giant string not null concatenated
+    public void updateRecipes(FoodManager foodManager, String username) {
+        // TODO: IMPLEMENT THIS
     }
 
     public void updateStock(FoodManager foodManager, String username) {
