@@ -265,14 +265,15 @@ public class Storage {
 
                 // Format ingredients as raw concatenation:
                 // "ingredient|amount@ingredient|amount@..."
-                String ingredientDataStr = "";
+                String ingredientData = "";
                 for (Ingredient ingredient : recipe.getIngredients()) {
-                    int amount = recipe.getIngredientMap().get(ingredient);
-                    ingredientDataStr += ingredient.getName() + "|" + amount + "@";
+                    int amount = ingredient.getStock();
+                    ingredientData += ingredient.getName() + "|" + amount + "@";
                 }
 
-                if (ingredientDataStr.endsWith("@")) { // This is so jank istg
-                    ingredientDataStr = ingredientDataStr.substring(0, ingredientDataStr.length() - 1);
+                // This is so jank istg
+                if (ingredientData.endsWith("@")) {
+                    ingredientData = ingredientData.substring(0, ingredientData.length() - 1);
                 }
 
                 // Check if recipe already exists
@@ -282,7 +283,7 @@ public class Storage {
 
                 if (rs.next()) {
                     // Update existing recipe
-                    updatestatement.setString(1, ingredientDataStr);
+                    updatestatement.setString(1, ingredientData);
                     updatestatement.setString(2, cookInstructionsStr);
                     updatestatement.setString(3, username);
                     updatestatement.setString(4, recipeName);
@@ -291,7 +292,7 @@ public class Storage {
                     // Insert new recipe
                     insertstatement.setString(1, username);
                     insertstatement.setString(2, recipeName);
-                    insertstatement.setString(3, ingredientDataStr);
+                    insertstatement.setString(3, ingredientData);
                     insertstatement.executeUpdate();
                 }
             }
