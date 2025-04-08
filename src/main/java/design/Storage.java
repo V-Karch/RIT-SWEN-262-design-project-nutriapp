@@ -12,13 +12,13 @@ import design.Model.UserSS.User;
 import java.sql.PreparedStatement;
 import design.Model.Goal.LoseWeight;
 import design.Model.Food.Ingredient;
+import design.Model.Food.Recipe;
 import design.Model.Goal.GainWeight;
 import design.Model.Goal.MaintainWeight;
 import design.Controller.Food.FoodManager;
 
 // Figure Recipe and Meal the heck out
 // Figure out personal history too
-
 
 /**
  * The Storage class provides methods for interacting with a SQLite database.
@@ -118,11 +118,11 @@ public class Storage {
 
     private void createRecipesTable() {
         String sql = "CREATE TABLE IF NOT EXISTS recipes (\n" +
-            "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-            "    username TEXT NOT NULL,\n" +
-            "    cookIngredients TEXT NOT NULL,\n" +
-            "    ingredientData TEXT NOT NULL\n" +
-            ");";
+                "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                "    username TEXT NOT NULL,\n" +
+                "    cookIngredients TEXT NOT NULL,\n" +
+                "    ingredientData TEXT NOT NULL\n" +
+                ");";
 
         executeSQL(sql);
     }
@@ -240,13 +240,64 @@ public class Storage {
         }
     }
 
-    // Recipe -> { name | cookInstructions as String with bars | { ingredientname|amount@ingredientname|amount} | username }
+    // Recipe -> { name | cookInstructions as String with bars | {
+    // ingredientname|amount@ingredientname|amount} | username }
     // Name -> String text not null
     // username -> String text not null
-    // cookInstructions String[] concatenated from 
-    // ingredientname|amount@ingredientname|amount for however many entries, giant string not null concatenated
+    // cookInstructions String[] concatenated from
+    // ingredientname|amount@ingredientname|amount for however many entries, giant
+    // string not null concatenated
     public void updateRecipes(FoodManager foodManager, String username) {
-        // TODO: IMPLEMENT THIS
+        String selectSQL = "SELECT id FROM recipes WHERE cookIngredients = ? AND username = ?";
+        String insertSQL = "INSERT INTO recipes (username, cookIngredients, ingredientData) VALUES (?, ?, ?)";
+        String updateSQL = "UPDATE recipes SET ingredientData = ?, cookIngredients = ? WHERE username = ? AND cookIngredients = ?";
+
+        try (
+                Connection connection = DriverManager.getConnection("jdbc:sqlite:application.db");
+                PreparedStatement selectstatement = connection.prepareStatement(selectSQL);
+                PreparedStatement insertstatement = connection.prepareStatement(insertSQL);
+                PreparedStatement updatestatement = connection.prepareStatement(updateSQL)) {
+            for (Recipe recipe : foodManager.getAllRecipes()) {
+                String recipeName = recipe.getName();
+
+                // Join instructions with "|"
+                String cookInstructionsStr = String.join("|", recipe.getCookInstructions());
+
+                // Format ingredients as raw concatenation:
+                // "ingredient|amount@ingredient|amount@..."
+                String ingredientDataStr = "";
+                for (Ingredient ingredient : recipe.getIngredients()) {
+                    int amount = recipe.getIngredientMap().get(ingredient);
+                    ingredientDataStr += ingredient.getName() + "|" + amount + "@";
+                }
+
+                if (ingredientDataStr.endsWith("@")) { // This is so jank istg
+                    ingredientDataStr = ingredientDataStr.substring(0, ingredientDataStr.length() - 1);
+                }
+
+                // Check if recipe already exists
+                selectstatement.setString(1, recipeName);
+                selectstatement.setString(2, username);
+                ResultSet rs = selectstatement.executeQuery();
+
+                if (rs.next()) {
+                    // Update existing recipe
+                    updatestatement.setString(1, ingredientDataStr);
+                    updatestatement.setString(2, cookInstructionsStr);
+                    updatestatement.setString(3, username);
+                    updatestatement.setString(4, recipeName);
+                    updatestatement.executeUpdate();
+                } else {
+                    // Insert new recipe
+                    insertstatement.setString(1, username);
+                    insertstatement.setString(2, recipeName);
+                    insertstatement.setString(3, ingredientDataStr);
+                    insertstatement.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating recipes: " + e.getMessage());
+        }
     }
 
     public void updateStock(FoodManager foodManager, String username) {
