@@ -1,22 +1,27 @@
 package design;
 
+import java.util.Map;
 import java.util.List;
+import java.util.HashMap;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.SQLException;
+import design.Model.Food.Meal;
 import java.sql.DriverManager;
 import design.Model.Goal.Goal;
 import design.Model.UserSS.User;
 import design.Model.Food.Recipe;
 import java.sql.PreparedStatement;
+import design.Model.Workout.Workout;
 import design.Model.Goal.LoseWeight;
 import design.Model.Food.Ingredient;
-import design.Model.Food.Meal;
 import design.Model.Goal.GainWeight;
 import design.Model.Goal.MaintainWeight;
+import design.Model.History.DailyActivity;
 import design.Controller.Food.FoodManager;
+import design.Model.History.HistoryManager;
 
 // Figure Recipe and Meal the heck out
 // Figure out personal history too
@@ -101,6 +106,21 @@ public class Storage {
                 "    target_calories INTEGER NOT NULL,\n" +
                 "    daily_calories INTEGER NOT NULL,\n" +
                 "    type TEXT NOT NULL\n" +
+                ");";
+
+        executeSQL(sql);
+    }
+
+    private void createDailyHistoryTable() {
+        String sql = "CREATE TABLE IF NOT EXISTS daily_history (\n" +
+                "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                "    username TEXT NOT NULL,\n" +
+                "    date TEXT NOT NULL,\n" +
+                "    weight REAL NOT NULL,\n" +
+                "    calories_consumed INTEGER NOT NULL,\n" +
+                "    target_calories INTEGER NOT NULL,\n" +
+                "    mealNames TEXT NOT NULL,\n" +
+                "    workoutNames TEXT NOT NULL\n" +
                 ");";
 
         executeSQL(sql);
@@ -211,9 +231,9 @@ public class Storage {
                 for (Recipe recipe : meal.getRecipes()) {
                     recipeNamesList.add(recipe.getName());
                 }
-                String recipeNames = String.join("|", recipeNamesList);
 
-                // PAIN INCARNATE frfr
+                // why
+                String recipeNames = String.join("|", recipeNamesList);
                 String instructions = String.join("|", meal.getInstructions());
 
                 // Check if the meal already exists
@@ -359,6 +379,66 @@ public class Storage {
             }
         } catch (SQLException e) {
             System.out.println("Error updating recipes: " + e.getMessage());
+        }
+    }
+
+    public void updateDailyHistory(HistoryManager historyManager, String username) {
+        String selectSQL = "SELECT id FROM daily_history WHERE date = ? AND username = ?";
+        String insertSQL = "INSERT INTO daily_history (username, date, weight, calories_consumed, target_calories, mealNames, workoutNames) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String updateSQL = "UPDATE daily_history SET weight = ?, calories_consumed = ?, target_calories = ?, mealNames = ?, workoutNames = ? WHERE date = ? AND username = ?";
+
+        try (
+                Connection connection = DriverManager.getConnection("jdbc:sqlite:application.db");
+                PreparedStatement selectStatement = connection.prepareStatement(selectSQL);
+                PreparedStatement insertStatement = connection.prepareStatement(insertSQL);
+                PreparedStatement updateStatement = connection.prepareStatement(updateSQL)) {
+            HashMap<String, DailyActivity> history = historyManager.getHistory();
+            for (Map.Entry<String, DailyActivity> entry : history.entrySet()) {
+                String date = entry.getKey();
+                DailyActivity activity = entry.getValue();
+
+                double weight = activity.getWeight();
+                int consumed = activity.getCaloriesConsumed();
+                int target = activity.getTargetCalories();
+
+                // oh my god why did I decide to do this in SQL without being told to directly
+                String mealNames = activity.getMeals().stream()
+                        .map(Meal::getName)
+                        .reduce((a, b) -> a + "|" + b).orElse("");
+
+                String workoutNames = activity.getWorkouts().stream()
+                        .map(Workout::getName)
+                        .reduce((a, b) -> a + "|" + b).orElse("");
+
+                // Check if entry exists
+                selectStatement.setString(1, date);
+                selectStatement.setString(2, username);
+                ResultSet resultSet = selectStatement.executeQuery();
+
+                if (resultSet.next()) {
+                    // Update existing
+                    updateStatement.setDouble(1, weight);
+                    updateStatement.setInt(2, consumed);
+                    updateStatement.setInt(3, target);
+                    updateStatement.setString(4, mealNames);
+                    updateStatement.setString(5, workoutNames);
+                    updateStatement.setString(6, date);
+                    updateStatement.setString(7, username);
+                    updateStatement.executeUpdate();
+                } else {
+                    // Insert new
+                    insertStatement.setString(1, username);
+                    insertStatement.setString(2, date);
+                    insertStatement.setDouble(3, weight);
+                    insertStatement.setInt(4, consumed);
+                    insertStatement.setInt(5, target);
+                    insertStatement.setString(6, mealNames);
+                    insertStatement.setString(7, workoutNames);
+                    insertStatement.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating daily history: " + e.getMessage());
         }
     }
 
@@ -564,5 +644,6 @@ public class Storage {
         createStockTable();
         createRecipesTable();
         createMealsTable();
+        createDailyHistoryTable();
     }
 }
