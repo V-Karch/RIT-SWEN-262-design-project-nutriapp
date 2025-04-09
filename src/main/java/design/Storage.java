@@ -9,10 +9,11 @@ import java.sql.SQLException;
 import java.sql.DriverManager;
 import design.Model.Goal.Goal;
 import design.Model.UserSS.User;
+import design.Model.Food.Recipe;
 import java.sql.PreparedStatement;
 import design.Model.Goal.LoseWeight;
 import design.Model.Food.Ingredient;
-import design.Model.Food.Recipe;
+import design.Model.Food.Meal;
 import design.Model.Goal.GainWeight;
 import design.Model.Goal.MaintainWeight;
 import design.Controller.Food.FoodManager;
@@ -127,6 +128,18 @@ public class Storage {
         executeSQL(sql);
     }
 
+    private void createMealsTable() {
+        String sql = "CREATE TABLE IF NOT EXISTS meals (\n" +
+                "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                "    username TEXT NOT NULL,\n" +
+                "    name TEXT NOT NULL,\n" +
+                "    recipeNames TEXT NOT NULL,\n" +
+                "    mealInstructions TEXT NOT NULL\n" +
+                ");";
+
+        executeSQL(sql);
+    }
+
     /**
      * Inserts a new goal into the database.
      * 
@@ -178,6 +191,54 @@ public class Storage {
             addGoal(user.getGoal());
         } catch (SQLException e) {
             System.out.println("Error inserting user: " + e.getMessage());
+        }
+    }
+
+    public void updateMeals(FoodManager foodManager, String username) {
+        String selectSQL = "SELECT id FROM meals WHERE name = ? AND username = ?";
+        String insertSQL = "INSERT INTO meals (username, name, recipeNames, mealInstructions) VALUES (?, ?, ?, ?)";
+        String updateSQL = "UPDATE meals SET recipeNames = ?, mealInstructions = ? WHERE name = ? AND username = ?";
+
+        try (
+                Connection connection = DriverManager.getConnection("jdbc:sqlite:application.db");
+                PreparedStatement selectStatement = connection.prepareStatement(selectSQL);
+                PreparedStatement insertStatement = connection.prepareStatement(insertSQL);
+                PreparedStatement updateStatement = connection.prepareStatement(updateSQL)) {
+            for (Meal meal : foodManager.getAllMeals()) {
+                String name = meal.getName();
+
+                List<String> recipeNamesList = new ArrayList<>();
+                for (Recipe recipe : meal.getRecipes()) {
+                    recipeNamesList.add(recipe.getName());
+                }
+                String recipeNames = String.join("|", recipeNamesList);
+
+                // PAIN INCARNATE frfr
+                String instructions = String.join("|", meal.getInstructions());
+
+                // Check if the meal already exists
+                selectStatement.setString(1, name);
+                selectStatement.setString(2, username);
+                ResultSet resultSet = selectStatement.executeQuery();
+
+                if (resultSet.next()) {
+                    // Update existing entry
+                    updateStatement.setString(1, recipeNames);
+                    updateStatement.setString(2, instructions);
+                    updateStatement.setString(3, name);
+                    updateStatement.setString(4, username);
+                    updateStatement.executeUpdate();
+                } else {
+                    // Insert new entry
+                    insertStatement.setString(1, username);
+                    insertStatement.setString(2, name);
+                    insertStatement.setString(3, recipeNames);
+                    insertStatement.setString(4, instructions);
+                    insertStatement.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating meals: " + e.getMessage());
         }
     }
 
@@ -502,5 +563,6 @@ public class Storage {
         createGoalsTable();
         createStockTable();
         createRecipesTable();
+        createMealsTable();
     }
 }
