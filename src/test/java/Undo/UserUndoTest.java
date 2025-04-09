@@ -6,12 +6,14 @@ import org.junit.jupiter.api.Test;
 
 import design.Controller.Goal.GoalManager;
 import design.Controller.Undo.UserUndo;
+import design.Model.History.DailyActivity;
 import design.Model.Undo.UserSaveHistory;
 import design.Model.UserSS.User;
 
 public class UserUndoTest {
-    User user = new User("User", 66, 160, "05-16-2005");
-    GoalManager goalManager = new GoalManager(user);
+    DailyActivity dA = new DailyActivity();
+    User user = new User("User", 66, 160, "05-16-2005", dA, "hash");
+    GoalManager goalManager = new GoalManager(user, dA);
     
     UserSaveHistory userSaveHistory = new UserSaveHistory(user);
     UserUndo userUndo = new UserUndo(userSaveHistory);
