@@ -5,11 +5,12 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 import design.Model.Authentication.Authenticator;
-import design.Model.Authentication.Guest;
 import design.Model.Goal.Goal;
 import design.Model.Goal.MaintainWeight;
+import design.Model.History.Colleague;
+import design.Model.History.Mediator;
 
-public class User implements Authenticator {
+public class User implements Authenticator, Colleague{
     // user attributes
     private String name;
     private float height;
@@ -22,14 +23,16 @@ public class User implements Authenticator {
     private double currentWeight;
     private double targetWeight;
     public Goal currentGoal;
+    public Mediator dailyA;
 
-    public User(String name, float height, float weight, String birthdate, String password) {
+    public User(String name, float height, float weight, String birthdate, String password, Mediator dailyA) {
         this.name = name;
         this.height = height;
         this.currentWeight = weight;
         this.birthdate = birthdate;
         this.authenticated = true;
         this.password = ((Integer)password.hashCode()).toString();
+        this.dailyA = dailyA;
 
         // getting age from birthdate based on current date
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
@@ -76,10 +79,16 @@ public class User implements Authenticator {
         return this.currentGoal;
     }
 
+    public String getHash(){
+        return null;
+    }
+
+
     public void updateCurrentWeight(double weight) {
         // should also send a call to history
         this.currentWeight = weight;
         currentGoal.handleWeightChange();
+        sendMessage();
     }
 
     public void updateTargetWeight(double weight) {
@@ -89,12 +98,11 @@ public class User implements Authenticator {
 
     @Override
     public Boolean isAuthenticated() {
-        return this.authenticated;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public Guest logOut(){
-        Guest guest = new Guest();
-        return guest;
+    @Override
+    public void sendMessage() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
-
 }

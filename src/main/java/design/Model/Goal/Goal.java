@@ -12,4 +12,5 @@ public interface Goal {
   public boolean getPhysicalFitness();
   public void setPhysicalFitness(boolean doesFitness);
   public User getUser();
+  public void resetDailyCalories();
 }

@@ -86,6 +86,10 @@ public class Meal implements Food{
         return ingredients;
     }
 
+    public List<Recipe> getRecipes() {
+        return this.recipes;
+    }
+
     public void prepareMeal(){
         for(Recipe r : recipes){
             r.useIngredients();

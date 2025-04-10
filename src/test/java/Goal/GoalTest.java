@@ -2,11 +2,6 @@ package Goal;
 
 import org.junit.jupiter.api.Test;
 
-import design.Controller.Goal.GoalManager;
-import design.Model.UserSS.User;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 public class GoalTest {
     @Test
     public void testUpdateGoalToLose() {
