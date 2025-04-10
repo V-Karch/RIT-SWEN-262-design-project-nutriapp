@@ -1,5 +1,7 @@
 package design.Controller;
 
+import java.util.HashMap;
+
 import design.Controller.History.HistoryController;
 import design.Controller.User.UserBuilder;
 import design.Model.Goal.Goal;
@@ -21,6 +23,7 @@ public class StorageController {
 
     public void store(UserBuilder userBuilder, HistoryController historyController, Mediator dailyA) {
         storage.addUser(userBuilder.getUser(), dailyA);
+        storage.updateDailyHistory(historyController.getHistoryManager(), userBuilder.getUser().getName());
         this.dailyA = dailyA;
 
 
@@ -41,9 +44,14 @@ public class StorageController {
         return storage.getUserByNameAndPassword(name, hash, dailyA);
     }
 
-    public void updateUser (String name,  Mediator dailyA){
+    public void updateUser (String name,  Mediator dailyA, HistoryManager historyManager){
         User user = this.getUser(name, dailyA);
         storage.updateUser(user, dailyA);
+        storage.updateDailyHistory(historyManager, name);
 
+    }
+
+    public HashMap<String, String> getDailyHistory(String name){
+        return storage.getDailyHistory(name);
     }
 }

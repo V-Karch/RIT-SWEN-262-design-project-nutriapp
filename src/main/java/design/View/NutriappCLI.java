@@ -230,12 +230,15 @@ public class NutriappCLI {
                 state = response;
                 return state;
             case "close":
+                goalManager.sendMessage();
+                userBuilder.getUser().sendMessage();
+                logTodaysActivity.execute();
                 if (this.existingUser == false) {
                     storageController.store(userBuilder, historyController, dailyActivity);
                     logger.message("User profile stored!");
                 } else {
                     //hypothetically this works
-                    storageController.updateUser(userBuilder.getName(), dailyActivity);
+                    storageController.updateUser(userBuilder.getName(), dailyActivity, historyController.getHistoryManager());
                     logger.message("User profile updated!");
                 }
                 state = true;
@@ -300,7 +303,14 @@ public class NutriappCLI {
             // sets user through userbuilder which is the primary way the program accesses
             // user?
             this.goalManager = new GoalManager(userBuilder.getUser(), dailyActivity);
+
             updateWeight = new UpdateWeight(goalManager, scanner, logger, userUndo);
+
+            //updateWeight = new UpdateWeight(goalManager, scanner, historyController);
+          
+            this.historyController.setHistory(storageController.getDailyHistory(userBuilder.getName()));
+            System.out.println(storageController.getDailyHistory(userBuilder.getName()).toString());
+
             // creates the goal manager based of the existing user profile, accesses goal
             // through user
             // goal itself should have target weight and physical fitness boolean
@@ -352,9 +362,8 @@ public class NutriappCLI {
                 goalManager.sendMessage();
                 userBuilder.getUser().sendMessage();
                 logTodaysActivity.execute();
-                //ELEPHANT
 
-                updateWeight.execute();
+                
 
                 // Prompt user to start a new day
                 System.out.print(
@@ -363,6 +372,7 @@ public class NutriappCLI {
                     String userInput = scanner.nextLine().toLowerCase();
                     if (userInput.equals("next")) {
                         dayScheduler.resumeScheduler();
+                        updateWeight.execute();
                         break;
                     } else if (userInput.equals("close")) {
                         storeUser();

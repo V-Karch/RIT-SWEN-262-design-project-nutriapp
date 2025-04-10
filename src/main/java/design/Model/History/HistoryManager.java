@@ -26,13 +26,17 @@ public class HistoryManager implements Colleague{
         this.sendMessage();
     }
 
+    public void setHistory (HashMap<String, String> history){
+        this.history = history;
+    }
+
 
     @Override
     public void sendMessage() {
 
         String activity = todaysActivity.logDayActivities();
         history.put(this.date, activity);
-        System.out.println(history.toString());
+        // System.out.println(history.toString());
     }
 
     

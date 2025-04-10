@@ -1,5 +1,7 @@
 package design.Controller.History;
 
+import java.util.HashMap;
+
 import design.Model.History.HistoryManager;
 
 public class HistoryController {
@@ -13,7 +15,9 @@ public class HistoryController {
         return this.historyManager;
     }
 
-
+    public void setHistory(HashMap<String, String> history){
+        historyManager.setHistory(history);
+    }
 
     public void logTodaysActivity(String date) { 
         this.historyManager.logTodaysActivity(date);
