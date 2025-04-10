@@ -23,9 +23,6 @@ import design.Model.History.HistoryManager;
 import design.Model.History.Mediator;
 import design.Model.UserSS.User;
 
-// Figure Recipe and Meal the heck out
-// Figure out personal history too
-
 /**
  * The Storage class provides methods for interacting with a SQLite database.
  * It handles database creation, table setup, and CRUD operations for users and
@@ -116,11 +113,7 @@ public class Storage {
                 "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "    username TEXT NOT NULL,\n" +
                 "    date TEXT NOT NULL,\n" +
-                "    weight REAL NOT NULL,\n" +
-                "    calories_consumed INTEGER NOT NULL,\n" +
-                "    target_calories INTEGER NOT NULL,\n" +
-                "    mealNames TEXT NOT NULL,\n" +
-                "    workoutNames TEXT NOT NULL\n" +
+                "    activity TEXT NOT NULL\n" +
                 ");";
 
         executeSQL(sql);
@@ -271,7 +264,6 @@ public class Storage {
     public void updateUser(User user, Mediator dailyA) {
         User foundUser = getUserByName(user.getName(), dailyA);
 
-
         if (foundUser == null) {
             addUser(user, dailyA); // User not found, so add them
             return;
@@ -386,58 +378,39 @@ public class Storage {
 
     public void updateDailyHistory(HistoryManager historyManager, String username) {
         String selectSQL = "SELECT id FROM daily_history WHERE date = ? AND username = ?";
-        String insertSQL = "INSERT INTO daily_history (username, date, weight, calories_consumed, target_calories, mealNames, workoutNames) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        String updateSQL = "UPDATE daily_history SET weight = ?, calories_consumed = ?, target_calories = ?, mealNames = ?, workoutNames = ? WHERE date = ? AND username = ?";
+        String insertSQL = "INSERT INTO daily_history (username, date, activity) VALUES (?, ?, ?)";
+        String updateSQL = "UPDATE daily_history SET activity = ? WHERE date = ? AND username = ?";
 
         try (
                 Connection connection = DriverManager.getConnection("jdbc:sqlite:application.db");
                 PreparedStatement selectStatement = connection.prepareStatement(selectSQL);
                 PreparedStatement insertStatement = connection.prepareStatement(insertSQL);
                 PreparedStatement updateStatement = connection.prepareStatement(updateSQL)) {
+
             HashMap<String, String> history = historyManager.getHistory();
+
             for (Map.Entry<String, String> entry : history.entrySet()) {
                 String date = entry.getKey();
-                String activity = entry.getValue();
+                String activity = entry.getValue(); // Now just a string I think
 
-                // double weight = activity.getWeight();
-                // int consumed = activity.getCaloriesConsumed();
-                // int target = activity.getTargetCalories();
+                // Check if entry exists
+                selectStatement.setString(1, date);
+                selectStatement.setString(2, username);
+                ResultSet resultSet = selectStatement.executeQuery();
 
-                // oh my god why did I decide to do this in SQL without being told to directly
-                // String mealNames = activity.getMeals().stream()
-                        // .map(Meal::getName)
-                //         .reduce((a, b) -> a + "|" + b).orElse("");
-
-                // String workoutNames = activity.getWorkouts().stream()
-                //         .map(Workout::getName)
-                //         .reduce((a, b) -> a + "|" + b).orElse("");
-
-                // // Check if entry exists
-                // selectStatement.setString(1, date);
-                // selectStatement.setString(2, username);
-                // ResultSet resultSet = selectStatement.executeQuery();
-
-                // if (resultSet.next()) {
-                //     // Update existing
-                //     updateStatement.setDouble(1, weight);
-                //     updateStatement.setInt(2, consumed);
-                //     updateStatement.setInt(3, target);
-                //     updateStatement.setString(4, mealNames);
-                //     updateStatement.setString(5, workoutNames);
-                //     updateStatement.setString(6, date);
-                //     updateStatement.setString(7, username);
-                //     updateStatement.executeUpdate();
-                // } else {
-                //     // Insert new
-                //     insertStatement.setString(1, username);
-                //     insertStatement.setString(2, date);
-                //     insertStatement.setDouble(3, weight);
-                //     insertStatement.setInt(4, consumed);
-                //     insertStatement.setInt(5, target);
-                //     insertStatement.setString(6, mealNames);
-                //     insertStatement.setString(7, workoutNames);
-                //     insertStatement.executeUpdate();
-                // }
+                if (resultSet.next()) {
+                    // Update existing
+                    updateStatement.setString(1, activity);
+                    updateStatement.setString(2, date);
+                    updateStatement.setString(3, username);
+                    updateStatement.executeUpdate();
+                } else {
+                    // Insert new
+                    insertStatement.setString(1, username);
+                    insertStatement.setString(2, date);
+                    insertStatement.setString(3, activity);
+                    insertStatement.executeUpdate();
+                }
             }
         } catch (SQLException e) {
             System.out.println("Error updating daily history: " + e.getMessage());
@@ -449,37 +422,37 @@ public class Storage {
         String insertSQl = "INSERT INTO stock (ingredient, amount, username) VALUES (?, ?, ?)";
         String updateSQl = "UPDATE stock SET amount = ? WHERE ingredient = ? AND username = ?";
 
-        // try (
-        //         Connection connection = DriverManager.getConnection("jdbc:sqlite:application.db");
-        //         PreparedStatement selectStatement = connection.prepareStatement(selectSQl);
-        //         PreparedStatement insertStatement = connection.prepareStatement(insertSQl);
-        //         PreparedStatement updateStatement = connection.prepareStatement(updateSQl);) {
-        //     for (Ingredient i : foodManager.getStock()) {
-        //         String ingredient = i.getName();
-        //         int amount = i.getStock();
+        try (
+                Connection connection = DriverManager.getConnection("jdbc:sqlite:application.db");
+                PreparedStatement selectStatement = connection.prepareStatement(selectSQl);
+                PreparedStatement insertStatement = connection.prepareStatement(insertSQl);
+                PreparedStatement updateStatement = connection.prepareStatement(updateSQl);) {
+            for (Ingredient i : foodManager.getStock()) {
+                String ingredient = i.getName();
+                int amount = i.getStock();
 
-        //         // Check if the ingredient already exists
-        //         selectStatement.setString(1, ingredient);
-        //         selectStatement.setString(2, username);
-        //         ResultSet resultSet = selectStatement.executeQuery();
+                // Check if the ingredient already exists
+                selectStatement.setString(1, ingredient);
+                selectStatement.setString(2, username);
+                ResultSet resultSet = selectStatement.executeQuery();
 
-        //         if (resultSet.next()) {
-        //             // Update existing entry
-        //             updateStatement.setInt(1, amount);
-        //             updateStatement.setString(2, ingredient);
-        //             updateStatement.setString(3, username);
-        //             updateStatement.executeUpdate();
-        //         } else {
-        //             // Insert new entry
-        //             insertStatement.setString(1, ingredient);
-        //             insertStatement.setInt(2, amount);
-        //             insertStatement.setString(3, username);
-        //             insertStatement.executeUpdate();
-        //         }
-        //     }
-        // } catch (SQLException e) {
-        //     System.out.println("Error updating stock: " + e.getMessage());
-        // }
+                if (resultSet.next()) {
+                    // Update existing entry
+                    updateStatement.setInt(1, amount);
+                    updateStatement.setString(2, ingredient);
+                    updateStatement.setString(3, username);
+                    updateStatement.executeUpdate();
+                } else {
+                    // Insert new entry
+                    insertStatement.setString(1, ingredient);
+                    insertStatement.setInt(2, amount);
+                    insertStatement.setString(3, username);
+                    insertStatement.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating stock: " + e.getMessage());
+        }
     }
 
     public User getUserByNameAndPassword(String name, String hash, Mediator dailyA) {
