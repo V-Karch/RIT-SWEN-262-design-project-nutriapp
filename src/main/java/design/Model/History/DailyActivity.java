@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+import design.Model.Undo.DailyActivitySave;
+
 public class DailyActivity implements Mediator{
     private List<String> meals;
     private List<String> workouts;
@@ -69,6 +72,18 @@ public class DailyActivity implements Mediator{
 
         return activity.toString();
     }    
-    
+
+    public DailyActivitySave createSave() {
+        DailyActivitySave save = new DailyActivitySave(meals, workouts, targetCalories, dailyCalories, weight);
+        return save;
+    }
+
+    public void restoreSave(DailyActivitySave save) {
+        this.dailyCalories = save.getDailyCalories();
+        this.meals = save.getMeals();
+        this.targetCalories = save.getTargetCalories();
+        this.weight = save.getWeight();
+        this.workouts = save.getWorkouts();
+    }
 }    
 

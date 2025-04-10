@@ -1,7 +1,5 @@
 package design.Model.History;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 public class HistoryManager implements Colleague{

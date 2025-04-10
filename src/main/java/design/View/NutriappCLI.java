@@ -8,12 +8,20 @@ import design.Controller.DayScheduler;
 import design.Controller.Food.FoodManager;
 import design.Controller.Goal.GoalManager;
 import design.Controller.History.HistoryController;
+import design.Controller.Undo.DailyActivityUndo;
+import design.Controller.Undo.FoodUndo;
+import design.Controller.Undo.GoalUndo;
+import design.Controller.Undo.UserUndo;
 import design.Controller.StorageController;
 import design.Controller.User.UserBuilder;
 import design.Controller.Workout.WorkoutController;
 import design.Model.CurrentDay;
 import design.Model.History.DailyActivity;
 import design.Model.History.HistoryManager;
+import design.Model.Undo.DailyActivitySaveHistory;
+import design.Model.Undo.FoodSaveHistory;
+import design.Model.Undo.GoalSaveHistory;
+import design.Model.Undo.UserSaveHistory;
 import design.Model.Workout.WorkoutBuilder;
 import design.Model.Workout.WorkoutManager;
 import design.Storage;
@@ -28,11 +36,14 @@ import design.View.Food.StockIngredient;
 import design.View.Food.ViewShoppingList;
 import design.View.Goal.GetRemainingCalories;
 import design.View.Goal.GetTargetCalories;
+import design.View.Goal.SetDailyWeight;
 import design.View.Goal.SetPhysicalFitness;
 import design.View.Goal.SetTargetWeight;
 import design.View.Goal.UpdateWeight;
 import design.View.History.LogTodaysActivity;
 import design.View.History.SearchHistory;
+import design.View.Undo.UndoFood;
+import design.View.Undo.UndoProfile;
 import design.View.User.AddBirthdate;
 import design.View.User.AddHeight;
 import design.View.User.AddName;
@@ -72,6 +83,12 @@ public class NutriappCLI {
     private FoodManager foodManager;
     private GoalManager goalManager;
 
+    //undo
+    UserUndo userUndo;
+    FoodUndo foodUndo;
+    GoalUndo goalUndo;
+    DailyActivityUndo dailyActivityUndo;
+
     public NutriappCLI() throws IOException {
         this.foodManager = new FoodManager("src/main/java/design/ingredients.csv");
         userBuilder = new UserBuilder(dailyActivity);
@@ -99,6 +116,9 @@ public class NutriappCLI {
         logger.message("Type 'Get Target Calories' to see your calorie goal for the day");
         logger.message("Type 'Get Remaining Calories' to see your remaining allotted calories for the day");
         logger.message("Type 'Set Target Weight' to change your target weight");
+        logger.message("Type 'Set Daily Weight' to change your daily weight");
+        logger.message("Type 'Undo Profile' to undo any profile changes");
+        logger.message("Type 'Undo Meal' to undo consuming a meal");
         logger.message("Type 'Close' to exit the application");
         logger.message("Type 'Help' to view all commands");
         logger.gap();
@@ -145,7 +165,7 @@ public class NutriappCLI {
                 break;
             case "prepare meal":
                 PrepareMeal prepareMeal = new PrepareMeal(foodManager, userBuilder.getUser().getGoal(), scanner,
-                        historyController, dailyActivity);
+                        historyController, dailyActivity, foodUndo, goalUndo, dailyActivityUndo);
                 prepareMeal.execute();
                 state = nextAction(dayScheduler);
                 break;
@@ -173,7 +193,7 @@ public class NutriappCLI {
                 state = nextAction(dayScheduler);
                 break;
             case "set target weight":
-                SetTargetWeight setTargetWeight = new SetTargetWeight(goalManager, scanner);
+                SetTargetWeight setTargetWeight = new SetTargetWeight(goalManager, scanner, userUndo);
                 setTargetWeight.execute();
                 state = nextAction(dayScheduler);
                 break;
@@ -185,6 +205,21 @@ public class NutriappCLI {
             case "get remaining calories":
                 GetRemainingCalories getRemainingCalories = new GetRemainingCalories(goalManager, logger);
                 getRemainingCalories.execute();
+                state = nextAction(dayScheduler);
+                break;
+            case "set daily weight":
+                UpdateWeight updateWeight = new UpdateWeight(goalManager, scanner, logger, userUndo);
+                updateWeight.execute();
+                state = nextAction(dayScheduler);
+                break;
+            case "undo profile":
+                UndoProfile undoProfile = new UndoProfile(userUndo, goalManager, logger);
+                undoProfile.execute();
+                state = nextAction(dayScheduler);
+                break;
+            case "undo food":
+                UndoFood undoFood = new UndoFood(foodUndo, goalUndo, dailyActivityUndo, logger);
+                undoFood.execute();
                 state = nextAction(dayScheduler);
                 break;
             case "help":
@@ -268,9 +303,14 @@ public class NutriappCLI {
             // sets user through userbuilder which is the primary way the program accesses
             // user?
             this.goalManager = new GoalManager(userBuilder.getUser(), dailyActivity);
-            updateWeight = new UpdateWeight(goalManager, scanner, historyController);
+
+            updateWeight = new UpdateWeight(goalManager, scanner, logger, userUndo);
+
+            //updateWeight = new UpdateWeight(goalManager, scanner, historyController);
+          
             this.historyController.setHistory(storageController.getDailyHistory(userBuilder.getName()));
             System.out.println(storageController.getDailyHistory(userBuilder.getName()).toString());
+
             // creates the goal manager based of the existing user profile, accesses goal
             // through user
             // goal itself should have target weight and physical fitness boolean
@@ -288,11 +328,17 @@ public class NutriappCLI {
             buildUser.execute();
             this.existingUser = false;
 
+            // undo stuff
+            this.userUndo = new UserUndo(new UserSaveHistory(userBuilder.getUser()));
+            this.foodUndo = new FoodUndo(new FoodSaveHistory(foodManager));
+            this.goalUndo = new GoalUndo(new GoalSaveHistory(userBuilder.getUser()));
+            this.dailyActivityUndo = new DailyActivityUndo(new DailyActivitySaveHistory(dailyActivity));
+
             // creates the concrete commands for goal subsystem
             this.goalManager = new GoalManager(userBuilder.getUser(), dailyActivity);
-            SetTargetWeight setTargetWeight = new SetTargetWeight(goalManager, scanner);
+            SetTargetWeight setTargetWeight = new SetTargetWeight(goalManager, scanner, userUndo);
             SetPhysicalFitness setPhysicalFitness = new SetPhysicalFitness(goalManager, logger);
-            updateWeight = new UpdateWeight(goalManager, scanner, historyController);
+            updateWeight = new UpdateWeight(goalManager, scanner, logger, userUndo);
 
             // calls goal concrete commands to get user input
             logger.message("\nHi " + userBuilder.getName() + "!");

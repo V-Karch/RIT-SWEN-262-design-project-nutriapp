@@ -70,6 +70,9 @@ public class GoalManager implements Colleague{
     return goal.getUser();
   }
 
+  public void updateGoal() {
+    goal = user.getGoal();
+  }
     @Override
     public void sendMessage() {
       dailyA.logDailyCalories(goal.getDailyCalories());

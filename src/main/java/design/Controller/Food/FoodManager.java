@@ -11,6 +11,7 @@ import design.Model.Food.Meal;
 import design.Model.Food.Recipe;
 import design.Model.Food.ShoppingList;
 import design.Model.Goal.Goal;
+import design.Model.Undo.FoodSave;
 
 public class FoodManager {
     private List<Ingredient> Stock;
@@ -168,6 +169,19 @@ public class FoodManager {
         }
 
         return ingredientStrings;
+    }
+
+    public FoodSave createSave() {
+        FoodSave save = new FoodSave(Stock, Recipes, Meals, Ingredients, ShoppingLists);
+        return save;
+    }
+
+    public void restoreSave(FoodSave save) {
+        this.Stock = save.getStock();
+        this.Recipes = save.getRecipes();
+        this.Meals = save.getMeals();
+        this.Ingredients = save.getIngredients();
+        this.ShoppingLists = save.getShoppingLists();
     }
 
     public List<Ingredient> getStock() {

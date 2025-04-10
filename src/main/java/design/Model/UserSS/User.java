@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import design.Model.Authentication.Authenticator;
 import design.Model.Goal.Goal;
 import design.Model.Goal.MaintainWeight;
+import design.Model.Undo.UserSave;
 import design.Model.History.Colleague;
 import design.Model.History.Mediator;
 
@@ -96,6 +97,21 @@ public class User implements Authenticator, Colleague{
         currentGoal.handleWeightChange();
     }
 
+    public UserSave createSave() {
+        UserSave save = new UserSave(name, height, birthdate, age, currentWeight, targetWeight, currentGoal);
+        return save;
+    }
+
+    public void restoreSave(UserSave save) {
+        this.name = save.getName();
+        this.height = save.getHeight();
+        this.birthdate = save.getBirthdate();
+        this.age = save.getAge();
+        this.currentWeight = save.getCurrentWeight();
+        this.targetWeight = save.getTargetWeight();
+        this.currentGoal = save.getCurrentGoal();
+    }
+    
     @Override
     public Boolean isAuthenticated() {
         throw new UnsupportedOperationException("Not supported yet.");

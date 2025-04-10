@@ -37,7 +37,7 @@ public class Recipe implements Food{
     public Integer getCalories(){
         Integer calories = 0;
         for (Ingredient ingredient : ingredients.keySet()){
-            calories += ingredient.getCalories();
+            calories += ingredient.getCalories() * ingredients.get(ingredient);
         }
         return calories;
     }

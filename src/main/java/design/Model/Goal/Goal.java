@@ -1,5 +1,6 @@
 package design.Model.Goal;
 
+import design.Model.Undo.GoalSave;
 import design.Model.UserSS.User;
 
 public interface Goal {
@@ -12,5 +13,7 @@ public interface Goal {
   public boolean getPhysicalFitness();
   public void setPhysicalFitness(boolean doesFitness);
   public User getUser();
+  public GoalSave createSave();
+  public void restoreSave(GoalSave save);
   public void resetDailyCalories();
 }

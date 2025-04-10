@@ -1,5 +1,6 @@
 package design.Model.Goal;
 
+import design.Model.Undo.GoalSave;
 import design.Model.UserSS.User;
 
 public class MaintainWeight implements Goal {
@@ -72,6 +73,17 @@ public class MaintainWeight implements Goal {
 	@Override
 	public User getUser() {
     return user;
+  }
+
+   @Override
+  public GoalSave createSave() {
+    GoalSave save = new GoalSave(user, physicalFitness, targetCalories, dailyCalories);
+    return save;
+  }
+
+  @Override
+  public void restoreSave(GoalSave save) {
+    this.dailyCalories = save.getDailyCalories();
   }
 
   @Override
