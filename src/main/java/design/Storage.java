@@ -417,6 +417,29 @@ public class Storage {
         }
     }
 
+    public HashMap<String, String> getDailyHistory(String username) {
+        HashMap<String, String> dailyHistory = new HashMap<>();
+        String querySQL = "SELECT date, activity FROM daily_history WHERE username = ?";
+
+        try (
+                Connection connection = DriverManager.getConnection("jdbc:sqlite:application.db");
+                PreparedStatement statement = connection.prepareStatement(querySQL)) {
+
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                String date = resultSet.getString("date");
+                String activity = resultSet.getString("activity");
+                dailyHistory.put(date, activity);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving daily history: " + e.getMessage());
+        }
+
+        return dailyHistory;
+    }
+
     public void updateStock(FoodManager foodManager, String username) {
         String selectSQl = "SELECT id FROM stock WHERE ingredient = ? AND username = ?";
         String insertSQl = "INSERT INTO stock (ingredient, amount, username) VALUES (?, ?, ?)";
