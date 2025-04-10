@@ -31,7 +31,7 @@ public class User implements Authenticator, Colleague{
         this.currentWeight = weight;
         this.birthdate = birthdate;
         this.authenticated = true;
-        this.password = ((Integer)password.hashCode()).toString();
+        // this.password = ((Integer)password.hashCode()).toString();
         this.dailyA = dailyA;
 
         // getting age from birthdate based on current date
@@ -103,6 +103,6 @@ public class User implements Authenticator, Colleague{
 
     @Override
     public void sendMessage() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        dailyA.logWeight(currentWeight);
     }
 }
