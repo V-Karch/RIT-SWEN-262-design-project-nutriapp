@@ -4,17 +4,20 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
+import design.Model.Authentication.Authenticator;
 import design.Model.Goal.Goal;
 import design.Model.Goal.MaintainWeight;
 import design.Model.History.Colleague;
 import design.Model.History.Mediator;
 
-public class User implements Colleague{
+public class User implements Authenticator, Colleague{
     // user attributes
     private String name;
     private float height;
     private String birthdate;
     private int age;
+    private Boolean authenticated;
+    private String password;
 
     // goal attributes
     private double currentWeight;
@@ -22,11 +25,13 @@ public class User implements Colleague{
     public Goal currentGoal;
     public Mediator dailyA;
 
-    public User(String name, float height, float weight, String birthdate, Mediator dailyA, String hash) {
+    public User(String name, float height, float weight, String birthdate, String password, Mediator dailyA) {
         this.name = name;
         this.height = height;
         this.currentWeight = weight;
         this.birthdate = birthdate;
+        this.authenticated = true;
+        // this.password = ((Integer)password.hashCode()).toString();
         this.dailyA = dailyA;
 
         // getting age from birthdate based on current date
@@ -89,6 +94,11 @@ public class User implements Colleague{
     public void updateTargetWeight(double weight) {
         this.targetWeight = weight;
         currentGoal.handleWeightChange();
+    }
+
+    @Override
+    public Boolean isAuthenticated() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

@@ -1,33 +1,27 @@
 package design;
 
-import java.util.Map;
-import java.util.List;
-import java.util.HashMap;
-import java.sql.Statement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.sql.Connection;
-import design.Model.Food.Meal;
 import java.sql.DriverManager;
-import design.Model.Food.Recipe;
 import java.sql.PreparedStatement;
-import design.Model.Workout.Workout;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import design.Controller.Food.FoodManager;
+import design.Model.Food.Ingredient;
+import design.Model.Food.Meal;
+import design.Model.Food.Recipe;
 import design.Model.Goal.GainWeight;
 import design.Model.Goal.Goal;
 import design.Model.Goal.LoseWeight;
-import design.Model.Food.Ingredient;
 import design.Model.Goal.MaintainWeight;
+import design.Model.History.HistoryManager;
 import design.Model.History.Mediator;
 import design.Model.UserSS.User;
-import design.Model.History.DailyActivity;
-import design.Controller.Food.FoodManager;
-import design.Model.History.HistoryManager;
 
 // Figure Recipe and Meal the heck out
 // Figure out personal history too
@@ -400,50 +394,50 @@ public class Storage {
                 PreparedStatement selectStatement = connection.prepareStatement(selectSQL);
                 PreparedStatement insertStatement = connection.prepareStatement(insertSQL);
                 PreparedStatement updateStatement = connection.prepareStatement(updateSQL)) {
-            HashMap<String, DailyActivity> history = historyManager.getHistory();
-            for (Map.Entry<String, DailyActivity> entry : history.entrySet()) {
+            HashMap<String, String> history = historyManager.getHistory();
+            for (Map.Entry<String, String> entry : history.entrySet()) {
                 String date = entry.getKey();
-                DailyActivity activity = entry.getValue();
+                String activity = entry.getValue();
 
-                double weight = activity.getWeight();
-                int consumed = activity.getCaloriesConsumed();
-                int target = activity.getTargetCalories();
+                // double weight = activity.getWeight();
+                // int consumed = activity.getCaloriesConsumed();
+                // int target = activity.getTargetCalories();
 
                 // oh my god why did I decide to do this in SQL without being told to directly
-                String mealNames = activity.getMeals().stream()
-                        .map(Meal::getName)
-                        .reduce((a, b) -> a + "|" + b).orElse("");
+                // String mealNames = activity.getMeals().stream()
+                        // .map(Meal::getName)
+                //         .reduce((a, b) -> a + "|" + b).orElse("");
 
-                String workoutNames = activity.getWorkouts().stream()
-                        .map(Workout::getName)
-                        .reduce((a, b) -> a + "|" + b).orElse("");
+                // String workoutNames = activity.getWorkouts().stream()
+                //         .map(Workout::getName)
+                //         .reduce((a, b) -> a + "|" + b).orElse("");
 
-                // Check if entry exists
-                selectStatement.setString(1, date);
-                selectStatement.setString(2, username);
-                ResultSet resultSet = selectStatement.executeQuery();
+                // // Check if entry exists
+                // selectStatement.setString(1, date);
+                // selectStatement.setString(2, username);
+                // ResultSet resultSet = selectStatement.executeQuery();
 
-                if (resultSet.next()) {
-                    // Update existing
-                    updateStatement.setDouble(1, weight);
-                    updateStatement.setInt(2, consumed);
-                    updateStatement.setInt(3, target);
-                    updateStatement.setString(4, mealNames);
-                    updateStatement.setString(5, workoutNames);
-                    updateStatement.setString(6, date);
-                    updateStatement.setString(7, username);
-                    updateStatement.executeUpdate();
-                } else {
-                    // Insert new
-                    insertStatement.setString(1, username);
-                    insertStatement.setString(2, date);
-                    insertStatement.setDouble(3, weight);
-                    insertStatement.setInt(4, consumed);
-                    insertStatement.setInt(5, target);
-                    insertStatement.setString(6, mealNames);
-                    insertStatement.setString(7, workoutNames);
-                    insertStatement.executeUpdate();
-                }
+                // if (resultSet.next()) {
+                //     // Update existing
+                //     updateStatement.setDouble(1, weight);
+                //     updateStatement.setInt(2, consumed);
+                //     updateStatement.setInt(3, target);
+                //     updateStatement.setString(4, mealNames);
+                //     updateStatement.setString(5, workoutNames);
+                //     updateStatement.setString(6, date);
+                //     updateStatement.setString(7, username);
+                //     updateStatement.executeUpdate();
+                // } else {
+                //     // Insert new
+                //     insertStatement.setString(1, username);
+                //     insertStatement.setString(2, date);
+                //     insertStatement.setDouble(3, weight);
+                //     insertStatement.setInt(4, consumed);
+                //     insertStatement.setInt(5, target);
+                //     insertStatement.setString(6, mealNames);
+                //     insertStatement.setString(7, workoutNames);
+                //     insertStatement.executeUpdate();
+                // }
             }
         } catch (SQLException e) {
             System.out.println("Error updating daily history: " + e.getMessage());
@@ -455,37 +449,37 @@ public class Storage {
         String insertSQl = "INSERT INTO stock (ingredient, amount, username) VALUES (?, ?, ?)";
         String updateSQl = "UPDATE stock SET amount = ? WHERE ingredient = ? AND username = ?";
 
-        try (
-                Connection connection = DriverManager.getConnection("jdbc:sqlite:application.db");
-                PreparedStatement selectStatement = connection.prepareStatement(selectSQl);
-                PreparedStatement insertStatement = connection.prepareStatement(insertSQl);
-                PreparedStatement updateStatement = connection.prepareStatement(updateSQl);) {
-            for (Ingredient i : foodManager.getStock()) {
-                String ingredient = i.getName();
-                int amount = i.getStock();
+        // try (
+        //         Connection connection = DriverManager.getConnection("jdbc:sqlite:application.db");
+        //         PreparedStatement selectStatement = connection.prepareStatement(selectSQl);
+        //         PreparedStatement insertStatement = connection.prepareStatement(insertSQl);
+        //         PreparedStatement updateStatement = connection.prepareStatement(updateSQl);) {
+        //     for (Ingredient i : foodManager.getStock()) {
+        //         String ingredient = i.getName();
+        //         int amount = i.getStock();
 
-                // Check if the ingredient already exists
-                selectStatement.setString(1, ingredient);
-                selectStatement.setString(2, username);
-                ResultSet resultSet = selectStatement.executeQuery();
+        //         // Check if the ingredient already exists
+        //         selectStatement.setString(1, ingredient);
+        //         selectStatement.setString(2, username);
+        //         ResultSet resultSet = selectStatement.executeQuery();
 
-                if (resultSet.next()) {
-                    // Update existing entry
-                    updateStatement.setInt(1, amount);
-                    updateStatement.setString(2, ingredient);
-                    updateStatement.setString(3, username);
-                    updateStatement.executeUpdate();
-                } else {
-                    // Insert new entry
-                    insertStatement.setString(1, ingredient);
-                    insertStatement.setInt(2, amount);
-                    insertStatement.setString(3, username);
-                    insertStatement.executeUpdate();
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Error updating stock: " + e.getMessage());
-        }
+        //         if (resultSet.next()) {
+        //             // Update existing entry
+        //             updateStatement.setInt(1, amount);
+        //             updateStatement.setString(2, ingredient);
+        //             updateStatement.setString(3, username);
+        //             updateStatement.executeUpdate();
+        //         } else {
+        //             // Insert new entry
+        //             insertStatement.setString(1, ingredient);
+        //             insertStatement.setInt(2, amount);
+        //             insertStatement.setString(3, username);
+        //             insertStatement.executeUpdate();
+        //         }
+        //     }
+        // } catch (SQLException e) {
+        //     System.out.println("Error updating stock: " + e.getMessage());
+        // }
     }
 
     public User getUserByNameAndPassword(String name, String hash, Mediator dailyA) {
@@ -512,7 +506,7 @@ public class Storage {
             double currentWeight = userResult.getDouble("current_weight");
             double targetWeight = userResult.getDouble("target_weight");
 
-            User user = new User(retrievedName, height, (float) currentWeight, birthDate, dailyA, hash);
+            User user = new User(retrievedName, height, (float) currentWeight, birthDate, hash, dailyA);
             user.updateTargetWeight(targetWeight); // Ensures target weight is set
 
             // Fetch goal data
@@ -604,7 +598,7 @@ public class Storage {
             double targetWeight = userResult.getDouble("target_weight");
             String hash = userResult.getString("password_hash");
 
-            User user = new User(retrievedName, height, (float) currentWeight, birthDate, dailyA, hash);
+            User user = new User(retrievedName, height, (float) currentWeight, birthDate, hash, dailyA);
 
             user.updateTargetWeight(targetWeight); // Ensures target weight is set
 
