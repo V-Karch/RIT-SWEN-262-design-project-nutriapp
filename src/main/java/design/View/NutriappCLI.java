@@ -36,6 +36,7 @@ import design.View.Food.StockIngredient;
 import design.View.Food.ViewShoppingList;
 import design.View.Goal.GetRemainingCalories;
 import design.View.Goal.GetTargetCalories;
+import design.View.Goal.SetDailyWeight;
 import design.View.Goal.SetPhysicalFitness;
 import design.View.Goal.SetTargetWeight;
 import design.View.Goal.UpdateWeight;
@@ -115,6 +116,7 @@ public class NutriappCLI {
         logger.message("Type 'Get Target Calories' to see your calorie goal for the day");
         logger.message("Type 'Get Remaining Calories' to see your remaining allotted calories for the day");
         logger.message("Type 'Set Target Weight' to change your target weight");
+        logger.message("Type 'Set Daily Weight' to change your daily weight");
         logger.message("Type 'Undo Profile' to undo any profile changes");
         logger.message("Type 'Undo Meal' to undo consuming a meal");
         logger.message("Type 'Close' to exit the application");
@@ -205,6 +207,11 @@ public class NutriappCLI {
                 getRemainingCalories.execute();
                 state = nextAction(dayScheduler);
                 break;
+            case "set daily weight":
+                UpdateWeight updateWeight = new UpdateWeight(goalManager, scanner, logger, userUndo);
+                updateWeight.execute();
+                state = nextAction(dayScheduler);
+                break;
             case "undo profile":
                 UndoProfile undoProfile = new UndoProfile(userUndo, goalManager, logger);
                 undoProfile.execute();
@@ -293,7 +300,7 @@ public class NutriappCLI {
             // sets user through userbuilder which is the primary way the program accesses
             // user?
             this.goalManager = new GoalManager(userBuilder.getUser(), dailyActivity);
-            updateWeight = new UpdateWeight(goalManager, scanner, historyController);
+            updateWeight = new UpdateWeight(goalManager, scanner, logger, userUndo);
             // creates the goal manager based of the existing user profile, accesses goal
             // through user
             // goal itself should have target weight and physical fitness boolean
@@ -321,7 +328,7 @@ public class NutriappCLI {
             this.goalManager = new GoalManager(userBuilder.getUser(), dailyActivity);
             SetTargetWeight setTargetWeight = new SetTargetWeight(goalManager, scanner, userUndo);
             SetPhysicalFitness setPhysicalFitness = new SetPhysicalFitness(goalManager, logger);
-            updateWeight = new UpdateWeight(goalManager, scanner, historyController);
+            updateWeight = new UpdateWeight(goalManager, scanner, logger, userUndo);
 
             // calls goal concrete commands to get user input
             logger.message("\nHi " + userBuilder.getName() + "!");
