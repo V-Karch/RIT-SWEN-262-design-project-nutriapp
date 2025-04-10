@@ -1,15 +1,11 @@
 package Undo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
-import java.lang.reflect.Array;
 
 import org.junit.jupiter.api.Test;
 
 import design.Controller.Food.FoodManager;
 import design.Controller.Goal.GoalManager;
-import design.Controller.History.HistoryController;
 import design.Controller.Undo.DailyActivityUndo;
 import design.Controller.Undo.FoodUndo;
 import design.Controller.Undo.GoalUndo;
@@ -94,13 +90,14 @@ public class FoodUndoTest {
             //eat meal
             foodManager.updateStock(ingredient, 100);
             foodManager.prepareMeal(0, user.getGoal(), null);
+            assertEquals(0, ingredient.getStock());
             
-
+            //execute undo
             foodUndo.restoreSave();
             goalUndo.restoreSave();
             dActivityUndo.restoreSave();
             int actual = ingredient.getStock();
-            assertEquals(0, actual);
+            assertEquals(100, actual);
             assertEquals(0, goalManager.getDailyCalories());
             assertEquals(expectedActivity, dA.logDayActivities());
 

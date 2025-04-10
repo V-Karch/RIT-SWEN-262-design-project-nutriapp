@@ -41,6 +41,7 @@ import design.View.Goal.SetTargetWeight;
 import design.View.Goal.UpdateWeight;
 import design.View.History.LogTodaysActivity;
 import design.View.History.SearchHistory;
+import design.View.Undo.UndoFood;
 import design.View.Undo.UndoProfile;
 import design.View.User.AddBirthdate;
 import design.View.User.AddHeight;
@@ -162,7 +163,7 @@ public class NutriappCLI {
                 break;
             case "prepare meal":
                 PrepareMeal prepareMeal = new PrepareMeal(foodManager, userBuilder.getUser().getGoal(), scanner,
-                        historyController, dailyActivity);
+                        historyController, dailyActivity, foodUndo, goalUndo, dailyActivityUndo);
                 prepareMeal.execute();
                 state = nextAction(dayScheduler);
                 break;
@@ -207,6 +208,11 @@ public class NutriappCLI {
             case "undo profile":
                 UndoProfile undoProfile = new UndoProfile(userUndo, goalManager, logger);
                 undoProfile.execute();
+                state = nextAction(dayScheduler);
+                break;
+            case "undo food":
+                UndoFood undoFood = new UndoFood(foodUndo, goalUndo, dailyActivityUndo, logger);
+                undoFood.execute();
                 state = nextAction(dayScheduler);
                 break;
             case "help":

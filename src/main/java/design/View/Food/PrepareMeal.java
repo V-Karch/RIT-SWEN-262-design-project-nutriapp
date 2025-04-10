@@ -5,6 +5,9 @@ import java.util.Scanner;
 
 import design.Controller.Food.FoodManager;
 import design.Controller.History.HistoryController;
+import design.Controller.Undo.DailyActivityUndo;
+import design.Controller.Undo.FoodUndo;
+import design.Controller.Undo.GoalUndo;
 import design.Model.Goal.Goal;
 import design.Model.History.Colleague;
 import design.Model.History.Mediator;
@@ -18,19 +21,30 @@ public class PrepareMeal implements Action, Colleague{
     private HistoryController historyController;
     private Mediator dailyA;
     private int index;
+    private FoodUndo foodUndo;
+    private GoalUndo goalUndo;
+    private DailyActivityUndo dailyActivityUndo;
 
-    public PrepareMeal(FoodManager foodManager, Goal goal, Scanner input, HistoryController historyController, Mediator dailyA) {
+    public PrepareMeal(FoodManager foodManager, Goal goal, Scanner input, HistoryController historyController, Mediator dailyA, FoodUndo foodUndo, GoalUndo goalUndo, DailyActivityUndo dailyActivityUndo) {
         this.foodManager = foodManager;
         this.goal = goal;
         this.input = input;
         this.historyController = historyController;
         this.dailyA = dailyA;
+        this.foodUndo = foodUndo;
+        this.goalUndo = goalUndo;
+        this.dailyActivityUndo = dailyActivityUndo;
 
         Meals = foodManager.getMealList();
     }
 
     public void execute(){
         if (Meals.size() > 0) {
+            //create saves
+            foodUndo.storeSave();
+            goalUndo.storeSave();
+            dailyActivityUndo.storeSave();
+
             System.out.println("Which meal would you like to prepare?");
             int i = 0;
             for (String s : Meals) {
