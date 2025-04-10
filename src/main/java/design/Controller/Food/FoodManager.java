@@ -182,6 +182,7 @@ public class FoodManager {
         this.Meals = save.getMeals();
         this.Ingredients = save.getIngredients();
         this.ShoppingLists = save.getShoppingLists();
+    }
 
     public List<Ingredient> getStock() {
         return this.Stock;

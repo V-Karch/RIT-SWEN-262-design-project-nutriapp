@@ -12,7 +12,7 @@ import design.Model.UserSS.User;
 
 public class UserUndoTest {
     DailyActivity dA = new DailyActivity();
-    User user = new User("User", 66, 160, "05-16-2005", dA, "hash");
+    User user = new User("User", 66, 160, "05-16-2005", "password", dA);
     GoalManager goalManager = new GoalManager(user, dA);
     
     UserSaveHistory userSaveHistory = new UserSaveHistory(user);
