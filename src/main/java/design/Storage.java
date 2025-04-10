@@ -436,7 +436,6 @@ public class Storage {
         } catch (SQLException e) {
             System.out.println("Error retrieving daily history: " + e.getMessage());
         }
-
         return dailyHistory;
     }
 

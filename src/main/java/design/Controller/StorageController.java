@@ -1,5 +1,7 @@
 package design.Controller;
 
+import java.util.HashMap;
+
 import design.Controller.History.HistoryController;
 import design.Controller.User.UserBuilder;
 import design.Model.Goal.Goal;
@@ -45,5 +47,9 @@ public class StorageController {
         User user = this.getUser(name, dailyA);
         storage.updateUser(user, dailyA);
 
+    }
+
+    public HashMap<String, String> getDailyHistory(String name){
+        return storage.getDailyHistory(name);
     }
 }

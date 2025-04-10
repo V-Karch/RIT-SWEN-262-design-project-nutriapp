@@ -28,6 +28,10 @@ public class HistoryManager implements Colleague{
         this.sendMessage();
     }
 
+    public void setHistory (HashMap<String, String> history){
+        this.history = history;
+    }
+
 
     @Override
     public void sendMessage() {
