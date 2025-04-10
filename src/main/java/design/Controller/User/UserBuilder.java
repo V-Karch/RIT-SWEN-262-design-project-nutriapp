@@ -1,5 +1,6 @@
 package design.Controller.User;
 
+import design.Model.History.Mediator;
 import design.Model.UserSS.User;
 
 
@@ -9,9 +10,12 @@ public class UserBuilder {
     private float weight;
     private String birthdate;
     private User user;
+    public Mediator dailyA;
+    public String hash;
     
 
-    public UserBuilder() {
+    public UserBuilder(Mediator dailyA) {
+        this.dailyA = dailyA;
     }
     
     //most functions are self explanatory
@@ -36,8 +40,12 @@ public class UserBuilder {
         this.birthdate  = birthdate;
     }
 
+    public void setPassword(String hash) {
+        this.hash  = hash;
+    }
+
     public User buildUser() {
-        this.user = new User(name, height, weight, birthdate);
+        this.user = new User(name, height, weight, birthdate, dailyA, hash);
         return this.user;
     }
 
