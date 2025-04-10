@@ -170,6 +170,10 @@ public class FoodManager {
         return ingredientStrings;
     }
 
+    public List<Ingredient> getStock() {
+        return this.Stock;
+    }
+
     public String getMeal(int index){
         return Meals.get(index).toString();
     }
