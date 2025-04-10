@@ -85,8 +85,8 @@ public class Storage {
                 "    birth_date TEXT NOT NULL,  -- Stored as TEXT in MM-dd-yyyy format\n" +
                 "    age INTEGER NOT NULL,\n" +
                 "    current_weight REAL NOT NULL,\n" +
-                "    target_weight REAL NOT NULL\n" +
-                "    password_hash TEXT NOT NULL,\n" +
+                "    target_weight REAL NOT NULL,\n" +
+                "    password_hash TEXT NOT NULL\n" +
                 ");";
 
         executeSQL(sql);
