@@ -45,7 +45,7 @@ public class UserBuilder {
     }
 
     public User buildUser() {
-        this.user = new User(name, height, weight, birthdate, dailyA, hash);
+        this.user = new User(name, height, weight, birthdate, hash, dailyA);
         return this.user;
     }
 
